@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>BBS</title>
+<link href="/css/common.css" rel="stylesheet" type="text/css">
+<script language="javascript" src="/js/vue.js"></script>
+<style type="text/css">
+  body{
+    
+  }
+  header{
+    text-align: right;
+    font-size: 24px;
+    color: #000;
+    width: 100%;
+  }
+  a, a:link, a:visited{
+    color: #0af;
+  }
+  a:hover{
+    text-decoration: underline;
+  }
+  a:active{
+    color: #6df;
+  }
+  .blur{
+    background: inherit;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    filter: blur(5px);
+  }
+  #user{
+    position: absolute;
+    top: 80px;
+    right: 20%;
+    width: 200px;
+    height: 100px;
+    font-size: 18px;
+    //font-family: "Microsoft YaHei", "Helvetica", Arial, "sans-serif";
+    box-shadow: 1px 1px 2px #999;
+    padding: 12px;
+    text-align: center;
+    background: inherit;
+  }
+  #user span{
+    float: left;
+    margin: 4px;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+  }
+  #user .me-icon{
+    box-shadow: 1px 1px 2px #999;
+    margin-right: 20px;
+  }
+  #user .reg-myhone a:after{
+    content: '注册';
+  }
+  #user.logged .reg-myhone a:after{
+    content: '个人中心';
+  }
+  #user .login-out a:after{
+    content: '登录';
+  }
+  #user.logged .login-out a:after{
+    content: '注销';
+  }
+  #headslider{
+    height: 200px;
+    background: #eee;
+  }
+</style>
+<script language="javascript">
+
+  var mv = new Vue({
+    el: "#main",
+    data: {
+      me: {
+        logged = false,
+        icon = null,
+        noicon = "/img/noicon.png"
+      }
+    },
+    method: {
+    }
+  });
+
+
+</script>
+</head>
+<body id="main">
+  <header>
+  </header>
+  <div id="user" :class="me.logged?'logged':''">
+    <div class="blur"></div>
+    <span class="me-icon" :style="'background-image: url('+(me.logged?me.icon:me.noicon)+');'"></span>
+    <span class="reg-myhone"><a></a></span>
+    <span class="login-out"><a></a></span>
+  </div>
+  <div id="headslider">
+  </div>
+</body>
+</html>
+

@@ -1,0 +1,10 @@
+@font-face {
+    font-family: "tfgirl-w";
+    src: url("/font/tfgirl-w.eot"); /* IE9 */
+    src: url("/font/tfgirl-w.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("/font/tfgirl-w.woff") format("woff"), /* chrome、firefox */
+    url("/font/tfgirl-w.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
+    url("/font/tfgirl-w.svg#tfgirl") format("svg"); /* iOS 4.1- */
+    font-style: normal;
+    font-weight: normal;
+}

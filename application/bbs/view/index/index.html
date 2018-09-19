@@ -7,7 +7,9 @@
 <script language="javascript" src="/js/vue.js"></script>
 <style type="text/css">
   body{
-    
+    text-align: center;
+    width: 80%;
+    margin: 0 auto;
   }
   header{
     text-align: right;
@@ -33,16 +35,20 @@
   }
   #user{
     position: absolute;
-    top: 80px;
-    right: 20%;
+    top: 36px;
+    right: 16%;
     width: 200px;
     height: 100px;
     font-size: 18px;
     /* font-family: "Microsoft YaHei", "Helvetica", Arial, "sans-serif"; */
-    box-shadow: 1px 1px 2px #999;
+    box-shadow: 0 0 2px #999;
     padding: 12px;
     text-align: center;
     background: inherit;
+    transition: all .1s linear;
+  }
+  #user:hover{
+    box-shadow: 0 0 5px #999;
   }
   #user span{
     float: left;
@@ -50,26 +56,33 @@
     width: 50px;
     height: 50px;
     line-height: 50px;
+    cursor: pointer;
+    color: #0af;
+    transition: all .1s;
+  }
+  #user span:hover{
+    color: #6df;
   }
   #user .me-icon{
     box-shadow: 1px 1px 2px #999;
     margin-right: 20px;
   }
-  #user .reg-myhone a:after{
+  #user .reg-myhome:after{
     content: '注册';
   }
-  #user.logged .reg-myhone a:after{
+  #user.logged .reg-myhome:after{
     content: '个人中心';
   }
-  #user .login-out a:after{
+  #user .login-out:after{
     content: '登录';
   }
-  #user.logged .login-out a:after{
+  #user.logged .login-out:after{
     content: '注销';
   }
   #headslider{
     height: 200px;
-    background: #eee;
+    position: relative;
+    background: #ffe;
   }
 </style>
 <script language="javascript">
@@ -78,9 +91,9 @@
     el: "#main",
     data: {
       me: {
-        logged = false,
-        icon = null,
-        noicon = "/img/noicon.png"
+        logged: true,
+        icon: null,
+        noicon: "/img/noicon.png"
       }
     },
     method: {
@@ -93,13 +106,13 @@
 <body id="main">
   <header>
   </header>
-  <div id="user" :class="me.logged?'logged':''">
-    <div class="blur"></div>
-    <span class="me-icon" :style="'background-image: url('+(me.logged?me.icon:me.noicon)+');'"></span>
-    <span class="reg-myhone"><a></a></span>
-    <span class="login-out"><a></a></span>
-  </div>
   <div id="headslider">
+    <div id="user" :class="me.logged?'logged':''">
+      <!--<div class="blur"></div>-->
+      <span class="me-icon" :style="'background-image: url('+(me.logged?me.icon:me.noicon)+');'"></span>
+      <span class="reg-myhome"></span>
+      <span class="login-out"></span>
+    </div>
   </div>
 </body>
 </html>

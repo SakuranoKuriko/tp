@@ -9,7 +9,7 @@
 <style type="text/css">
   body{
     text-align: center;
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
   }
   header{
@@ -39,6 +39,8 @@
   }
   #headslider{
     height: 300px;
+    width: 80%;
+    margin: 0 auto;
     position: relative;
     margin-top: 50px;
     overflow: hidden;
@@ -71,6 +73,8 @@
     left: 0;
     width: 100%;
     height: 15px;
+    vertical-align: middle;
+    opacity: .4;
   }
   #headslider .slidersi div{
     position: absolute;
@@ -78,14 +82,15 @@
     width: 15px;
     bottom: 3%;
     border-radius: 50%;
-    background: #fd9;
+    box-shadow: 0 0 1px #fff;
+    background: #f91;
     transition: all .1s;
     margin-left: 20px;
   }
   #headslider .slidersi div:hover,
   #headslider .slidersi div.nowi{
-    height: 20px;
-    width: 20px;
+    -webkit-transform: scale(1.35);
+    transform: scale(1.35);
   }
   #user{
     position: absolute;
@@ -119,10 +124,13 @@
     right: 7%;
   }
   #user .login-out{
-    top: 48%;
+    top: 50%;
   }
   #user .me-icon{
     box-shadow: 1px 1px 2px #999;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    margin-left: 4px;
     width: 50px;
     height: 50px;
   }
@@ -137,6 +145,25 @@
   }
   #user.logged .login-out:after{
     content: '注销';
+  }
+
+  #mainlist{
+    width: 80%;
+    margin: 10px auto;
+  }
+  #mainlist .post{
+    height: 40px;
+    line-height: 40px;
+    font-size: 24px;
+    text-align: left;
+    padding-left: 20px;
+    background: inherit;
+    box-shadow: 0 0 2px #aff;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  #mainlist .post a{
+    text-decoration: none;
   }
 </style>
 <script language="javascript">
@@ -155,12 +182,17 @@
         <div v-for="(v,i) in sliders.ilst" :data-sliderindex="i" :style="'background-image:url('+v+');left: calc(100% * '+i+');'"></div>
       </div>
       <div class="slidersi">
-        <div v-for="(v,i) in sliders.ilst" :data-sliderindex="i" :class="sliders.now==i?'nowi':''" :style="'left: calc(24px * '+i+');'" @mouseover="chslider(i);"></div>
+        <div v-for="(v,i) in sliders.ilst" :data-sliderindex="i" :class="sliders.now==i?'nowi':''" :style="'left: calc(24px * '+i+');'" @mouseover="sliders.now=i;"></div>
       </div>
       <div id="user" :class="user.logged?'logged':''">
         <div class="me-icon" :style="'background-image: url('+(user.logged?user.icon:user.noicon)+');'"></div>
         <div class="reg-me ellipsis" :username="user.name"></div>
         <div class="login-out"></div>
+      </div>
+    </div>
+    <div id="mainlist">
+      <div v-for="v in postlst" :id="v.id" class="post">
+        <a :href="v.url">{{v.ti}}</a>
       </div>
     </div>
   </div>
@@ -169,7 +201,7 @@
       el: "#main",
       data: {
         user: {
-          logged: true,
+          logged: false,
           icon: "",
           noicon: "/img/noicon.png",
           name: "Noname",
@@ -180,18 +212,29 @@
           timerid: 0,
           ilst: [
             "/img/1.jpg",
+            "/img/1.jpg",
+            "/img/1.jpg",
+            "/img/1.jpg",
             "/img/1.jpg"
           ],
           tlst: [
             "",
+            "/1",
+            "/1",
+            "/1",
             "/1"
           ]
+        },
+        postlst: {
+          "f0": {id: "f0", ti: "title 0", url: "/link0"},
+          "f1": {id: "f1", ti: "title 1", url: "/link1"},
+          "f2": {id: "f2", ti: "title 2", url: "/link2"},
+          "f3": {id: "f3", ti: "title 3", url: "/link3"},
+          "f4": {id: "f4", ti: "title 4", url: "/link4"},
+          "f5": {id: "f5", ti: "title 5", url: "/link5"}
         }
       },
       methods: {
-        chslider: function(i){
-          this.sliders.now = i;
-        },
         nextslider: function(){
           mv.sliders.now = (mv.sliders.now+1)%mv.sliders.ilst.length;
         },

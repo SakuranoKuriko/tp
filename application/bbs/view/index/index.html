@@ -27,6 +27,10 @@
   a:active{
     color: #6df;
   }
+  select{
+    -webkit-appearance: none;
+    appearance: none;
+  }
   .blur:after{
     content: '';
     background: inherit;
@@ -37,9 +41,13 @@
     top: 0;
     filter: blur(5px);
   }
+  #main{
+    width: 80%;
+    margin: 0 auto;
+  }
   #headslider{
     height: 300px;
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
     position: relative;
     margin-top: 50px;
@@ -146,10 +154,84 @@
   #user.logged .login-out:after{
     content: '注销';
   }
-
-  #mainlist{
-    width: 80%;
+  #search{
     margin: 10px auto;
+    position: relative;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+  }
+  #search .searchstr,
+  #search .select,
+  #search .ok{
+    position: absolute;
+    height: 100%;
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+  }
+  #search .searchstr{
+    left: 20px;
+    width: 60%;
+  }
+  #search .searchstr input{
+    position: absolute;
+    left: -5px;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    font-size: inherit;
+    box-sizing: border-box;
+    border: none;
+    padding: 5px 0;
+    outline: none;
+    background: inherit;
+    border-radius: 25%;
+    z-index: 2;
+  }
+  #search .searchstr:hover,
+  #search .searchstr:focus{
+    background-color: #cff;
+  }
+  #search .searchstr:before{
+    position: absolute;
+    left: -20px;
+    content: '';
+    border-radius: 50%;
+    background-color: inherit;
+    height: 40px;
+    width: 40px;
+    z-index: 1;
+  }
+  #search .select{
+    left: 60%;
+    width: 20%;
+    margin: 5px 0;
+    height: 30px;
+    line-height: 30px;
+    transition: all .5s;
+    -webkit-transition: all .5s;
+    transform: rotateX(0);
+    -webkit-transform: rotateX(0);
+  }
+  #search .select .b-face{
+    left: 0;
+  }
+  #search .select .b-front{
+    transform: translateZ(15px);
+    -webkit-transform: translateZ(15px);
+  }
+  #search .select .b-bottom{
+    transform: rotateX(-90deg) translateZ(15px);
+    -webkit-transform: rotateX(-90deg) translateZ(15px);
+  }
+  #search .select .b-back{
+    transform: rotateX(-180deg) translateZ(15px);
+    -webkit-transform: rotateX(-180deg) translateZ(15px);
+  }
+  #mainlist{
+    width: 100%;
+    margin: 0 auto;
   }
   #mainlist .post{
     height: 40px;
@@ -161,6 +243,10 @@
     box-shadow: 0 0 2px #aff;
     cursor: pointer;
     margin-top: 10px;
+    transition: all .1s;
+  }
+  #mainlist .post:hover{
+    background: #aff;
   }
   #mainlist .post a{
     text-decoration: none;
@@ -188,6 +274,22 @@
         <div class="me-icon" :style="'background-image: url('+(user.logged?user.icon:user.noicon)+');'"></div>
         <div class="reg-me ellipsis" :username="user.name"></div>
         <div class="login-out"></div>
+      </div>
+    </div>
+    <div id="toolbar">
+      <div id="search">
+        <div class="searchstr">
+          <input type="text" placeholder="搜索..." />
+        </div>
+        <div class="select b-box" :style="'transform:rotateX('+search.mode" @click="">
+          <div class="b-face b-front beforestr" str="搜索标题"></div>
+          <div class="b-face b-bottom beforestr" str="搜索标题和内容"></div>
+          <div class="b-face b-back beforestr" str="搜索用户"></div>
+        </div>
+        <div>搜索</div>
+      </div>
+      <div id="newpost">
+        
       </div>
     </div>
     <div id="mainlist">

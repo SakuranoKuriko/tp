@@ -27,22 +27,38 @@
   a:active{
     color: #6df;
   }
-  .blur{
+  .blur:after{
+    content: '';
     background: inherit;
     width: 100%;
     height: 100%;
     position: absolute;
+    left: 0;
+    top: 0;
     filter: blur(5px);
+    z-index: 1;
   }
   #headslider{
     height: 300px;
-    width: 100%;
     position: relative;
-    background: #ffe;
     margin-top: 50px;
+    overflow: hidden;
+    background: #ffe;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+  #headslider .sliders{
+    position: relative;
+    height: 100%;
+    width: 100%;
   }
   #headslider .sliders div{
-    background-image: 100% 100%;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: #ffe;
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
   }
@@ -52,44 +68,41 @@
     right: 10%;
     width: 200px;
     height: 100px;
-    /* font-family: "Microsoft YaHei", "Helvetica", Arial, "sans-serif"; */
-    box-shadow: 0 0 2px #999;
+    /* font-family: "Microsoft YaHei", "Helvetica", Arial, "sans-serif";
+    box-shadow: 0 0 2px 2px #fff; */
     padding: 12px;
     text-align: center;
-    background: inherit;
+    background: #fff;
     /*transition: all .1s linear;*/
   }
-  #user:hover{
-    box-shadow: 0 0 5px #999;
-  }
-  #user span{
-    float: left;
-    margin: 4px;
-    width: 50px;
+  #user div{
+    width: 100px;
     height: 22px;
     font-size: 16px;
     line-height: 22px;
     cursor: pointer;
     color: #0af;
     transition: all .1s;
+    position: absolute;
+    z-index: 10;
   }
-  #user span:hover{
+  #user div:hover{
     color: #6df;
+  }
+  #user .reg-me,
+  #user .login-out{
+    right: 10%;
   }
   #user .me-icon{
     box-shadow: 1px 1px 2px #999;
-    margin-right: 20px;
+    width: 50px;
     height: 50px;
   }
-  #user .hello{
-    width: 55%;
-    margin-bottom: 0;
-  }
-  #user .reg-myhome:after{
+  #user .reg-me:after{
     content: '注册';
   }
-  #user.logged .reg-myhome:after{
-    content: '个人中心';
+  #user.logged .reg-me:after{
+    content: attr(username);
   }
   #user .login-out:after{
     content: '登录';
@@ -99,45 +112,47 @@
   }
 </style>
 <script language="javascript">
-
-  var mv = new Vue({
-    el: "#main",
-    data: {
-      user: {
-        logged: true,
-        icon: null,
-        noicon: "/img/noicon.png",
-        hello: "欢迎！"
-      },
-      sliders: {
-        now: 0,
-        list: [
-          "/img/1.jpg"
-        ]
-      }
-    },
-    method: {
-    }
-  });
-
-
+  var mv;
 </script>
 </head>
-<body id="main">
-  <header>
-  </header>
-  <div id="headslider">
-    <div class="sliders" :data-sliderindex="sliders.now">
-      <div v-for="i in sliders.list" :style="'background-image:url('+i+');'"></div>
-    </div>
-    <div id="user" :class="user.logged?'logged':''">
-      <!--<div class="blur"></div>-->
-      <span class="me-icon" :style="'background-image: url('+(user.logged?user.icon:user.noicon)+');'"></span>
-      <span class="hello">{{user.hello}}</span>
-      <span class="reg-myhome"></span>
-      <span class="login-out"></span>
+<body>
+  <div id="main">
+    <header>
+    </header>
+    <div id="headslider" :style="'background-image:url('+sliders.list[sliders.now]+');'">
+      <div class="sliders" :data-sliderindex="sliders.now">
+        <div v-for="(v,i) in sliders.list" :data-sliderindex="i" :style="'background-image:url('+v+');left: calc(100% * '+i+');'"></div>
+      </div>
+      <div id="user" :class="user.logged?'logged':''">
+        <div class="me-icon" :style="'background-image: url('+(user.logged?user.icon:user.noicon)+');'"></div>
+        <div class="reg-me ellipsis" :username="user.name"></div>
+        <div class="login-out"></div>
+      </div>
     </div>
   </div>
+  <script language="javascript">
+    mv = new Vue({
+      el: "#main",
+      data: {
+        user: {
+          logged: true,
+          icon: "",
+          noicon: "/img/noicon.png",
+          name: "Noname",
+          id: 0
+        },
+        sliders: {
+          now: 0,
+          list: [
+            "/img/1.jpg",
+            "/img/2.jpg"
+          ]
+        }
+      },
+      method: {
+      }
+    });
+  </script>
 </body>
 </html>
 

@@ -109,7 +109,8 @@
 	height: 1px;
 	left: 0;
 	right: 0;
-	-webkit-transform: scaleY(.5);
+	transform: scaleY(.5);
+	-webkit-transform: scaleX(.5);
 }
 
 .line-v-before-left:before,
@@ -119,6 +120,7 @@
 	width: 1px;
 	top: 0;
 	bottom: 0;
+	transform: scaleX(.5);
 	-webkit-transform: scaleX(.5);
 }
 

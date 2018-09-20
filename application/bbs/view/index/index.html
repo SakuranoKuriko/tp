@@ -115,11 +115,11 @@
   }
   #user .reg-me,
   #user .login-out{
-    top: 12%;
+    top: 18%;
     right: 7%;
   }
   #user .login-out{
-    top: 32%;
+    top: 48%;
   }
   #user .me-icon{
     box-shadow: 1px 1px 2px #999;
@@ -141,13 +141,16 @@
 </style>
 <script language="javascript">
   var mv;
+  var cfg = {
+    sliderdelay: 5000
+  };
 </script>
 </head>
 <body>
   <div id="main">
     <header>
     </header>
-    <div id="headslider">
+    <div id="headslider" @mouseover="stopslide();" @mouseleave="startslide();">
       <div class="sliders" :data-sliderindex="sliders.now" :style="'transform: translateX(-'+(sliders.now*100)+'%);'">
         <div v-for="(v,i) in sliders.ilst" :data-sliderindex="i" :style="'background-image:url('+v+');left: calc(100% * '+i+');'"></div>
       </div>
@@ -174,9 +177,10 @@
         },
         sliders: {
           now: 0,
+          timerid: 0,
           ilst: [
             "/img/1.jpg",
-            "/img/2.jpg"
+            "/img/1.jpg"
           ],
           tlst: [
             "",
@@ -187,9 +191,19 @@
       methods: {
         chslider: function(i){
           this.sliders.now = i;
+        },
+        nextslider: function(){
+          mv.sliders.now = (mv.sliders.now+1)%mv.sliders.ilst.length;
+        },
+        startslide: function(){
+          mv.sliders.timerid = setInterval(mv.nextslider, cfg.sliderdelay);
+        },
+        stopslide: function(){
+          clearInterval(mv.sliders.timerid);
         }
       }
     });
+    mv.startslide();
   </script>
 </body>
 </html>

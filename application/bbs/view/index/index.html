@@ -246,12 +246,15 @@
     font-size: 20px;
     cursor: pointer;
   }
-  #search .ok:hover{
+  #search .ok:hover,
+  #newpost:hover{
     background: #cff;
   }
   #newpost{
     width: 12%;
     right: 2%;
+    font-size: 20px;
+    cursor: pointer;
   }
   #mainlist{
     width: 100%;
@@ -378,6 +381,17 @@
         }
       }
     });
+    var i0={
+      img:{$silderimg},
+      url:{$slidertarget}
+    };
+    var i1={
+      id:{$postid},
+      ti:{$posttitle},
+      url:{$posturl}
+    };
+    mv.sliders.ilst = Object.assign([], i0.img);
+    mv.sliders.tlst = Object.assign([], i0.url);
     mv.startslide();
   </script>
 </body>

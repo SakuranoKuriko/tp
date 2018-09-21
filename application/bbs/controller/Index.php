@@ -1,6 +1,8 @@
 <?php
 namespace app\bbs\controller;
 
+include('/user.php');
+
 class Index extends \think\Controller
 {
     public function index()

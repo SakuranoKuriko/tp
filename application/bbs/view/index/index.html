@@ -175,7 +175,7 @@
   }
   #search .searchstr{
     left: calc(20px + 2%);
-    width: 60%;
+    width: 64%;
   }
   #search .searchstr input{
     position: absolute;
@@ -213,11 +213,12 @@
     right: -20px;
   }
   #search .select{
-    left: 47.5%;
+    left: 52.5%;
     width: 120px;
     margin: 5px 0;
     height: 30px;
     line-height: 30px;
+    text-align: right;
     transition: all .5s;
     -webkit-transition: all .5s;
     transform: rotateX(0);
@@ -241,7 +242,7 @@
     -webkit-transform: rotateX(-180deg) translateZ(15px);
   }
   #search .ok{
-    left: 70%;
+    right: 15%;
     width: 12%;
     font-size: 20px;
     cursor: pointer;
@@ -318,7 +319,7 @@
       </div>
     </div>
     <div id="mainlist">
-      <div v-for="v in postlst" :id="v.id" class="post">
+      <div v-for="v in postlst" :id="v.id" class="post" v-cloak>
         <a :href="v.url">{{v.ti}}</a>
       </div>
     </div>
@@ -385,13 +386,14 @@
       img:{$silderimg},
       url:{$slidertarget}
     };
-    var i1={
-      id:{$postid},
-      ti:{$posttitle},
-      url:{$posturl}
-    };
+    var i1={$postlist};
     mv.sliders.ilst = Object.assign([], i0.img);
     mv.sliders.tlst = Object.assign([], i0.url);
+    var o1={};
+    for (i in i1){
+      o1[i1[i].id]=i1[i];
+    }
+    mv.postlst = Object.assign({}, o1);
     mv.startslide();
   </script>
 </body>

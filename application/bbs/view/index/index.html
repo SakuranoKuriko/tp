@@ -163,20 +163,23 @@
   }
   #search .searchstr,
   #search .select,
-  #search .ok{
+  #search .ok,
+  #newpost{
     position: absolute;
     height: 100%;
     font-size: 16px;
     padding: 0;
     margin: 0;
+    z-index: 2;
+    transition: all .1s;
   }
   #search .searchstr{
-    left: 20px;
+    left: calc(20px + 2%);
     width: 60%;
   }
   #search .searchstr input{
     position: absolute;
-    left: -5px;
+    left: 0;
     top: 0;
     bottom: 0;
     width: 100%;
@@ -190,12 +193,12 @@
     z-index: 2;
   }
   #search .searchstr:hover,
-  #search .searchstr:focus{
+  #search .searchstr.focus{
     background-color: #cff;
   }
-  #search .searchstr:before{
+  #search .searchstr:before,
+  #search .searchstr:after{
     position: absolute;
-    left: -20px;
     content: '';
     border-radius: 50%;
     background-color: inherit;
@@ -203,9 +206,15 @@
     width: 40px;
     z-index: 1;
   }
+  #search .searchstr:before{
+    left: -20px;
+  }
+  #search .searchstr:after{
+    right: -20px;
+  }
   #search .select{
-    left: 60%;
-    width: 20%;
+    left: 47.5%;
+    width: 120px;
     margin: 5px 0;
     height: 30px;
     line-height: 30px;
@@ -213,6 +222,8 @@
     -webkit-transition: all .5s;
     transform: rotateX(0);
     -webkit-transform: rotateX(0);
+    font-style:italic;
+    cursor: pointer;
   }
   #search .select .b-face{
     left: 0;
@@ -228,6 +239,19 @@
   #search .select .b-back{
     transform: rotateX(-180deg) translateZ(15px);
     -webkit-transform: rotateX(-180deg) translateZ(15px);
+  }
+  #search .ok{
+    left: 70%;
+    width: 12%;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  #search .ok:hover{
+    background: #cff;
+  }
+  #newpost{
+    width: 12%;
+    right: 2%;
   }
   #mainlist{
     width: 100%;
@@ -264,7 +288,7 @@
     <header>
     </header>
     <div id="headslider" @mouseover="stopslide();" @mouseleave="startslide();">
-      <div class="sliders" :data-sliderindex="sliders.now" :style="'transform: translateX(-'+(sliders.now*100)+'%);'">
+      <div class="sliders" :data-sliderindex="sliders.now" :style="'transform: translateX(-'+sliders.now*100+'%);'">
         <div v-for="(v,i) in sliders.ilst" :data-sliderindex="i" :style="'background-image:url('+v+');left: calc(100% * '+i+');'"></div>
       </div>
       <div class="slidersi">
@@ -278,18 +302,16 @@
     </div>
     <div id="toolbar">
       <div id="search">
-        <div class="searchstr">
-          <input type="text" placeholder="搜索..." />
+        <div class="searchstr" :class="search.focus?'focus':''">
+          <input type="text" placeholder="搜索..." @focus="search.focus=true" @blur="search.focus=false"/>
         </div>
-        <div class="select b-box" :style="'transform:rotateX('+search.mode" @click="">
+        <div class="select b-box" :style="'transform:rotateX('+search.mode*90+'deg);'" @click="searchmode();">
           <div class="b-face b-front beforestr" str="搜索标题"></div>
           <div class="b-face b-bottom beforestr" str="搜索标题和内容"></div>
           <div class="b-face b-back beforestr" str="搜索用户"></div>
         </div>
-        <div>搜索</div>
-      </div>
-      <div id="newpost">
-        
+        <div class="ok beforestr" str="搜索"></div>
+        <div id="newpost" class="beforestr" str="发帖"></div>
       </div>
     </div>
     <div id="mainlist">
@@ -327,6 +349,10 @@
             "/1"
           ]
         },
+        search: {
+          focus: false,
+          mode: 0
+        },
         postlst: {
           "f0": {id: "f0", ti: "title 0", url: "/link0"},
           "f1": {id: "f1", ti: "title 1", url: "/link1"},
@@ -345,6 +371,10 @@
         },
         stopslide: function(){
           clearInterval(mv.sliders.timerid);
+        },
+        searchmode: function(){
+          mv.search.mode=(mv.search.mode+1)%3;
+          document.querySelector("#search input").focus();
         }
       }
     });

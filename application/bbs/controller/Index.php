@@ -23,8 +23,8 @@ class Index extends \think\Controller
     public function logout(){
 
     }
-    public function reg(){
-
+    public function reg($id, $pw){
+        echo "$id<br>$pw";
     }
     public function idused($id){
         global $pdo;

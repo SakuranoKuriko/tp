@@ -265,7 +265,6 @@
     line-height: 40px;
     font-size: 24px;
     text-align: left;
-    padding-left: 20px;
     background: inherit;
     box-shadow: 0 0 2px #aff;
     cursor: pointer;
@@ -276,6 +275,10 @@
     background: #aff;
   }
   #mainlist .post a{
+    padding: 0 1%;
+    display: block;
+    width: 100%;
+    height: 100%;
     text-decoration: none;
   }
 </style>
@@ -319,7 +322,7 @@
     </div>
     <div id="mainlist">
       <div v-for="v in postlst" :id="v.id" class="post" v-cloak>
-        <a :href="v.url">{{v.ti}}</a>
+        <a :href="v.url" class="ellipsis">{{v.ti}}</a>
       </div>
     </div>
   </div>

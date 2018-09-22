@@ -17,4 +17,21 @@ class Index extends \think\Controller
         $this->assign('postlist', json_encode($postlst));
         return $this->fetch('index');
     }
+    public function login(){
+
+    }
+    public function logout(){
+
+    }
+    public function reg(){
+
+    }
+    public function idused($id){
+        global $pdo;
+        $s = $pdo->prepare("select * from user where id=? limit 1");
+        $c = $s->execute(array($id));
+        if ($c==1)
+            return true;
+        else return false;
+    }
 }

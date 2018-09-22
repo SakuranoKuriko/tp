@@ -43,6 +43,4 @@ function decodeKey($key){
     $k->valid = $k->md5 == $k->vmd5;
     return $k;
 }
-$e = encodeKey("Kuriko");
-decodeKey($e);
 ?>

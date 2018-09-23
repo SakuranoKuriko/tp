@@ -1,6 +1,16 @@
 <?php
 include('mydb.php');
 global $soltstr, $xorkey, $cookietime;
+abstract class usrgroups{
+    const normal = 0;
+    const banned = 1;
+}
+abstract class permission{
+    const read = 0b1;
+    const write = 0b10;
+    const post = 0b100;
+    const admin = 0b1000;
+}
 function xorstr($str, $key){
     $l = strlen($str);
     $xl = strlen($key);
@@ -42,5 +52,13 @@ function decodeKey($key){
     $k->vmd5 = md5("$time@$time2@$user@$soltstr");
     $k->valid = $k->md5 == $k->vmd5;
     return $k;
+}
+function chkid($id){
+    global $pdo;
+    $s = $pdo->prepare("select * from usr where id=? limit 1");
+    $c = $s->execute(array($id));
+    if ($c==1)
+        return true;
+    else return false;
 }
 ?>

@@ -27,11 +27,6 @@ class Index extends \think\Controller
         echo "$id<br>$pw";
     }
     public function idused($id){
-        global $pdo;
-        $s = $pdo->prepare("select * from user where id=? limit 1");
-        $c = $s->execute(array($id));
-        if ($c==1)
-            return true;
-        else return false;
+        return chkid($id);
     }
 }

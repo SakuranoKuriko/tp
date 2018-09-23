@@ -27,6 +27,6 @@ class Index extends \think\Controller
         echo "$id<br>$pw";
     }
     public function idused($id){
-        return chkid($id);
+        return chkid($id)?'1':'0';
     }
 }

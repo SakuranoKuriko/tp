@@ -56,9 +56,9 @@ function decodeKey($key){
 function chkid($id){
     global $pdo;
     $s = $pdo->prepare("select * from usr where id=? limit 1");
-    $c = $s->execute(array($id));
-    var_dump($c);
-    if ($c==1)
+    $s->execute(array($id));
+    $c = $s->fetchAll(PDO::FETCH_ASSOC);
+    if (count($c)==1)
         return true;
     else return false;
 }

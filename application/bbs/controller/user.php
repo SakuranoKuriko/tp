@@ -57,6 +57,7 @@ function chkid($id){
     global $pdo;
     $s = $pdo->prepare("select * from usr where id=? limit 1");
     $c = $s->execute(array($id));
+    var_dump($c);
     if ($c==1)
         return true;
     else return false;

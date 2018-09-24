@@ -24,7 +24,7 @@ class Index extends \think\Controller
 
     }
     public function reg($id, $pw){
-        echo "$id<br>$pw";
+        echo "$id<br/>$pw";
     }
     public function idused($id){
         return chkid($id)?'1':'0';

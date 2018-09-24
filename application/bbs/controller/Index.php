@@ -17,16 +17,4 @@ class Index extends \think\Controller
         $this->assign('postlist', json_encode($postlst));
         return $this->fetch('index');
     }
-    public function login(){
-
-    }
-    public function logout(){
-
-    }
-    public function reg($id, $pw){
-        echo "$id<br/>$pw";
-    }
-    public function idused($id){
-        return chkid($id)?'1':'0';
-    }
 }

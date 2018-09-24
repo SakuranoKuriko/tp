@@ -1,11 +1,25 @@
 <?php
 include('db.php');
 global $soltstr, $xorkey, $cookietime;
-abstract class usrgroups{
+abstract class Regex{
+    const email = "^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$";
+}
+abstract class LoginStatus{
+    const success = 0;
+    const failed = 1;
+}
+abstract class RegStatus{
+    const success = 0;
+    const failed = 1;
+    const argerr = 2;
+    const idused = 3;
+    const emailerr = 4;
+}
+abstract class UserGroup{
     const normal = 0;
     const banned = 1;
 }
-abstract class permission{
+abstract class Permission{
     const read = 0b1;
     const write = 0b10;
     const post = 0b100;
@@ -53,7 +67,7 @@ function decodeKey($key){
     $k->valid = $k->md5 == $k->vmd5;
     return $k;
 }
-function chkid($id){
+function idused($id){
     global $pdo;
     $s = $pdo->prepare("select * from usr where id=? limit 1");
     $s->execute(array($id));
@@ -61,5 +75,9 @@ function chkid($id){
     if (count($c)==1)
         return true;
     else return false;
+}
+function adduser($id, $pw, $name, $email){
+    $s = $pdo->prepare("insert into usr (id, pw, name, email) values (?, ?, ?, ?)");
+    $s->execute(array($id, $pw, $name, $email));
 }
 ?>

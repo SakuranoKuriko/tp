@@ -80,4 +80,11 @@ function adduser($id, $pw, $name, $email){
     $s = $pdo->prepare("insert into usr (id, pw, name, email) values (?, ?, ?, ?)");
     $s->execute(array($id, $pw, $name, $email));
 }
+function userchk($id, $pw){
+    $s = $pdo->prepare("select * from usr where id=? and pw=? limit 1");
+    $s->execute(array($id, $pw));
+    if (count($s->fetchAll(PDO::FETCH_ASSOC))==0)
+        return LoginStatus::failed;
+    return LoginStatus::success;
+}
 ?>

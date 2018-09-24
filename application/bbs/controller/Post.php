@@ -5,6 +5,10 @@ include('usr.php');
 
 class Post extends \think\Controller
 {
+    public function index($id){
+        
+        $this->assign('title', $title);
+    }
     public function new(){
 
     }

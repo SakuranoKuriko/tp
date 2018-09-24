@@ -11,13 +11,12 @@ class User extends \think\Controller
     public function login(){
         $id = $_POST['id'];
         $pw = $_POST['pw'];
-        $s = $pdo->prepare("select * from usr where id=? and pw=? limit 1");
-        $s->execute(array($id, $pw));
-        if (count($s->fetchAll(PDO::FETCH_ASSOC))==0)
-            return (string)LoginStatus::failed;
-        $cookieexp = time()+3600*24*30;
-        setcookie('authkey', encodeKey($id), $cookieexp);
-        return (string)LoginStatus::success;
+        if (userchk($id, $pw)==LoginStatus::success){
+            $cookieexp = time()+3600*24*30;
+            setcookie('authkey', encodeKey($id), $cookieexp);
+            return (string)LoginStatus::success;
+        }
+        return LoginStatus::failed;
     }
     public function logout(){
 

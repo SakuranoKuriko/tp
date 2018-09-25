@@ -1,5 +1,17 @@
 <?php
 include('vars.php');
+function getpostid(){
+    $id = $_POST['postid'];
+    if ($postid==""){
+        echo PostStatus::needpostid;
+        die();
+    }
+    if (!preg_match(Regex::numonly, $postid)){
+        echo PostStatus::iderror;
+        die();
+    }
+    return (int)$id;
+}
 function getpost($postid){
     global $pdo;
     $s = $pdo->query("select * from posts where id=$postid limit 1");

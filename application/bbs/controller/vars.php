@@ -47,16 +47,4 @@ abstract class PostStatus{
 function getcfg($name){
     return $GLOBALS['pdo']->query("select value from cfg where name=$name limit 1")->fetch(PDO::FETCH_ASSOC)[0]['value'];
 }
-function getpostid(){
-    $id = $_POST['postid'];
-    if ($postid==""){
-        echo PostStatus::needpostid;
-        die();
-    }
-    if (!preg_match(Regex::numonly, $postid)){
-        echo PostStatus::iderror;
-        die();
-    }
-    return (int)$id;
-}
 ?>

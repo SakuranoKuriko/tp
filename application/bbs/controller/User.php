@@ -18,9 +18,9 @@ class User extends \think\Controller
         }
         return LoginStatus::failed;
     }
-    public function logout(){
+    /*public function logout(){
 
-    }
+    }*/
     public function reg(){
         $id = $_POST['id'];
         $pw = $_POST['pw'];
@@ -34,8 +34,7 @@ class User extends \think\Controller
             return (string)RegStatus::idused;
         if ($email!=''&&!preg_match(Regex::email, $email))
             return (string)RegStatus::emailerr;
-        adduser($id, $pw, $name, $email);
-        return (string)RegStatus::success;
+        return (string)adduser($id, $pw, $name, $email);
     }
     public function idused($id){
         return idused($id)?'1':'0';

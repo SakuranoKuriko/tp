@@ -67,14 +67,16 @@ function userchk($id, $pw){
 }
 function authchk(){
     $own = $_COOKIE['authkey'];
-    if ($own=="")
-        return LoginStatus::needlogin;
+    if ($own==""){
+        echo LoginStatus::needlogin;
+        die();
+    }
     $ownd = decodeKey($own);
     if (!$ownd->vaild){
         setcookie('authkey');
-        return LoginStatus::usererror;
+        echo LoginStatus::usererror;
+        die();
     }
     $GLOBALS['userid'] = $ownd->id;
-    return LoginStatus::success;
 }
 ?>

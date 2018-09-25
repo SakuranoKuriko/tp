@@ -2,22 +2,30 @@
 abstract class Regex{
     const email = "^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$";
 }
-abstract class LoginStatus{
+abstract class Status{
     const success = 0;
-    const failed = 1;
-    const needlogin = 2;
-    const usererror = 3;
+    const normal = 0;
+    const error = 1;
+}
+abstract class Str{
+    const reptitle = "#rep";
+}
+abstract class LoginStatus{
+    const success = Status::success;
+    const failed = Status::error;
+    const needlogin = 0x11;
+    const usererror = 0x12;
 }
 abstract class RegStatus{
-    const success = 0;
-    const failed = 1;
-    const argerr = 2;
-    const idused = 3;
-    const emailerr = 4;
+    const success = Status::success;
+    const failed = Status::error;
+    const argerr = 0x21;
+    const idused = 0x22;
+    const emailerr = 0x23;
 }
 abstract class UserGroup{
-    const normal = 0;
-    const banned = 1;
+    const normal = 0xf0;
+    const banned = 0xf1;
 }
 abstract class Permission{
     const read = 0b1;
@@ -25,9 +33,14 @@ abstract class Permission{
     const post = 0b100;
     const admin = 0b1000;
 }
-abstract class NewPostStatus{
-    const success = 0;
-    const error = 1;
-    const needtitle = 2;
+abstract class PostStatus{
+    const success = Status::success;
+    const nochange = -1;
+    const error = Status::error;
+    const noown = 0x31;
+    const needpostid = 0x32;
+    const needmaster = 0x33;
+    const needtitle = 0x34;
+    const needtext = 0x35;
 }
 ?>

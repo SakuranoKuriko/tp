@@ -16,7 +16,7 @@ class Post extends \think\Controller
         if ($ti=="")
             return (string)PostStatus::needtitle;
         $text = $_POST['text'];
-        return (string)newpost($GLOBALS['userid'], $ti, $text);
+        return (string)newpost($ti, $text);
     }
     public function edit(){
         authchk();
@@ -24,36 +24,32 @@ class Post extends \think\Controller
         $text = $_POST['text'];
         if ($ti==""&&$text=="")
             return (string)PostStatus::nochange;
-        $postid = $_POST['postid'];
-        if ($postid=="")
-            return (string)PostStatus::needpostid;
+        $postid = getpostid();
         isown($postid);
         return (string)editpost($postid, $ti, $text);
     }
     public function del(){
         authchk();
+        $postid = getpostid();
         isown($postid);
         return (string)delpost($postid);
     }
     public function rep(){
         authchk();
-        $postid = $_POST['postid'];
-        if ($postid=="")
-            return (string)PostStatus::needmaster;
+        $postid = getpostid();
         $text = $_POST['text'];
         if ($text=="")
             return (string)PostStatus::needtext;
+        postchk($postid);
         return (string)reppost($postid, $text);
     }
     public function editrep(){
         authchk();
-        $postid = $_POST['postid'];
-        if ($postid=="")
-            return (string)PostStatus::needpostid;
+        $postid = getpostid();
         $text = $_POST['text'];
         if ($text=="")
             return (string)PostStatus::needtext;
         isown($postid);
-        return (string)editpost($postid, Str::reptitle, $text);
+        return (string)editpost($postid, getcfg('reptitle'), $text);
     }
 }

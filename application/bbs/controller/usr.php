@@ -1,5 +1,4 @@
 <?php
-include('db.php');
 include('vars.php');
 global $soltstr, $xorkey, $cookietime;
 function xorstr($str, $key){
@@ -12,13 +11,9 @@ function xorstr($str, $key){
     return $r;
 }
 function encodeKey($user){
-    global $pdo;
-    $s = $pdo->query("select value from cfg where name='soltstr' limit 1");
-    $soltstr = $s->fetch(PDO::FETCH_ASSOC)["value"];
-    $s = $pdo->query("select value from cfg where name='xorkey' limit 1");
-    $xorkey = $s->fetch(PDO::FETCH_ASSOC)["value"];
-    $s = $pdo->query("select value from cfg where name='cookietime' limit 1");
-    $cookietime = (int) $s->fetch(PDO::FETCH_ASSOC)["value"];
+    $soltstr = getcfg('soltstr');
+    $xorkey = getcfg('xorkey');
+    $cookietime = (int)getcfg('cookietime');
     $time = time();
     $time2 = $time+$cookietime*60;
     return base64_encode(xorstr(base64_encode("$time@$time2@$user#".md5("$time@$time2@$user@$soltstr")), $xorkey));

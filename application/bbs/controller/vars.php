@@ -1,14 +1,13 @@
 <?php
+include('db.php');
 abstract class Regex{
     const email = "^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$";
+    const numonly = "^\d+$";
 }
 abstract class Status{
     const success = 0;
     const normal = 0;
     const error = 1;
-}
-abstract class Str{
-    const reptitle = "#rep";
 }
 abstract class LoginStatus{
     const success = Status::success;
@@ -42,5 +41,22 @@ abstract class PostStatus{
     const needmaster = 0x33;
     const needtitle = 0x34;
     const needtext = 0x35;
+    const notfound = 0x36;
+    const iderror = 0x37;
+}
+function getcfg($name){
+    return $GLOBALS['pdo']->query("select value from cfg where name=$name limit 1")->fetch(PDO::FETCH_ASSOC)[0]['value'];
+}
+function getpostid(){
+    $id = $_POST['postid'];
+    if ($postid==""){
+        echo PostStatus::needpostid;
+        die();
+    }
+    if (!preg_match(Regex::numonly, $postid)){
+        echo PostStatus::iderror;
+        die();
+    }
+    return (int)$id;
 }
 ?>

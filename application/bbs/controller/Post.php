@@ -10,7 +10,7 @@ class Post extends \think\Controller
 {
     public function _empty(){
         $req = Request::instance();
-        $postid = getpostid($req->action());
+        $postid = \kuriko\getpostid($req->action());
         $pathinfo = $req->pathinfo();
         var_dump(preg_match(\kuriko\Regexp::noarg, $pathinfo, $v));
         var_dump($v);

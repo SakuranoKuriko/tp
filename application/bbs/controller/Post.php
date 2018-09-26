@@ -24,7 +24,7 @@ class Post extends \think\Controller
                 $page = $v;
         }
         $postdata = getpost($postid);
-        $childpost = getchildpost($postdata, $page);
+        $childpost = getchildpost($postid, $page);
         $this->assign('postid', $postid);
         $this->assign('postdata', json_encode($postdata));
         $this->assign('childdata', json_encode($childpost));

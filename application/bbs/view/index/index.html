@@ -10,7 +10,8 @@
   body{
     text-align: center;
     width: 100%;
-    margin: 0 auto;
+    min-width: 600px;
+    margin: 0 auto 40px;
   }
   header{
     text-align: right;
@@ -63,6 +64,7 @@
     position: relative;
     height: 100%;
     width: 100%;
+    cursor: pointer;
   }
   #headslider .sliders div{
     position: absolute;
@@ -83,6 +85,7 @@
     height: 15px;
     vertical-align: middle;
     opacity: .4;
+    cursor: pointer;
   }
   #headslider .slidersi div{
     position: absolute;
@@ -99,6 +102,7 @@
   #headslider .slidersi div.nowi{
     -webkit-transform: scale(1.35);
     transform: scale(1.35);
+    cursor: default;
   }
   #user{
     position: absolute;
@@ -172,6 +176,7 @@
     margin: 0;
     z-index: 2;
     transition: all .1s;
+    overflow: hidden;
   }
   #search .searchstr{
     left: calc(20px + 2%);
@@ -275,7 +280,7 @@
     background: #aff;
   }
   #mainlist .post a{
-    padding: 0 1%;
+    padding: 0 20px;
     display: block;
     width: 100%;
     height: 100%;
@@ -295,10 +300,10 @@
     </header>
     <div id="headslider" @mouseover="stopslide();" @mouseleave="startslide();">
       <div class="sliders" :data-sliderindex="sliders.now" :style="'transform: translateX(-'+sliders.now*100+'%);'">
-        <div v-for="(v,i) in sliders.ilst" :data-sliderindex="i" :style="'background-image:url('+v+');left: calc(100% * '+i+');'"></div>
+        <div v-for="(v,i) in sliders.lst" :id="'sliders'+v" :data-sliderindex="i" :style="'background-image:url('+v.img+');left: calc(100% * '+i+');'" @click="location.href=v.url;"></div>
       </div>
       <div class="slidersi">
-        <div v-for="(v,i) in sliders.ilst" :data-sliderindex="i" :class="sliders.now==i?'nowi':''" :style="'left: calc(24px * '+i+');'" @mouseover="sliders.now=i;"></div>
+        <div v-for="(v,i) in sliders.lst" :data-sliderindex="i" :class="sliders.now==i?'nowi':''" :style="'left: calc(24px * '+i+');'" @mouseover="sliders.now=i;"></div>
       </div>
       <div id="user" :class="user.logged?'logged':''">
         <div class="me-icon" :style="'background-image: url('+(user.logged?user.icon:user.noicon)+');'"></div>
@@ -340,37 +345,17 @@
         sliders: {
           now: 0,
           timerid: 0,
-          ilst: [
-            "/img/1.jpg",
-            "/img/1.jpg",
-            "/img/1.jpg",
-            "/img/1.jpg",
-            "/img/1.jpg"
-          ],
-          tlst: [
-            "",
-            "/1",
-            "/1",
-            "/1",
-            "/1"
-          ]
+          lst: []
         },
         search: {
           focus: false,
           mode: 0
         },
-        postlst: {
-          "f0": {id: "f0", ti: "title 0", url: "/link0"},
-          "f1": {id: "f1", ti: "title 1", url: "/link1"},
-          "f2": {id: "f2", ti: "title 2", url: "/link2"},
-          "f3": {id: "f3", ti: "title 3", url: "/link3"},
-          "f4": {id: "f4", ti: "title 4", url: "/link4"},
-          "f5": {id: "f5", ti: "title 5", url: "/link5"}
-        }
+        postlst: {}
       },
       methods: {
         nextslider: function(){
-          mv.sliders.now = (mv.sliders.now+1)%mv.sliders.ilst.length;
+          mv.sliders.now = (mv.sliders.now+1)%mv.sliders.lst.length;
         },
         startslide: function(){
           mv.sliders.timerid = setInterval(mv.nextslider, cfg.sliderdelay);
@@ -384,13 +369,13 @@
         }
       }
     });
-    var i0={
-      img:{$silderimg},
-      url:{$slidertarget}
-    };
+    var i0={$sliders};
     var i1={$postlist};
-    mv.sliders.ilst = Object.assign([], i0.img);
-    mv.sliders.tlst = Object.assign([], i0.url);
+    var o0=[];
+    for (i in i0){
+      o0.push({id: i0[i].id, img: i0[i].val1, url: i0[i].val2});
+    }
+    mv.sliders.lst = Object.assign([], o0);
     var o1={};
     var fid;
     for (i in i1){

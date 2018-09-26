@@ -3,6 +3,8 @@ namespace app\bbs\controller;
 
 include_once('usr.php');
 
+use \think\Request;
+
 class User extends \think\Controller
 {
     public function _empty(){

@@ -4,6 +4,8 @@ namespace app\bbs\controller;
 include_once('usr.php');
 include_once('posts.php');
 
+use \think\Request;
+
 class Post extends \think\Controller
 {
     public function _empty(){

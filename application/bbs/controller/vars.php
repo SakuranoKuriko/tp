@@ -1,11 +1,11 @@
 <?php
 require_once('db.php');
 abstract class Regexp{
-    const email = "^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$";
-    const usrid = "^[a-zA-Z][a-zA-Z0-9_]+$";
+    const email = "/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/";
+    const usrid = "/^[a-zA-Z][a-zA-Z0-9_]+$/";
     const getargs = "/^.*?\/.*?\/(.*)$/i";
-    const numonly = "^\d+$";
-    const getnum = "(\d+)";
+    const numonly = "/^\d+$/";
+    const getnum = "/(\d+)/";
 }
 abstract class Status{
     const success = 0;

@@ -11,6 +11,7 @@ class Post extends \think\Controller
     public function _empty(){
         $req = Request::instance();
         $postid = getpostid($req->action());
+        postchk($postid);
         $postdata = getpost($postid);
         $childpost = getchildpost($postdata, $page);
         $this->assign('postid', $postid);

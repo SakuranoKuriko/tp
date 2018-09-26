@@ -113,8 +113,8 @@ function getid($id, $isuid = true){
     }
     if (count($idn)!=0){
         $usrid = $idn[0];
-        $s = $pdo->query("select $query from usr where $from='$usrid'");
-        return $s->fetch(PDO::FETCH_ASSOC);
+        $s = $pdo->query("select id,usrid from usr where $from='$usrid'");
+        return $s->fetch(PDO::FETCH_ASSOC)[$query];
     }
     echo UserStatus::iderror;
     die();

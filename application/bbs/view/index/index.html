@@ -392,8 +392,13 @@
     mv.sliders.ilst = Object.assign([], i0.img);
     mv.sliders.tlst = Object.assign([], i0.url);
     var o1={};
+    var fid;
     for (i in i1){
-      o1[i1[i].id]=i1[i];
+      fid = 'f'+i;
+      o1[fid] = i1[i];
+      o1[fid].url = '/post/'+i1[i].id;
+      o1[fid].id = fid;
+      o1[fid].ti = i1[i].title;
     }
     mv.postlst = Object.assign({}, o1);
     mv.startslide();

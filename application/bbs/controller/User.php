@@ -3,12 +3,10 @@ namespace app\bbs\controller;
 
 require('usr.php');
 
-use \think\Request;
-
 class User extends \think\Controller
 {
     public function _empty(){
-        $id = Request::instance()->action();
+        $id = \think\Request::instance()->action();
         return $id;
         return $this->fetch('index');
     }

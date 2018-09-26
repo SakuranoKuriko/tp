@@ -59,6 +59,6 @@ class Post extends \think\Controller
         if ($text=="")
             return (string)PostStatus::needtext;
         isown($postid);
-        return (string)editpost($postid, getcfg('reptitle'), $text);
+        return (string)editpost($postid, getcfgs('reptitle'), $text);
     }
 }

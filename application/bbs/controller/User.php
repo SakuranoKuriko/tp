@@ -5,7 +5,9 @@ include_once('usr.php');
 
 class User extends \think\Controller
 {
-    public function index($id){
+    public function _empty(){
+        $id = Request::instance()->action();
+        return $id;
         return $this->fetch('index');
     }
     public function login(){

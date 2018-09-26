@@ -6,8 +6,9 @@ include_once('posts.php');
 
 class Post extends \think\Controller
 {
-    public function index($id, $page){
-        $postid = getpostid($id);
+    public function _empty(){
+        $req = Request::instance();
+        $postid = getpostid($req->action());
         $postdata = getpost($postid);
         $childpost = getchildpost($postdata, $page);
         $this->assign('postid', $postid);

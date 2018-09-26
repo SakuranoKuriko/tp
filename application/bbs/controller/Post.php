@@ -12,10 +12,13 @@ class Post extends \think\Controller
         $req = Request::instance();
         $postid = getpostid($req->action());
         $pathinfo = $req->pathinfo();
-        var_dump(preg_match(\Regexp::noarg, $pathinfo, $v));
-        var_dump($v);
         preg_match(\Regexp::getargs, $pathinfo, $v);
-        var_dump($v);
+        $args = array();
+        var_dump($args);
+        if ($v[1]!="index.php"){
+            $args = split('/', $v[1]);
+        }
+        var_dump($args);
         postchk($postid);
         $postdata = getpost($postid);
         $childpost = getchildpost($postdata, $page);

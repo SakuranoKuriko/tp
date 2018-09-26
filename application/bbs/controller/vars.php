@@ -54,7 +54,7 @@ function getnum($str){
 }
 function getcfg($name){
     global $pdo;
-    $s = $pdo->query("select value from cfg where name=$name limit 1");
+    $s = $pdo->query("select value from cfg where name='$name' limit 1");
     return $s->fetch(PDO::FETCH_ASSOC)[0]['value'];
 }
 ?>

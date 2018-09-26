@@ -9,18 +9,19 @@ class User extends \think\Controller
 {
     public function _empty(){
         $id = Request::instance()->action();
-        return $id;
+        $userdata = getusr($id);
+        $this->assign('userdata', json_encode($userdata));
         return $this->fetch('index');
     }
     public function login(){
         $id = $_POST['id'];
         $pw = $_POST['pw'];
-        if (userchk($id, $pw)==LoginStatus::success){
+        if (userchk($id, $pw)==\UserStatus::success){
             $cookieexp = time()+3600*24*30;
             setcookie('authkey', encodeKey($id), $cookieexp);
-            return (string)LoginStatus::success;
+            return (string)\UserStatus::success;
         }
-        return LoginStatus::failed;
+        return (string)\UserStatus::failed;
     }
     /*public function logout(){
 
@@ -31,13 +32,13 @@ class User extends \think\Controller
         $name = $_POST['name'];
         $email = $_POST['email'];
         if ($id==''||$pw=='')
-            return (string)RegStatus::argerr;
+            return (string)\RegStatus::argerr;
         if ($name=='')
             $name = $id;
         if (idused($id))
-            return (string)RegStatus::idused;
-        if ($email!=''&&!preg_match(Regexp::email, $email))
-            return (string)RegStatus::emailerr;
+            return (string)\RegStatus::idused;
+        if ($email!=''&&!preg_match(\Regexp::email, $email))
+            return (string)\RegStatus::emailerr;
         return (string)adduser($id, $pw, $name, $email);
     }
     public function idused($id){

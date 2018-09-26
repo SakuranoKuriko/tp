@@ -2,6 +2,7 @@
 require_once('db.php');
 abstract class Regexp{
     const email = "^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$";
+    const usrid = "^[a-zA-Z][a-zA-Z0-9_]+$";
     const getargs = "/^.*?\/.*?\/(.*)$/i";
     const numonly = "^\d+$";
     const getnum = "(\d+)";
@@ -11,11 +12,12 @@ abstract class Status{
     const normal = 0;
     const error = 1;
 }
-abstract class LoginStatus{
+abstract class UserStatus{
     const success = Status::success;
     const failed = Status::error;
     const needlogin = 0x11;
     const usererror = 0x12;
+    const iderror = 0x13;
 }
 abstract class RegStatus{
     const success = Status::success;
@@ -25,8 +27,8 @@ abstract class RegStatus{
     const emailerr = 0x23;
 }
 abstract class UserGroup{
-    const normal = 0xf0;
-    const banned = 0xf1;
+    const normal = 0;
+    const banned = 1;
 }
 abstract class Permission{
     const read = 0b1;

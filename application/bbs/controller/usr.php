@@ -41,7 +41,7 @@ function decodeKey($key){
 }
 function idused($id){
     global $pdo;
-    $s = $pdo->prepare("select * from usr where id=? limit 1");
+    $s = $pdo->prepare("select * from usr where usrid=? limit 1");
     $s->execute(array($id));
     $c = $s->fetchAll(PDO::FETCH_ASSOC);
     if (count($c)==1)
@@ -57,21 +57,39 @@ function userchk($id, $pw){
     $s = $pdo->prepare("select * from usr where id=? and pw=? limit 1");
     $s->execute(array($id, $pw));
     if (count($s->fetchAll(PDO::FETCH_ASSOC))==0)
-        return LoginStatus::failed;
-    return LoginStatus::success;
+        return UserStatus::failed;
+    return UserStatus::success;
 }
 function authchk(){
     $own = $_COOKIE['authkey'];
     if ($own==""){
-        echo LoginStatus::needlogin;
+        echo UserStatus::needlogin;
         die();
     }
     $ownd = decodeKey($own);
     if (!$ownd->vaild){
         setcookie('authkey');
-        echo LoginStatus::usererror;
+        echo UserStatus::usererror;
         die();
     }
     $GLOBALS['userid'] = $ownd->id;
+}
+function getusr($id){
+    global $pdo;
+    $query = "id,usrid,permission,usrgroup,name,homepage,steam,github";
+    preg_match(Regexp::numonly, $id, $idn);
+    if (count($idn)>0){
+        $u = $idn[0];
+        return $pdo->query("select $query from usr where id=$u limit 1")->fetch(PDO::FETCH_ASSOC);
+    }
+    else{
+        preg_match(Regexp::usrid, $id, $idv);
+        if (count($idv)>=0){
+            $u = $idv[0];
+            return $pdo->query("select $query from usr where usrid=$u limit 1")->fetch(PDO::FETCH_ASSOC);
+        }
+    }
+    echo UserStatus::iderror;
+    die();
 }
 ?>

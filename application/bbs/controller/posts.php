@@ -19,10 +19,17 @@ function getpost($postid){
     $postdata['childcount'] = $s->rowCount();
     return $postdata;
 }
-function getchildpost($postid, $page){
+function getlist($page = 1){
+    global $pdo;
+    $cc = (int)getcfg('postperpage');
+    $skip = ($page-1)*$cc;
+    $s = $pdo->query("select id,own,title,edittime from posts where masterid is null order by edittime desc limit $skip, $cc");
+    return $s->fetchAll(PDO::FETCH_ASSOC);
+}
+function getchildpost($postid, $page = 1){
     global $pdo;
     $cc = (int)getcfg('childperpage');
-    $skip = --$page*$cc;
+    $skip = ($page-1)*$cc;
     $s = $pdo->query("select * from posts where masterid=$postid limit $skip, $cc");
     return $s->fetchAll(PDO::FETCH_ASSOC);
 }

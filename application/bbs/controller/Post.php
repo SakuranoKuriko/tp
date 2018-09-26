@@ -26,19 +26,22 @@ class Post extends \think\Controller
         $postdata = getpost($postid);
         $childpost = getchildpost($postdata, $page);
         $this->assign('postid', $postid);
-        $this->assign('title', $title);
+        $this->assign('postdata', json_encode($postdata));
+        $this->assign('childdata', json_encode($childpost));
         return $this->fetch('index');
     }
     public function edit($id){
         $postid = getpostid($id);
+        $postdata = getpost($postid);
         $this->assign('postid', $postid);
+        $this->assign('postdata', json_encode($postdata));
         return $this->fetch('edit');
     }
     public function new(){
         authchk();
         $ti = $_POST['title'];
         if ($ti=="")
-            return (string)PostStatus::needtitle;
+            return (string)\PostStatus::needtitle;
         $text = $_POST['text'];
         return (string)newpost($ti, $text);
     }
@@ -47,7 +50,7 @@ class Post extends \think\Controller
         $ti = $_POST['title'];
         $text = $_POST['text'];
         if ($ti==""&&$text=="")
-            return (string)PostStatus::nochange;
+            return (string)\PostStatus::nochange;
         $postid = getpostid($_POST['postid']);
         isown($postid);
         return (string)editpost($postid, $ti, $text);
@@ -63,7 +66,7 @@ class Post extends \think\Controller
         $postid = getpostid($_POST['postid']);
         $text = $_POST['text'];
         if ($text=="")
-            return (string)PostStatus::needtext;
+            return (string)\PostStatus::needtext;
         postchk($postid);
         return (string)reppost($postid, $text);
     }
@@ -72,7 +75,7 @@ class Post extends \think\Controller
         $postid = getpostid($_POST['postid']);
         $text = $_POST['text'];
         if ($text=="")
-            return (string)PostStatus::needtext;
+            return (string)\PostStatus::needtext;
         isown($postid);
         return (string)editpost($postid, getcfg('reptitle'), $text);
     }

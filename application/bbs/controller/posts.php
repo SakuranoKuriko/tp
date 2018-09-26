@@ -5,8 +5,7 @@ function getpostid($id){
         echo PostStatus::needpostid;
         die();
     }
-    preg_match(Regexp::getnum, $id, $vals);
-    return (int)$vals[0];
+    return getnum($id);
 }
 function getpost($postid){
     global $pdo;

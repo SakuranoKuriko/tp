@@ -46,6 +46,10 @@ abstract class PostStatus{
     const notfound = 0x36;
     const iderror = 0x37;
 }
+function getnum($str){
+    preg_match(Regexp::getnum, $str, $v);
+    return (int)$v[0];
+}
 function getcfg($name){
     return $GLOBALS['pdo']->query("select value from cfg where name=$name limit 1")->fetch(PDO::FETCH_ASSOC)[0]['value'];
 }

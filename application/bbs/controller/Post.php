@@ -11,14 +11,16 @@ class Post extends \think\Controller
     public function _empty(){
         $req = Request::instance();
         $postid = getpostid($req->action());
+        postchk($postid);
         $pathinfo = $req->pathinfo();
         preg_match(\Regexp::getargs, $pathinfo, $v);
         $args = array();
-        if (count($v)!=0&&$v[1]!="index.php"){
+        if (count($v)!=0&&$v[1]!="index.php")
             $args = explode('/', $v[1]);
-        }
-        var_dump($args);
-        postchk($postid);
+        $page = 1;
+        if (count($args)>0)
+            $page = getnum($args[0]);
+        var_dump($page);
         $postdata = getpost($postid);
         $childpost = getchildpost($postdata, $page);
         $this->assign('postid', $postid);

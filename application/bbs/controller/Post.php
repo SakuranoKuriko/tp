@@ -4,10 +4,12 @@ namespace app\bbs\controller;
 include_once('usr.php');
 include_once('posts.php');
 
+use \think\Request;
+
 class Post extends \think\Controller
 {
     public function _empty(){
-        $req = \think\Request::instance();
+        $req = Request::instance();
         $postid = getpostid($req->action());
         $pathinfo = $req->pathinfo();
         var_dump(preg_match(Regexp::noarg, $pathinfo, $v));

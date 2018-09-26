@@ -1,7 +1,7 @@
 <?php
 namespace app\bbs\controller;
 
-include_once('usr.php');
+require('usr.php');
 
 class Index extends \think\Controller
 {

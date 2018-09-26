@@ -1,5 +1,5 @@
 <?php
-include_once('vars.php');
+require('vars.php');
 global $soltstr, $xorkey, $cookietime;
 function xorstr($str, $key){
     $l = strlen($str);

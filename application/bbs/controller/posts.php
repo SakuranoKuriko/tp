@@ -1,5 +1,5 @@
 <?php
-include_once('vars.php');
+require('usr.php');
 function getpostid($id){
     if ($id==""){
         echo PostStatus::needpostid;

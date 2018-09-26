@@ -1,5 +1,4 @@
 <?php
-namespace kuriko;
 require_once('usr.php');
 function getpostid($id){
     if ($id==""){

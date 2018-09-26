@@ -16,7 +16,7 @@ class Post extends \think\Controller
         $args = array();
         var_dump($args);
         if ($v[1]!="index.php"){
-            $args = split('/', $v[1]);
+            $args = explode('/', $v[1]);
         }
         var_dump($args);
         postchk($postid);

@@ -6,6 +6,7 @@ function getpostid($id){
         die();
     }
     preg_match(Regexp::getnum, $id, $vals);
+    var_dump($vals);
     return (int)$vals[1];
 }
 function getpost($postid){

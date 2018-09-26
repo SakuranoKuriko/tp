@@ -116,7 +116,6 @@ function getid($id, $isuid = true){
         $s = $pdo->query("select id,usrid from usr where $from='$usrid'");
         return $s->fetch(PDO::FETCH_ASSOC)[$query];
     }
-    echo UserStatus::iderror;
     die();
 }
 ?>

@@ -48,6 +48,6 @@ class User extends \think\Controller
         return (string)getid($id, false);
     }
     public function id($uid){
-        return getid($idn[0]);
+        return getid($id);
     }
 }

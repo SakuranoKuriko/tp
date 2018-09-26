@@ -12,7 +12,9 @@ class Post extends \think\Controller
         $req = Request::instance();
         $postid = getpostid($req->action());
         $pathinfo = $req->pathinfo();
-        preg_match('/^post\/.*?\/(.*)$/i', $pathinfo, $v);
+        var_dump(preg_match(Regexp::noarg, $pathinfo, $v));
+        var_dump($v);
+        preg_match(Regexp::getargs, $pathinfo, $v);
         var_dump($v);
         postchk($postid);
         $postdata = getpost($postid);

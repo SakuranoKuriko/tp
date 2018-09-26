@@ -23,7 +23,7 @@ function getlist($page = 1){
     global $pdo;
     $cc = (int)getcfg('postperpage');
     $skip = ($page-1)*$cc;
-    $s = $pdo->query("select id,own,title,edittime from posts where masterid is null order by edittime desc limit $skip, $cc");
+    $s = $pdo->query("select id,own,title,updatetime,lastrep from posts where masterid is null order by updatetime desc limit $skip, $cc");
     return $s->fetchAll(PDO::FETCH_ASSOC);
 }
 function getchildpost($postid, $page = 1){
@@ -36,7 +36,7 @@ function getchildpost($postid, $page = 1){
 function newpost($title, $content){
     global $pdo;
     $s = $pdo->prepare("insert into posts (own, title, content) values (?, ?, ?)");
-    $s->execute(array($GLOBALS['userid'], $title, $content));
+    $s->execute(array($GLOBALS['useruid'], $title, $content));
     if ($s->rowCount()!=1)
         return PostStatus::error;
     return PostStatus::success;
@@ -44,15 +44,17 @@ function newpost($title, $content){
 function reppost($postid, $content){
     global $pdo;
     $s = $pdo->prepare("insert into posts (own, title, content, masterid) values (?, ?, ?, '$postid')");
-    $s->execute(array($GLOBALS['userid']), getcfg('reptitle'), $content);
+    $s->execute(array($GLOBALS['useruid']), getcfg('reptitle'), $content);
     if ($s->rowCount()!=1)
         return PostStatus::error;
+    $s = $pdo->prepare("update posts set lastrep=? where id='$postid'");
+    $s->execute(array($GLOBALS['useruid']));
     return PostStatus::success;
 }
 function isown($postid){
     global $pdo;
     $s = $pdo->prepare("select own from posts where id='$postid' and own=? limit 1");
-    $s->execute(array($GLOBALS['userid']));
+    $s->execute(array($GLOBALS['useruid']));
     if ($s->rowCount()!=1){
         echo PostStatus::noown;
         die();

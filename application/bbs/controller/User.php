@@ -44,4 +44,10 @@ class User extends \think\Controller
     public function idused($id){
         return idused($id)?'1':'0';
     }
+    public function uid($id){
+        return (string)getid($id, false);
+    }
+    public function id($uid){
+        return getid($idn[0]);
+    }
 }

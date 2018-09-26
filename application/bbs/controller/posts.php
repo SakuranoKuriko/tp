@@ -10,7 +10,7 @@ function getpostid($id){
 function getpost($postid){
     global $pdo;
     $s = $pdo->query("select * from posts where id='$postid' limit 1");
-    $postdata = $s->fetch(PDO::FETCH_ASSOC)[0];
+    $postdata = $s->fetch(PDO::FETCH_ASSOC);
     if ($s->rowCount()!=1){
         echo PostStatus::error;
         die();

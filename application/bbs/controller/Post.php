@@ -1,7 +1,8 @@
 <?php
 namespace app\bbs\controller;
 
-require('posts.php');
+include_once('usr.php');
+include_once('posts.php');
 
 class Post extends \think\Controller
 {

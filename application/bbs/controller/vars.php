@@ -1,5 +1,5 @@
 <?php
-require('db.php');
+include_once('db.php');
 abstract class Regexp{
     const email = "^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$";
     const getargs = "/^.*?\/.*?\/(.*)$/i";

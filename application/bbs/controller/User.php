@@ -1,7 +1,7 @@
 <?php
 namespace app\bbs\controller;
 
-require('usr.php');
+include_once('usr.php');
 
 class User extends \think\Controller
 {

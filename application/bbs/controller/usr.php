@@ -1,5 +1,6 @@
 <?php
-include_once('vars.php');
+namespace kuriko;
+require_once('vars.php');
 global $soltstr, $xorkey, $cookietime;
 function xorstr($str, $key){
     $l = strlen($str);

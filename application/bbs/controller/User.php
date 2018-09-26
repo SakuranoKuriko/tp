@@ -1,7 +1,7 @@
 <?php
 namespace app\bbs\controller;
 
-include_once('usr.php');
+require_once('usr.php');
 
 use \think\Request;
 

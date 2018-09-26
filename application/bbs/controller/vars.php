@@ -57,6 +57,6 @@ function getcfg($name){
     $s = $pdo->query("select value from cfg where name='$name' limit 1");
     var_dump("select value from cfg where name='$name' limit 1");
     var_dump($s);
-    return $s->fetch(PDO::FETCH_ASSOC)[0]['value'];
+    return $s->fetch(PDO::FETCH_ASSOC)['value'];
 }
 ?>

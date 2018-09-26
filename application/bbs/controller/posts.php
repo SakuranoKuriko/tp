@@ -1,16 +1,12 @@
 <?php
 include('vars.php');
-function getpostid(){
-    $id = $_POST['postid'];
-    if ($postid==""){
+function getpostid($id){
+    if ($id==""){
         echo PostStatus::needpostid;
         die();
     }
-    if (!preg_match(Regex::numonly, $postid)){
-        echo PostStatus::iderror;
-        die();
-    }
-    return (int)$id;
+    preg_match(Regexp::getnum, $id, $vals);
+    return (int)$vals[1];
 }
 function getpost($postid){
     global $pdo;

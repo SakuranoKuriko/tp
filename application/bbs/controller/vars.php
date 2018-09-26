@@ -1,8 +1,9 @@
 <?php
 include('db.php');
-abstract class Regex{
+abstract class Regexp{
     const email = "^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$";
     const numonly = "^\d+$";
+    const getnum = "(\d+)";
 }
 abstract class Status{
     const success = 0;

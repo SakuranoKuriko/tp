@@ -5,7 +5,7 @@ include('usr.php');
 
 class User extends \think\Controller
 {
-    public function index(){
+    public function index($id){
         return $this->fetch('index');
     }
     public function login(){
@@ -32,7 +32,7 @@ class User extends \think\Controller
             $name = $id;
         if (idused($id))
             return (string)RegStatus::idused;
-        if ($email!=''&&!preg_match(Regex::email, $email))
+        if ($email!=''&&!preg_match(Regexp::email, $email))
             return (string)RegStatus::emailerr;
         return (string)adduser($id, $pw, $name, $email);
     }

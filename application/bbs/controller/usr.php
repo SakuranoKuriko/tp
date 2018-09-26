@@ -20,10 +20,8 @@ function encodeKey($user){
 }
 function decodeKey($key){
     global $pdo;
-    $s = $pdo->query("select value from cfg where name='soltstr' limit 1");
-    $soltstr = $s->fetch(PDO::FETCH_ASSOC)["value"];
-    $s = $pdo->query("select value from cfg where name='xorkey' limit 1");
-    $xorkey = $s->fetch(PDO::FETCH_ASSOC)["value"];
+    $soltstr = getcfg('soltstr');
+    $xorkey = getcfg('xorkey');
     $ks = base64_decode(xorstr(base64_decode($key), $xorkey));
     $ks1 = explode("#", $ks);
     $k1 = explode("@", $ks1[0]);
@@ -80,14 +78,14 @@ function getusr($id){
     preg_match(Regexp::numonly, $id, $idn);
     if (count($idn)>0){
         $u = $idn[0];
-        $s = $pdo->query("select $query from usr where id=$u limit 1");
+        $s = $pdo->query("select $query from usr where id='$u' limit 1");
         return $s->fetch(PDO::FETCH_ASSOC);
     }
     else{
         preg_match(Regexp::usrid, $id, $idv);
         if (count($idv)>=0){
             $u = $idv[0];
-            $s = $pdo->query("select $query from usr where usrid=$u limit 1");
+            $s = $pdo->query("select $query from usr where usrid='$u' limit 1");
             return $s->fetch(PDO::FETCH_ASSOC);
         }
     }

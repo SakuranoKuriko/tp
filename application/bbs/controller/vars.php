@@ -53,7 +53,8 @@ function getnum($str){
     return count($v)>0?(int)$v[0]:0;
 }
 function getcfg($name){
-    $s = $GLOBALS['pdo']->query("select value from cfg where name=$name limit 1");
+    global $pdo;
+    $s = $pdo->query("select value from cfg where name=$name limit 1");
     return $s->fetch(PDO::FETCH_ASSOC)[0]['value'];
 }
 ?>

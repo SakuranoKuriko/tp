@@ -11,7 +11,9 @@ class Post extends \think\Controller
     public function _empty(){
         $req = Request::instance();
         $postid = getpostid($req->action());
-        var_dump($req->pathinfo());
+        $pathinfo = $req->pathinfo();
+        preg_match("/^post/.*?\/(.*)$/i", $pathinfo, $v);
+        var_dump($v);
         postchk($postid);
         $postdata = getpost($postid);
         $childpost = getchildpost($postdata, $page);

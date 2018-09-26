@@ -15,6 +15,7 @@ class Post extends \think\Controller
         preg_match(\Regexp::getargs, $pathinfo, $v);
         $args = array();
         var_dump($args);
+        var_dump($v);
         if ($v[1]!="index.php"){
             $args = explode('/', $v[1]);
         }

@@ -17,8 +17,11 @@ class Post extends \think\Controller
         if (count($v)!=0&&$v[1]!="index.php")
             $args = explode('/', $v[1]);
         $page = 1;
-        if (count($args)>0)
-            $page = getnum($args[0]);
+        if (count($args)>0){
+            $v = getnum($args[0]);
+            if ($v!=0)
+                $page = $v;
+        }
         var_dump($page);
         postchk($postid);
         $postdata = getpost($postid);

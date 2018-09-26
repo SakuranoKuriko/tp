@@ -48,7 +48,7 @@ abstract class PostStatus{
 }
 function getnum($str){
     preg_match(Regexp::getnum, $str, $v);
-    return (int)$v[0];
+    return count($v)>0?(int)$v[0]:0;
 }
 function getcfg($name){
     return $GLOBALS['pdo']->query("select value from cfg where name=$name limit 1")->fetch(PDO::FETCH_ASSOC)[0]['value'];

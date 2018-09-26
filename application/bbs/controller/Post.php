@@ -9,14 +9,9 @@ use \think\Request;
 class Post extends \think\Controller
 {
     public function _empty(){
-        $req = Request::instance();
-        $postid = getpostid($req->action());
+        $postid = getpostid(Request::instance()->action());
         postchk($postid);
-        $pathinfo = $req->pathinfo();
-        preg_match(\Regexp::getargs, $pathinfo, $v);
-        $args = array();
-        if (count($v)!=0&&$v[1]!="index.php")
-            $args = explode('/', $v[1]);
+        $args = getargs();
         $page = 1;
         if (count($args)>0){
             $v = getnum($args[0]);
@@ -30,8 +25,12 @@ class Post extends \think\Controller
         $this->assign('childdata', json_encode($childpost));
         return $this->fetch('index');
     }
-    public function edit($id){
-        $postid = getpostid($id);
+    //public function edit($id){
+    public function edit(){
+        $args = getargs();
+        if (count($args)==0)
+            return (string)\PostStatus::needpostid;
+        $postid = getpostid($args[0]);
         $postdata = getpost($postid);
         $this->assign('postid', $postid);
         $this->assign('postdata', json_encode($postdata));

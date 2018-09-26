@@ -99,17 +99,17 @@ function getusr($id){
     echo UserStatus::iderror;
     die();
 }
-function getid($id, $isuid = true){
+function getid($userid, $isuid = true){
     global $pdo;
     $query = "id";
     $from = "usrid";
     if ($isuid){
         $query = "usrid";
         $from = "id";
-        preg_match(\Regexp::getnum, $id, $idn);
+        preg_match(\Regexp::getnum, $userid, $idn);
     }
     else{
-        preg_match(\Regexp::getid, $id, $idn);
+        preg_match(\Regexp::getid, $userid, $idn);
     }
     if (count($idn)!=0){
         $usrid = $idn[0];

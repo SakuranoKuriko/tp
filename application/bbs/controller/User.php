@@ -41,13 +41,24 @@ class User extends \think\Controller
             return (string)\RegStatus::emailerr;
         return (string)adduser($id, $pw, $name, $email);
     }
-    public function idused($id){
-        return idused($id)?'1':'0';
+    //public function idused($id){
+    public function idused(){
+        $args = getargs();
+        if (count($args)==0)
+            return (string)\UserStatus::needid;
+        return idused($args[0])?'1':'0';
     }
+    //public function uid($id){
     public function uid($id){
-        return (string)getid($id, false);
+        $args = getargs();
+        if (count($args)>0)
+            return (string)getid($args[0], false);
+        return "";
     }
     public function id($uid){
-        return getid($uid);
+        $args = getargs();
+        if (count($args)>0)
+            return getid($args[0]);
+        return "";
     }
 }

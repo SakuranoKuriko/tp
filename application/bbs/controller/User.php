@@ -49,13 +49,14 @@ class User extends \think\Controller
         return idused($args[0])?'1':'0';
     }
     //public function uid($id){
-    public function uid($id){
+    public function uid(){
         $args = getargs();
         if (count($args)>0)
             return (string)getid($args[0], false);
         return "";
     }
-    public function id($uid){
+    //public function id($uid){
+    public function id(){
         $args = getargs();
         if (count($args)>0)
             return getid($args[0]);

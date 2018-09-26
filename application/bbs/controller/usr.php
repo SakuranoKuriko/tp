@@ -80,13 +80,15 @@ function getusr($id){
     preg_match(Regexp::numonly, $id, $idn);
     if (count($idn)>0){
         $u = $idn[0];
-        return $pdo->query("select $query from usr where id=$u limit 1")->fetch(PDO::FETCH_ASSOC);
+        $s = $pdo->query("select $query from usr where id=$u limit 1");
+        return $s->fetch(PDO::FETCH_ASSOC);
     }
     else{
         preg_match(Regexp::usrid, $id, $idv);
         if (count($idv)>=0){
             $u = $idv[0];
-            return $pdo->query("select $query from usr where usrid=$u limit 1")->fetch(PDO::FETCH_ASSOC);
+            $s = $pdo->query("select $query from usr where usrid=$u limit 1");
+            return $s->fetch(PDO::FETCH_ASSOC);
         }
     }
     echo UserStatus::iderror;

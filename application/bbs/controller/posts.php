@@ -6,8 +6,7 @@ function getpostid($id){
         die();
     }
     preg_match(Regexp::getnum, $id, $vals);
-    var_dump($vals);
-    return (int)$vals[1];
+    return (int)$vals[0];
 }
 function getpost($postid){
     global $pdo;

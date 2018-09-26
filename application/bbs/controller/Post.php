@@ -11,7 +11,6 @@ class Post extends \think\Controller
     public function _empty(){
         $req = Request::instance();
         $postid = getpostid($req->action());
-        postchk($postid);
         $pathinfo = $req->pathinfo();
         preg_match(\Regexp::getargs, $pathinfo, $v);
         $args = array();
@@ -21,6 +20,7 @@ class Post extends \think\Controller
         if (count($args)>0)
             $page = getnum($args[0]);
         var_dump($page);
+        postchk($postid);
         $postdata = getpost($postid);
         $childpost = getchildpost($postdata, $page);
         $this->assign('postid', $postid);

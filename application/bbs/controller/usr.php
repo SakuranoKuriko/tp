@@ -1,5 +1,5 @@
 <?php
-include('vars.php');
+include_once('vars.php');
 global $soltstr, $xorkey, $cookietime;
 function xorstr($str, $key){
     $l = strlen($str);
@@ -11,9 +11,9 @@ function xorstr($str, $key){
     return $r;
 }
 function encodeKey($user){
-    $soltstr = getcfgs('soltstr');
-    $xorkey = getcfgs('xorkey');
-    $cookietime = (int)getcfgs('cookietime');
+    $soltstr = getcfg('soltstr');
+    $xorkey = getcfg('xorkey');
+    $cookietime = (int)getcfg('cookietime');
     $time = time();
     $time2 = $time+$cookietime*60;
     return base64_encode(xorstr(base64_encode("$time@$time2@$user#".md5("$time@$time2@$user@$soltstr")), $xorkey));

@@ -1,5 +1,5 @@
 <?php
-include('db.php');
+include_once('db.php');
 abstract class Regexp{
     const email = "^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$";
     const numonly = "^\d+$";
@@ -45,7 +45,7 @@ abstract class PostStatus{
     const notfound = 0x36;
     const iderror = 0x37;
 }
-function getcfgs($name){
+function getcfg($name){
     return $GLOBALS['pdo']->query("select value from cfg where name=$name limit 1")->fetch(PDO::FETCH_ASSOC)[0]['value'];
 }
 ?>

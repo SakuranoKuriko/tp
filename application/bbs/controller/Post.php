@@ -1,8 +1,8 @@
 <?php
 namespace app\bbs\controller;
 
-include('usr.php');
-include('posts.php');
+include_once('usr.php');
+include_once('posts.php');
 
 class Post extends \think\Controller
 {
@@ -59,6 +59,6 @@ class Post extends \think\Controller
         if ($text=="")
             return (string)PostStatus::needtext;
         isown($postid);
-        return (string)editpost($postid, getcfgs('reptitle'), $text);
+        return (string)editpost($postid, getcfg('reptitle'), $text);
     }
 }

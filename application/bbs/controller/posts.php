@@ -1,5 +1,5 @@
 <?php
-include('vars.php');
+include_once('vars.php');
 function getpostid($id){
     if ($id==""){
         echo PostStatus::needpostid;
@@ -22,7 +22,7 @@ function getpost($postid){
 }
 function getchildpost($postid, $page){
     global $pdo;
-    $cc = (int)getcfgs('childperpage');
+    $cc = (int)getcfg('childperpage');
     $skip = --$page*$cc;
     $s = $pdo->query("select * from posts where masterid=$postid limit $skip, $cc");
     return $s->fetchAll(PDO::FETCH_ASSOC);
@@ -38,7 +38,7 @@ function newpost($title, $content){
 function reppost($postid, $content){
     global $pdo;
     $s = $pdo->prepare("insert into posts (own, title, content, masterid) values (?, ?, ?, $postid)");
-    $s->execute(array($GLOBALS['userid']), getcfgs('reptitle'), $content);
+    $s->execute(array($GLOBALS['userid']), getcfg('reptitle'), $content);
     if ($s->rowCount()!=1)
         return PostStatus::error;
     return PostStatus::success;

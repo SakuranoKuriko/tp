@@ -6,6 +6,7 @@
 <link rel="shortcut icon" href="/favicon.ico" />
 <link href="/css/common.css" rel="stylesheet" type="text/css">
 <script language="javascript" src="/js/vue.js"></script>
+<script language="javascript" src="/js/axios.js"></script>
 <style type="text/css">
   body{
     text-align: center;
@@ -367,6 +368,12 @@
         searchmode: function(){
           mv.search.mode=(mv.search.mode+1)%3;
           document.querySelector("#search input").focus();
+        },
+        getusrid: function(uid){
+
+        },
+        getuid: function(id){
+
         }
       }
     });

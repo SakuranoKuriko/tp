@@ -363,11 +363,11 @@
         <div v-if="chkmy(v)" class="my"></div>
         <a :href="v.url" class="ellipsis">
           <span>{{v.ti}}</span>
-          <div class="postusrinfo">
+          <div class="postusrinfo" v-updateuser="v.own">
             <div class="usrid">{{v.own}}</div>
             <div class="time">{{v.createtime}}</div>
           </div>
-          <div class="postusrinfo">
+          <div class="postusrinfo" v-updateuser="v.lastrep">
             <div class="usrid">{{v.lastrep}}</div>
             <div class="time">{{v.updatetime}}</div>
           </div>
@@ -421,6 +421,16 @@
           if (post.own==mv.user.uid)
             return true;
           return false;
+        }
+      },
+      directives: {
+        updateuser: {
+          inserted: function(el, args){
+            return updateuser(args.value);
+          },
+          componentUpdated: function(el, args){
+            return updateuser(args.value);
+          }
         }
       }
     });

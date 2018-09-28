@@ -23,7 +23,7 @@ function getlist($page = 1){
     global $pdo;
     $cc = (int)getcfg('postperpage');
     $skip = ($page-1)*$cc;
-    $s = $pdo->query("select id,own,title,updatetime,lastrep from posts where masterid is null order by updatetime desc limit $skip, $cc");
+    $s = $pdo->query("select id,own,title,createtime,updatetime,lastrep from posts where masterid is null order by updatetime desc limit $skip, $cc");
     return $s->fetchAll(PDO::FETCH_ASSOC);
 }
 function getchildpost($postid, $page = 1){

@@ -359,6 +359,35 @@
       return t;
     else return parseInt(t[0]);
   }
+  function getuid(usrid){
+    u = Object.keys(mv.users);
+    for (i in u){
+      if (mv.users[u].usrid==usrid)
+        return i;
+    }
+  }
+  function getusrdata(uid, key){
+    u = Object.keys(mv.users);
+    ui = u.indexOf('u'+uid);
+    if (ui!==-1)
+      return mv.users[u[ui]][key];
+    return "";
+  }
+  function updateuser(usr){
+    if (usr==null||usr=="")
+    return;
+    axios.get('/user/'+usr+'/json')
+         .then(function(res){
+            user = res.data;
+            user.uid = 'u'+user.id;
+            mv.users['u'+user.id] = Object.assign({}, user);
+            if (userupdatetimer!=-1)
+              clearTimeout(userupdatetimer);
+            userupdatetimer = setTimeout(function(){
+              mv.userupdated = true;
+            },200);
+        });
+  }
 </script>
 </head>
 <body>
@@ -462,40 +491,11 @@
           if (post.own==mv.user.uid)
             return true;
           return false;
-        },
-        getuid: function(usrid){
-          u = Object.keys(mv.users);
-          for (i in u){
-            if (mv.users[u].usrid==usrid)
-              return i;
-          }
-        },
-        getusrdata: function(uid, key){
-          u = Object.keys(mv.users);
-          ui = u.indexOf('u'+uid);
-          if (ui!==-1)
-            return mv.users[u[ui]][key];
-          return "";
         }
       },
       directives: {
       }
     });
-    function updateuser(usr){
-      if (usr==null||usr=="")
-      return;
-      axios.get('/user/'+usr+'/json')
-           .then(function(res){
-              user = res.data;
-              user.uid = 'u'+user.id;
-              mv.users['u'+user.id] = Object.assign({}, user);
-              if (userupdatetimer!=-1)
-                clearTimeout(userupdatetimer);
-              userupdatetimer = setTimeout(function(){
-                mv.userupdated = true;
-              },200);
-          });
-    }
     var i0={$sliders};
     var i1={$postlist};
     var o0=[];

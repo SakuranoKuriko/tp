@@ -396,7 +396,7 @@
           <a class="time">{{v.createtime}}</a>
         </div>
         <div v-if="userupdated&&v.lastrep!=null" class="postusrinfo lastrep">
-          <a class="usrid ellipsis" :href="'/user/'+v.lastrep">{{\users['u'+v.lsatrep].usrid}}</a>
+          <a class="usrid ellipsis" :href="'/user/'+v.lastrep">{{users['u'+v.lsatrep].usrid}}</a>
           <a class="time">{{v.updatetime}}</a>
         </div>
       </div>

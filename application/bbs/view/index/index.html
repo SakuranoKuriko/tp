@@ -22,13 +22,14 @@
     width: 100%;
   }
   a, a:link, a:visited{
-    color: #0af;
+    color: #000;
+    text-decoration: none;
   }
-  a:hover{
+  a[href]:hover{
     text-decoration: underline;
   }
   a:active{
-    color: #6df;
+    color: #666;
   }
   select{
     -webkit-appearance: none;
@@ -249,9 +250,12 @@
   #search .ok{
     right: 15%;
     width: 12%;
-    font-size: 20px;
     cursor: pointer;
     overflow: hidden;
+  }
+  #search .ok,
+  #newpost{
+    font-size: 18px;
   }
   #search .ok:hover,
   #newpost:hover{
@@ -268,6 +272,10 @@
     width: 100%;
     margin: 0 auto;
   }
+  #mainlist #posthead{
+    background: #fff;
+    font-size: 18px;
+  }
   #mainlist .post{
     position: relative;
     height: 40px;
@@ -276,19 +284,15 @@
     text-align: left;
     background: inherit;
     box-shadow: 0 0 2px #aff;
-    cursor: pointer;
     margin-top: 10px;
+    padding: 0 20px;
     transition: all .1s;
   }
   #mainlist .post:hover{
     background: #aff;
   }
-  #mainlist .post a{
-    padding: 0 20px;
-    display: block;
-    width: calc(100% - 40px);
+  #mainlist .post .title{
     height: 100%;
-    text-decoration: none;
   }
   #mainlist .post .my{
     position: absolute;
@@ -298,6 +302,33 @@
     right: 0;
     border-top: 15px solid #0af;
     border-left: 15px solid transparent;
+  }
+  #mainlist .post .postusrinfo{
+    position: absolute;
+    top: 0;
+    right: 20px;
+    height: 100%;
+    width: 120px;
+  }
+  #mainlist .post .postusrinfo.own{
+    right: 150px;
+  }
+  #mainlist .post .postusrinfo .usrid,
+  #mainlist .post .postusrinfo .time{
+    display: block;
+  }
+  #mainlist .post .postusrinfo .usrid{
+    height: 24px;
+    line-height: 24px;
+    font-size: 16px;
+  }
+  #mainlist .post .postusrinfo .time{
+    height: 12px;
+    line-height: 12px;
+    font-size: 10px;
+    text-decoration: none;
+    color: #666;
+    pointer-events: none;
   }
 </style>
 <script language="javascript">
@@ -323,8 +354,8 @@
     axios.get('/user/'+usr+'/json')
          .then(function(res){
            user = res.data;
+           user.uid = 'u'+user.id;
            mv.users['u'+user.id] = Object.assign({}, user);
-           mv.users['u'+user.id].uid = 'u'+user.id;
         });
   }
 </script>
@@ -361,19 +392,22 @@
       </div>
     </div>
     <div id="mainlist">
+      <div id="posthead" class="post">
+        <span class="title">标题</span>
+        <span class="postusrinfo own">创建</span>
+        <span class="postusrinfo lastrep">最新回复</span>
+      </div>
       <div v-for="v in postlst" :id="v.id" class="post" v-cloak>
         <div v-if="chkmy(v)" class="my"></div>
-        <a :href="v.url" class="ellipsis">
-          <span>{{v.ti}}</span>
-          <div class="postusrinfo">
-            <div class="usrid">{{v.own}}</div>
-            <div class="time">{{v.createtime}}</div>
-          </div>
-          <div class="postusrinfo">
-            <div class="usrid">{{v.lastrep}}</div>
-            <div class="time">{{v.updatetime}}</div>
-          </div>
-        </a>
+        <a :href="v.url" class="title ellipsis">{{v.ti}}</a>
+        <div class="postusrinfo own">
+          <a class="usrid ellipsis" :href="'/user/'+v.own">{{getusrid(v.own)}}123</a>
+          <a class="time">{{v.createtime}}</a>
+        </div>
+        <div v1-if="v.lastrep!=null" class="postusrinfo lastrep">
+          <a class="usrid ellipsis" :href="'/user/'+v.lastrep">{{getusrid(v.lsatrep)}}1233333333333333</a>
+          <a class="time">{{v.updatetime}}</a>
+        </div>
       </div>
     </div>
   </div>
@@ -423,6 +457,13 @@
           if (post.own==mv.user.uid)
             return true;
           return false;
+        },
+        getusrid: function(uid){
+          u = Object.keys(mv.users);
+          ui = u.indexOf('u'+uid);
+          if (ui!==-1)
+            return mv.users[ui].usrid;
+          return "";
         }
       },
       directives: {

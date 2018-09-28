@@ -1,4 +1,14 @@
-总之先试试做个论坛好了。<br/>
-TODO 用户系统<br/>
-TODO 发帖系统<br/>
-TODO 修改帖子/回复/删除
+TODO:<br/>
+Index bg<br/>
+header nav<br/>
+--footer<br/>
+Reg<br/>
+Login<br/>
+User homepage<br/>
+-edit User info<br/>
+Post page<br/>
+-new Post<br/>
+-rep Post<br/>
+-edit Post<br/>
+-del Post<br/>
+--BBCode support<br/>

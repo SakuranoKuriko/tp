@@ -426,10 +426,12 @@
       directives: {
         updateuser: {
           inserted: function(el, args){
-            return updateuser(args.value);
+            if (args.value!=null)
+              return updateuser(args.value);
           },
           componentUpdated: function(el, args){
-            return updateuser(args.value);
+            if (args.value!=null)
+              return updateuser(args.value);
           }
         }
       }

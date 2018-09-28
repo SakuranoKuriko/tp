@@ -8,8 +8,11 @@ use \think\Request;
 class User extends \think\Controller
 {
     public function _empty(){
+        $args = getargs();
         $id = Request::instance()->action();
         $userdata = getusr($id);
+        if (count($args)>0&&$args[0]=="json")
+            return json_encode($userdata);
         $this->assign('userdata', json_encode($userdata));
         return $this->fetch('index');
     }

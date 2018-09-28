@@ -400,12 +400,12 @@
       <div v-for="v in postlst" :id="v.id" class="post" v-cloak>
         <div v-if="chkmy(v)" class="my"></div>
         <a :href="v.url" class="title ellipsis">{{v.ti}}</a>
-        <div class="postusrinfo own">
-          <a class="usrid ellipsis" :href="'/user/'+v.own">{{mv.users['u'+v.own].usrid}}123</a>
+        <div v-if="Object.keys(mv.users).length!=0" class="postusrinfo own">
+          <a class="usrid ellipsis" :href="'/user/'+v.own">{{mv.users['u'+v.own].name}}</a>
           <a class="time">{{v.createtime}}</a>
         </div>
-        <div v-if="v.lastrep!=null" class="postusrinfo lastrep">
-          <a class="usrid ellipsis" :href="'/user/'+v.lastrep">{{mv.users['u'+v.lsatrep].usrid}}</a>
+        <div v-if="Object.keys(mv.users).length!=0" class="postusrinfo lastrep">
+          <a class="usrid ellipsis" :href="'/user/'+v.lastrep">{{mv.users['u'+v.lsatrep].name}}</a>
           <a class="time">{{v.updatetime}}</a>
         </div>
       </div>

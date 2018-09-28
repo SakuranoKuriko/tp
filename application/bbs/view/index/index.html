@@ -45,6 +45,9 @@
     top: 0;
     filter: blur(5px);
   }
+  .noev{
+    pointer-events: none;
+  }
   #main{
     width: 80%;
     margin: 0 auto;
@@ -292,6 +295,8 @@
     background: #aff;
   }
   #mainlist .post .title{
+    display: inline-block;
+    width: calc(100% - 270px);
     height: 100%;
   }
   #mainlist .post .my{
@@ -311,7 +316,7 @@
     width: 120px;
   }
   #mainlist .post .postusrinfo.own{
-    right: 150px;
+    right: 155px;
   }
   #mainlist .post .postusrinfo .usrid,
   #mainlist .post .postusrinfo .time{
@@ -328,13 +333,12 @@
     font-size: 10px;
     text-decoration: none;
     color: #666;
-    pointer-events: none;
   }
   #mainlist .post .postusrinfo .norep{
     height: 40px;
     line-height: 40px;
+    font-size: 14px;
     color: #666;
-    pointer-events: none;
   }
 </style>
 <script language="javascript">
@@ -389,7 +393,7 @@
       </div>
     </div>
     <div id="mainlist">
-      <div id="posthead" class="post">
+      <div id="posthead" class="post noev">
         <span class="title">标题</span>
         <span class="postusrinfo own">创建</span>
         <span class="postusrinfo lastrep">最新回复</span>
@@ -399,13 +403,13 @@
         <a :href="v.url" class="title ellipsis">{{v.ti}}</a>
         <div class="postusrinfo own">
           <a class="usrid ellipsis" :href="'/user/'+users['u'+v.own].usrid">{{users['u'+v.own].name}}</a>
-          <a class="time">{{v.createtime}}</a>
+          <a class="time noev">{{v.createtime}}</a>
         </div>
         <div v-if="v.lastrep!=null" class="postusrinfo lastrep">
           <a class="usrid ellipsis" :href="'/user/'+users['u'+v.lastrep].usrid">{{users['u'+v.lsatrep].name}}</a>
-          <a class="time">{{v.updatetime}}</a>
+          <a class="time noev">{{v.updatetime}}</a>
         </div>
-        <div v-else class="postusrinfo lastrep">
+        <div v-else class="postusrinfo lastrep noev">
           <a class="norep">暂无回复</a>
         </div>
       </div>

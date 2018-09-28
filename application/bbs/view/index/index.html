@@ -269,6 +269,7 @@
     margin: 0 auto;
   }
   #mainlist .post{
+    position: relative;
     height: 40px;
     line-height: 40px;
     font-size: 24px;
@@ -288,6 +289,15 @@
     width: calc(100% - 40px);
     height: 100%;
     text-decoration: none;
+  }
+  #mainlist .post .my{
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 0;
+    right: 0;
+    border-top: 15px solid #0af;
+    border-left: 15px solid transparent;
   }
 </style>
 <script language="javascript">
@@ -322,10 +332,10 @@
     <header>
     </header>
     <div id="headslider" @mouseover="stopslide();" @mouseleave="startslide();">
-      <div class="sliders" :data-sliderindex="sliders.now" :style="'transform: translateX(-'+sliders.now*100+'%);'">
+      <div v-if="needslider" class="sliders" :data-sliderindex="sliders.now" :style="'transform: translateX(-'+sliders.now*100+'%);'">
         <div v-for="(v,i) in sliders.lst" :id="'sliders'+v" :data-sliderindex="i" :style="'background-image:url('+v.img+');left: calc(100% * '+i+');'" @click="location.href=v.url;"></div>
       </div>
-      <div class="slidersi">
+      <div v-if="needslider" class="slidersi">
         <div v-for="(v,i) in sliders.lst" :data-sliderindex="i" :class="sliders.now==i?'nowi':''" :style="'left: calc(24px * '+i+');'" @mouseover="sliders.now=i;"></div>
       </div>
       <div id="user" :class="user.logged?'logged':''">
@@ -350,7 +360,18 @@
     </div>
     <div id="mainlist">
       <div v-for="v in postlst" :id="v.id" class="post" v-cloak>
-        <a :href="v.url" class="ellipsis">{{v.ti}}</a>
+        <div v-if="chkmy(v)" class="my"></div>
+        <a :href="v.url" class="ellipsis">
+          <span>{{v.ti}}</span>
+          <div class="postusrinfo">
+            <div class="usrid">{{v.own}}</div>
+            <div class="time">{{v.createtime}}</div>
+          </div>
+          <div class="postusrinfo">
+            <div class="usrid">{{v.lastrep}}</div>
+            <div class="time">{{v.updatetime}}</div>
+          </div>
+        </a>
       </div>
     </div>
   </div>
@@ -363,8 +384,13 @@
           icon: "",
           noicon: "/img/noicon.png",
           name: "Noname",
-          id: 0
+          uid: 0,
+          id: "",
+          usrid: "",
+          permission: vars.Permission.read,
+          usrgroup: vars.UserGroup.guest
         },
+        needslider: true,
         sliders: {
           now: 0,
           timerid: 0,
@@ -390,6 +416,11 @@
         searchmode: function(){
           mv.search.mode=(mv.search.mode+1)%3;
           document.querySelector("#search input").focus();
+        },
+        chkmy: function(post){
+          if (post.own==mv.user.uid)
+            return true;
+          return false;
         }
       }
     });

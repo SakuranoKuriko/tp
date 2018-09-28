@@ -33,11 +33,12 @@ abstract class RegStatus{
 abstract class UserGroup{
     const normal = 0;
     const banned = 1;
+    const guest = 2;
 }
 abstract class Permission{
     const read = 0b1;
-    const write = 0b10;
-    const post = 0b100;
+    const rep = 0b10;
+    const newpost = 0b100;
     const admin = 0b1000;
 }
 abstract class PostStatus{

@@ -32,12 +32,13 @@ vars.RegStatus = {
 };
 vars.UserGroup = {
     normal: 0,
-    banned: 1
+    banned: 1,
+    guest: 2
 };
 vars.Permission = {
     read: 0b1,
-    write: 0b10,
-    post: 0b100,
+    rep: 0b10,
+    newpost: 0b100,
     admin: 0b1000
 };
 vars.PostStatus = {

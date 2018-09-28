@@ -318,6 +318,8 @@
     else return parseInt(t[0]);
   }
   function updateuser(usr){
+    if (usr==null||usr=="")
+      return;
     axios.get('/user/'+usr+'/json')
          .then(function(res){
            user = res.data;

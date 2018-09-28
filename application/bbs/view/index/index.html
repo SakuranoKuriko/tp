@@ -406,7 +406,7 @@
       <div v-for="v in postlst" :id="v.id" class="post" v-cloak>
         <div v-if="chkmy(v)" class="my"></div>
         <a :href="v.url" class="title ellipsis">{{v.ti}}</a>
-        <div v-if="userupdated" class="postusrinfo own">
+        <div class="postusrinfo own">
           <a class="usrid ellipsis" :href="'/user/'+v.own">{{users['u'+v.own].usrid}}</a>
           <a class="time">{{v.createtime}}</a>
         </div>

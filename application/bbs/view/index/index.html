@@ -401,7 +401,7 @@
       <div v-if="needslider" class="slidersi">
         <div v-for="(v,i) in sliders.lst" :data-sliderindex="i" :class="sliders.now==i?'nowi':''" :style="'left: calc(24px * '+i+');'" @mouseover="sliders.now=i;"></div>
       </div>
-      <div v-else class="sliders">
+      <div v-else class="sliders" style="cursor: default;">
         <div :style="'background-image:url('+headimg+');'"></div>
       </div>
       <div id="user" :class="user.logged?'logged':''">

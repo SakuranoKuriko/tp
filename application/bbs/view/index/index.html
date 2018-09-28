@@ -444,9 +444,9 @@
       o1[fid].url = '/post/'+i1[i].id;
       o1[fid].id = fid;
       o1[fid].ti = i1[i].title;
-      if (usrlst.indexOf(i1[i].own)!==-1)
+      if (usrlst.indexOf(i1[i].own)===-1)
         usrlst.push(i1[i].own);
-      if (usrlst.indexOf(i1[i].lastrep)!==-1)
+      if (usrlst.indexOf(i1[i].lastrep)===-1)
         usrlst.push(i1[i].lastrep);
     }
     for (i in usrlst){

@@ -333,6 +333,7 @@
 </style>
 <script language="javascript">
   var mv;
+  var userupdatetimer;
   var cfg = {
     sliderdelay: 5000
   };
@@ -353,9 +354,14 @@
       return;
     axios.get('/user/'+usr+'/json')
          .then(function(res){
-           user = res.data;
-           user.uid = 'u'+user.id;
-           mv.users['u'+user.id] = Object.assign({}, user);
+            user = res.data;
+            user.uid = 'u'+user.id;
+            mv.users['u'+user.id] = Object.assign({}, user);
+            if (userupdatetimer!=-1)
+              clearTimeout(userupdatetimer);
+            userupdatetimer = setTimeout(function(){
+              mv.userupdated = true;
+            },500);
         });
   }
 </script>
@@ -400,12 +406,12 @@
       <div v-for="v in postlst" :id="v.id" class="post" v-cloak>
         <div v-if="chkmy(v)" class="my"></div>
         <a :href="v.url" class="title ellipsis">{{v.ti}}</a>
-        <div v-if="Object.keys(mv.users).length!=0" class="postusrinfo own">
-          <a class="usrid ellipsis" :href="'/user/'+v.own">{{mv.users['u'+v.own].usrid}}</a>
+        <div v-if="userupdated" class="postusrinfo own">
+          <a class="usrid ellipsis" :href="'/user/'+v.own">{{users['u'+v.own].usrid}}</a>
           <a class="time">{{v.createtime}}</a>
         </div>
-        <div v-if="Object.keys(mv.users).length!=0" class="postusrinfo lastrep">
-          <a class="usrid ellipsis" :href="'/user/'+v.lastrep">{{mv.users['u'+v.lsatrep].usrid}}</a>
+        <div v-if="userupdated&&v.lastrep!=null" class="postusrinfo lastrep">
+          <a class="usrid ellipsis" :href="'/user/'+v.lastrep">{{\users['u'+v.lsatrep].usrid}}</a>
           <a class="time">{{v.updatetime}}</a>
         </div>
       </div>
@@ -426,6 +432,7 @@
           permission: vars.Permission.read,
           usrgroup: vars.UserGroup.guest
         },
+        userupdated: false,
         needslider: true,
         sliders: {
           now: 0,
@@ -459,7 +466,11 @@
           return false;
         },
         getuid: function(usrid){
-          
+          u = Object.keys(mv.users);
+          for (i in u){
+            if (mv.users[u].usrid==usrid)
+              return i;
+          }
         },
         getusrdata: function(uid, key){
           u = Object.keys(mv.users);

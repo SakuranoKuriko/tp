@@ -1,6 +1,7 @@
 TODO:<br/>
-Index bg<br/>
-header nav<br/>
+Index<br/>
+-header nav<br/>
+--bg<br/>
 --footer<br/>
 Reg<br/>
 Login<br/>

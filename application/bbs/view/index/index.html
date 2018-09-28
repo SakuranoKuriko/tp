@@ -446,7 +446,7 @@
       o1[fid].ti = i1[i].title;
       if (usrlst.indexOf(i1[i].own)===-1)
         usrlst.push(i1[i].own);
-      if (usrlst.indexOf(i1[i].lastrep)===-1)
+      if (i1[i].lastrep!=null&&usrlst.indexOf(i1[i].lastrep)===-1)
         usrlst.push(i1[i].lastrep);
     }
     for (i in usrlst){

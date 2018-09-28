@@ -320,7 +320,7 @@
   function updateuser(usr){
     axios.get('/user/'+usr+'/json')
          .then(function(res){
-           user = JSON.parse(res);
+           user = res.data;
            mv.users['u'+user.id] = Object.assign({}, user);
            mv.users['u'+user.id].uid = 'u'+user.id;
         });

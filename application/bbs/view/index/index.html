@@ -280,7 +280,7 @@
     position: relative;
     height: 40px;
     line-height: 40px;
-    font-size: 24px;
+    font-size: 18px;
     text-align: left;
     background: inherit;
     box-shadow: 0 0 2px #aff;
@@ -320,13 +320,19 @@
   #mainlist .post .postusrinfo .usrid{
     height: 24px;
     line-height: 24px;
-    font-size: 16px;
+    font-size: 14px;
   }
   #mainlist .post .postusrinfo .time{
     height: 12px;
     line-height: 12px;
     font-size: 10px;
     text-decoration: none;
+    color: #666;
+    pointer-events: none;
+  }
+  #mainlist .post .postusrinfo .norep{
+    height: 40px;
+    line-height: 40px;
     color: #666;
     pointer-events: none;
   }
@@ -392,15 +398,15 @@
         <div v-if="chkmy(v)" class="my"></div>
         <a :href="v.url" class="title ellipsis">{{v.ti}}</a>
         <div class="postusrinfo own">
-          <a class="usrid ellipsis" :href="'/user/'+v.own">{{users['u'+v.own].name}}</a>
+          <a class="usrid ellipsis" :href="'/user/'+users['u'+v.own].usrid">{{users['u'+v.own].name}}</a>
           <a class="time">{{v.createtime}}</a>
         </div>
         <div v-if="v.lastrep!=null" class="postusrinfo lastrep">
-          <a class="usrid ellipsis" :href="'/user/'+v.lastrep">{{users['u'+v.lsatrep].name}}</a>
+          <a class="usrid ellipsis" :href="'/user/'+users['u'+v.lastrep].usrid">{{users['u'+v.lsatrep].name}}</a>
           <a class="time">{{v.updatetime}}</a>
         </div>
         <div v-else class="postusrinfo lastrep">
-          <a class="usrid">暂无回复</a>
+          <a class="norep">暂无回复</a>
         </div>
       </div>
     </div>

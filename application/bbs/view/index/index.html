@@ -401,10 +401,10 @@
         <div v-if="chkmy(v)" class="my"></div>
         <a :href="v.url" class="title ellipsis">{{v.ti}}</a>
         <div class="postusrinfo own">
-          <a class="usrid ellipsis" :href="'/user/'+v.own">{{mv.users['u'+v.lsatrep].usrid}}123</a>
+          <a class="usrid ellipsis" :href="'/user/'+v.own">{{mv.users['u'+v.own].usrid}}123</a>
           <a class="time">{{v.createtime}}</a>
         </div>
-        <div v1-if="v.lastrep!=null" class="postusrinfo lastrep">
+        <div v-if="v.lastrep!=null" class="postusrinfo lastrep">
           <a class="usrid ellipsis" :href="'/user/'+v.lastrep">{{mv.users['u'+v.lsatrep].usrid}}</a>
           <a class="time">{{v.updatetime}}</a>
         </div>

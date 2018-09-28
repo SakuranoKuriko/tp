@@ -363,11 +363,11 @@
         <div v-if="chkmy(v)" class="my"></div>
         <a :href="v.url" class="ellipsis">
           <span>{{v.ti}}</span>
-          <div class="postusrinfo" v-updateuser="v.own">
+          <div class="postusrinfo">
             <div class="usrid">{{v.own}}</div>
             <div class="time">{{v.createtime}}</div>
           </div>
-          <div class="postusrinfo" v-updateuser="v.lastrep">
+          <div class="postusrinfo">
             <div class="usrid">{{v.lastrep}}</div>
             <div class="time">{{v.updatetime}}</div>
           </div>
@@ -424,16 +424,6 @@
         }
       },
       directives: {
-        updateuser: {
-          inserted: function(el, args){
-            if (args.value!=null)
-              return updateuser(args.value);
-          },
-          componentUpdated: function(el, args){
-            if (args.value!=null)
-              return updateuser(args.value);
-          }
-        }
       }
     });
     var i0={$sliders};
@@ -451,6 +441,8 @@
       o1[fid].url = '/post/'+i1[i].id;
       o1[fid].id = fid;
       o1[fid].ti = i1[i].title;
+      updateuser(i1[i].own);
+      updateuser(i1[i].lastrep);
     }
     mv.postlst = Object.assign({}, o1);
     mv.startslide();

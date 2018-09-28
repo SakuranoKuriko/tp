@@ -437,14 +437,20 @@
     mv.sliders.lst = Object.assign([], o0);
     var o1={};
     var fid;
+    var usrlst = [];
     for (i in i1){
       fid = 'f'+i;
       o1[fid] = i1[i];
       o1[fid].url = '/post/'+i1[i].id;
       o1[fid].id = fid;
       o1[fid].ti = i1[i].title;
-      updateuser(i1[i].own);
-      updateuser(i1[i].lastrep);
+      if (usrlst.indexOf(i1[i].own)!==-1)
+        usrlst.push(i1[i].own);
+      if (usrlst.indexOf(i1[i].lastrep)!==-1)
+        usrlst.push(i1[i].lastrep);
+    }
+    for (i in usrlst){
+      updateuser(usrlst[i]);
     }
     mv.postlst = Object.assign({}, o1);
     mv.startslide();

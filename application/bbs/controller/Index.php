@@ -9,10 +9,10 @@ class Index extends \think\Controller
 {
     public function index()
     {
-        $sliders = json_encode(getsliders());
-        $this->assign('sliders', $sliders);
-        $postlst = getlist();
-        $this->assign('postlist', json_encode($postlst));
+        $this->assign('sliders', json_encode(getsliders()));
+        $this->assign('headimg', getcfg('headimg'));
+        $this->assign('needslider', getcfg('needslider'));
+        $this->assign('postlist', json_encode(getlist()));
         return $this->fetch('index');
     }
 }

@@ -401,6 +401,9 @@
       <div v-if="needslider" class="slidersi">
         <div v-for="(v,i) in sliders.lst" :data-sliderindex="i" :class="sliders.now==i?'nowi':''" :style="'left: calc(24px * '+i+');'" @mouseover="sliders.now=i;"></div>
       </div>
+      <div v-else class="sliders">
+        <div :style="'background-image:url('+headimg+');'"></div>
+      </div>
       <div id="user" :class="user.logged?'logged':''">
         <div class="me-icon" :style="'background-image: url('+(user.logged?user.icon:user.noicon)+');'"></div>
         <div class="reg-me ellipsis" :username="user.name"></div>
@@ -448,6 +451,7 @@
     mv = new Vue({
       el: "#main",
       data: {
+        headimg: {$headimg},
         user: {
           logged: false,
           icon: "",
@@ -460,7 +464,7 @@
           usrgroup: vars.UserGroup.guest
         },
         userupdated: false,
-        needslider: true,
+        needslider: {$needslider},
         sliders: {
           now: 0,
           timerid: 0,
@@ -521,7 +525,8 @@
       updateuser(usrlst[i]);
     }
     mv.postlst = Object.assign({}, o1);
-    mv.startslide();
+    if (mv.needslider)
+      mv.startslide();
   </script>
 </body>
 </html>

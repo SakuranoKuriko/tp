@@ -1,0 +1,75 @@
+<style type="text/css">
+#login{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 9;
+  visibility: hidden;
+}
+#login.show{
+  visibility: visible;
+}
+#login .form{
+  position: absolute;
+  width: 220px;
+  top: 15%;
+  left: calc(50% - 110px);
+  background: #fff;
+  height: 0;
+  transition: all .5s;
+  overflow: hidden;
+  z-index: 10;
+}
+#login .form *{
+  margin-top: 5px;
+}
+#login .form input{
+  width: 85%;
+}
+#login.show .login.form{
+  height: 90px;
+}
+#login.show .reg.form{
+  height: 140px;
+}
+.mask{
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: all .5s;
+  background-color: #000;
+  visibility: hidden;
+}
+.show .mask{
+  opacity: .2;
+  visibility: visible;
+}
+</style>
+<div id="login" :class="show?'show':''">
+  <div v-if="login" class="login form">
+    <input type="text" placeholder="用户名"/>
+    <input type="text" placeholder="密码"/><br>
+    <button type="button">登录</button>
+    <a href="javascript:void(0);">重置密码</a>
+  </div>
+  <div v-else class="reg form">
+    <input type="text" placeholder="用户名"/>
+    <input type="text" placeholder="密码"/>
+    <input type="text" placeholder="确认密码"/>
+    <input type="text" placeholder="马甲"/><br>
+    <button type="button">注册</button>
+  </div>
+  <div class="mask"></div>
+</div>
+<script language="javascript">
+var maskv = new Vue({
+  el: '#login',
+  data: {
+    show: false,
+    login: true
+  }
+});
+</script>

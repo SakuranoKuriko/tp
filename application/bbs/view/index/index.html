@@ -351,10 +351,9 @@
 </script>
 </head>
 <body>
+  {include file="common/login"}
   <div id="main">
-    <header class="header">
-      <a href="//kuriko.top">网站首页</a>
-    </header>
+    {include file="common/header"}
     <div id="headslider" @mouseover="stopslide();" @mouseleave="startslide();">
       <div v-if="needslider" class="sliders" :data-sliderindex="sliders.now" :style="'transform: translateX(-'+sliders.now*100+'%);'">
         <div v-for="(v,i) in sliders.lst" :id="'sliders'+v" :data-sliderindex="i" :style="'background-image:url('+v.img+');left: calc(100% * '+i+');'" @click="location.href=v.url;"></div>
@@ -369,19 +368,6 @@
         <div class="me-icon" :style="'background-image: url('+(user.logged?user.icon:user.noicon)+');'"></div>
         <div class="reg-me ellipsis" :username="user.name"></div>
         <div class="login-out"></div>
-      </div>
-      <div id="login">
-        <input type="text" placeholder="用户名"/>
-        <input type="text" placeholder="密码"/>
-        <a href="javascript:void(0);">重置密码</a>
-        <button type="button">登录</button>
-      </div>
-      <div id="registry">
-        <input type="text" placeholder="用户名"/>
-        <input type="text" placeholder="密码"/>
-        <input type="text" placeholder="确认密码"/>
-        <input type="text" placeholder="马甲"/>
-        <button type="button">注册</button>
       </div>
     </div>
     <div id="toolbar">

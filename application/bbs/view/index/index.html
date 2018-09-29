@@ -366,8 +366,8 @@
       </div>
       <div id="user" :class="user.logged?'logged':''">
         <div class="me-icon" :style="'background-image: url('+(user.logged?user.icon:user.noicon)+');'"></div>
-        <div class="reg-me ellipsis" :username="user.name"></div>
-        <div class="login-out"></div>
+        <div class="reg-me ellipsis" :username="user.name" @click="maskv.login=false;maskv.show=true;"></div>
+        <div class="login-out" @click="maskv.login=true;maskv.show=true;"></div>
       </div>
     </div>
     <div id="toolbar">

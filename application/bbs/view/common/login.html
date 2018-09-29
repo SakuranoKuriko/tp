@@ -47,12 +47,15 @@
   opacity: .2;
   visibility: visible;
 }
+input.inputerr{
+  border-color: #f00;
+}
 </style>
 <div id="login" :class="show?'show':''">
   <div v-if="login" class="login form">
-    <input type="text" placeholder="用户名"/>
-    <input type="text" placeholder="密码"/><br>
-    <button type="button">登录</button>
+    <input class="loginid" :class="iderr?'inputerr':''" type="text" placeholder="用户名" v-model="data.id" @focus="iderr=false;"/>
+    <input class="loginpw" :class="pwerr?'inputerr':''" type="text" placeholder="密码" v-model="data.pw" @focus="pwerr=false;"/><br>
+    <button type="button" @click="ilogin();">登录</button>
     <a href="javascript:void(0);">重置密码</a>
   </div>
   <div v-else class="reg form">
@@ -62,14 +65,33 @@
     <input type="text" placeholder="马甲"/><br>
     <button type="button">注册</button>
   </div>
-  <div class="mask" @click="show=false;"></div>
+  <div class="mask" @click="hidemask();"></div>
 </div>
 <script language="javascript">
 var maskv = new Vue({
   el: '#login',
   data: {
     show: false,
-    login: true
+    login: true,
+    iderr: false,
+    pwerr: false,
+    data: {
+      id: "",
+      pw: ""
+    }
+  },
+  methods: {
+    hidemask: function(){
+      this.show = false;
+      this.iderr = false;
+      this.pwerr = false;
+    },
+    ilogin: function(){
+      if (this.data.id==""||!vars.Regexp.usrid.test(this.data.id))
+        maskv.iderr = true;
+      if (this.data.pw=="")
+        maskv.pwerr = true;
+    }
   }
 });
 </script>

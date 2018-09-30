@@ -165,6 +165,9 @@ loginv = new Vue({
           if (re==vars.UserStatus.success)
             location.reload(true);
           else this.failed = true;
+        })
+        .catch(function(res){
+          console.log(res.data);
         });
     },
     ireg: function(){

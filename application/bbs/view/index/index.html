@@ -114,16 +114,7 @@
     height: 50px;
   }
   #user .reg-me:after{
-    content: '注册';
-  }
-  #user.logged .reg-me:after{
     content: attr(username);
-  }
-  #user .login-out:after{
-    content: '登录';
-  }
-  #user.logged .login-out:after{
-    content: '注销';
   }
   #search{
     margin: 10px auto;
@@ -345,8 +336,8 @@
       </div>
       <div v-if="userupdated" id="user" :class="user.logged?'logged':''">
         <div class="me-icon" :style="'background-image: url('+(user.logged?user.icon:user.noicon)+');'"></div>
-        <div class="reg-me ellipsis" :username="users['u'+user.id].name" @click="showreg"></div>
-        <div class="login-out" @click="showlogin"></div>
+        <div class="reg-me ellipsis" :username="user.logged?users['u'+user.id].name:'注册'" @click="regme"></div>
+        <div class="login-out beforestr" :str="user.logged?'注销':'登录'" @click="loginout"></div>
       </div>
     </div>
     <div id="toolbar">
@@ -430,11 +421,25 @@
             return true;
           return false;
         },
-        showlogin: function(){
-          loginv.login=true;loginv.show=true;
+        loginout: function(){
+          if (this.logged){
+            delCookie("id");
+            delCookie("authkey");
+            location.reload(true);
+          }
+          else {
+            loginv.login=true;
+            loginv.show=true;
+          }
         },
-        showreg: function(){
-          loginv.login=false;loginv.show=true;
+        regme: function(){
+          if (this.logged){
+            location.href = "/user/"+this.user.id;
+          }
+          else {
+            loginv.login=false;
+            loginv.show=true;
+          }
         }
       },
       directives: {

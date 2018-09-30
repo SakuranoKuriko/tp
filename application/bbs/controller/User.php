@@ -17,8 +17,8 @@ class User extends \think\Controller
         return $this->fetch('index');
     }
     public function login(){
-        $id = $_POST['id'];
-        $pw = $_POST['pw'];
+        $id = input('id');
+        $pw = input('pw');
         if (userchk($id, $pw)==\UserStatus::success){
             $cookieexp = time()+3600*24*30;
             setcookie('authkey', encodeKey($id), $cookieexp);

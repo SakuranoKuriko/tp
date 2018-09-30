@@ -231,7 +231,7 @@ loginv = new Vue({
       else this.idtips = true;
     },
     chkemail: function(){
-      if (vars.Regexp.email.test(this.data.email))
+      if (vars.Regexp.email.test(this.data.email)||this.data.email=="")
         this.emailerr = false;
       else this.emailerr = true;
     },

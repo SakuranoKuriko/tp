@@ -21,8 +21,8 @@ class User extends \think\Controller
         $pw = $_POST['pw'];
         if (userchk($id, $pw)==\UserStatus::success){
             $cookieexp = time()+3600*24*30;
-            setcookie('authkey', encodeKey($id), $cookieexp);
-            setcookie('id', getid($id, false), $cookieexp);
+            setcookie('authkey', encodeKey($id), $cookieexp, '/');
+            setcookie('id', getid($id, false), $cookieexp, '/');
             return (string)\UserStatus::success;
         }
         return (string)\UserStatus::failed;
@@ -46,8 +46,8 @@ class User extends \think\Controller
         $addst = adduser($id, $pw, $name, $email);
         if ($addst==\RegStatus::success){
             $cookieexp = time()+3600*24*30;
-            setcookie('authkey', encodeKey($id), $cookieexp);
-            setcookie('id', getid($id, false), $cookieexp);
+            setcookie('authkey', encodeKey($id), $cookieexp, '/');
+            setcookie('id', getid($id, false), $cookieexp, '/');
         }
         return (string)$addst;
     }

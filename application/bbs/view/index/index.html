@@ -387,7 +387,8 @@
   <script language="javascript">
     var authkey = getCookie('authkey');
     var usrlst = [];
-    if (authkey!=null)
+    var logged = authkey!=null;
+    if (logged)
       usrlst.push(getCookie('id'));
     mv = new Vue({
       el: "#main",

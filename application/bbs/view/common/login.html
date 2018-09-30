@@ -156,9 +156,24 @@ loginv = new Vue({
       if (this.data.pw=="")
         this.pwerr = true;
       this.proc = true;
-      axios.post('/user/login',{
+      axios.post({
+          url: '/user/login',
+          data: {
           id: this.data.id,
           pw: md5(this.data.pw)
+          },
+          transformRequest: [
+            function (data) {
+              let ret = '';
+              for (let it in data) {
+                ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&';
+              }
+              return ret;
+            }
+          ],
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
         })
         .then(function(res){
           re = res.data;
@@ -167,7 +182,6 @@ loginv = new Vue({
           else this.failed = true;
         })
         .catch(function(res){
-          console.log(res.response.data);
           document.write(res.response.data);
         });
     },

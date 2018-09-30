@@ -446,14 +446,14 @@
     var i0={$sliders};
     var i1={$postlist};
     var o0=[];
-    for (i in i0){
+    for (let i in i0){
       o0.push({id: i0[i].id, img: i0[i].val1, url: i0[i].val2});
     }
     mv.sliders.lst = Object.assign([], o0);
     var o1={};
     var fid;
     var usrlst = [];
-    for (i in i1){
+    for (let i in i1){
       fid = 'f'+i;
       o1[fid] = i1[i];
       o1[fid].url = '/post/'+i1[i].id;
@@ -464,7 +464,7 @@
       if (i1[i].lastrep!=null&&usrlst.indexOf(i1[i].lastrep)===-1)
         usrlst.push(i1[i].lastrep);
     }
-    for (i in usrlst){
+    for (let i in usrlst){
       updateuser(usrlst[i]);
     }
     mv.postlst = Object.assign({}, o1);

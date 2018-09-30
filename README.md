@@ -3,7 +3,6 @@ Index<br/>
 -header nav<br/>
 --bg<br/>
 --footer<br/>
-Reg<br/>
 User homepage<br/>
 -edit User info<br/>
 Post page<br/>

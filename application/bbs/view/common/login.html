@@ -156,25 +156,10 @@ loginv = new Vue({
       if (this.data.pw=="")
         this.pwerr = true;
       this.proc = true;
-      axios({
-          url: '/user/login',
-          data: {
-          id: this.data.id,
-          pw: md5(this.data.pw)
-          },
-          transformRequest: [
-            function (data) {
-              let ret = '';
-              for (let it in data) {
-                ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&';
-              }
-              return ret;
-            }
-          ],
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
-        })
+      const params = new URLSearchParams();
+      params.append('id', this.data.id);
+      params.append('pw', md5(this.data.pw));
+      axios.post('/user/login', params)
         .then(function(res){
           re = res.data;
           if (re==vars.UserStatus.success)

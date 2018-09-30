@@ -333,10 +333,10 @@
       <div v-else class="sliders" style="cursor: default;">
         <div :style="'background-image:url('+headimg+');'"></div>
       </div>
-      <div v-if="userupdated" id="user" :class="user.logged?'logged':''">
-        <div class="me-icon" :style="'background-image: url('+(user.logged?user.icon:user.noicon)+');'"></div>
-        <div class="reg-me ellipsis" :username="user.logged?users['u'+user.id].name:'注册'" @click="regme"></div>
-        <div class="login-out beforestr" :str="user.logged?'注销':'登录'" @click="loginout"></div>
+      <div v-if="userupdated" id="user" :class="logged?'logged':''">
+        <div class="me-icon" :style="'background-image: url('+(logged?user.icon:user.noicon)+');'"></div>
+        <div class="reg-me ellipsis" :username="logged?users['u'+user.id].name:'注册'" @click="regme"></div>
+        <div class="login-out beforestr" :str="logged?'注销':'登录'" @click="loginout"></div>
       </div>
     </div>
     <div id="toolbar">
@@ -379,13 +379,11 @@
       el: "#main",
       data: {
         headimg: "{$headimg}",
+        logged: false,
         user: {
-          logged: false,
           icon: "",
           noicon: "/img/noicon.png",
-          id: 0,
-          permission: vars.Permission.read,
-          usrgroup: vars.UserGroup.guest
+          id: 0
         },
         userupdated: false,
         needslider: {$needslider},
@@ -447,7 +445,7 @@
     var usrlst = [];
     var authkey = getCookie('authkey');
     if (authkey!=null){
-      mv.user.logged = true;
+      mv.logged = true;
       mv.user.id = getCookie('id');
       usrlst.push(mv.user.id);
       mv.user.icon = "/img/icon/"+mv.user.id+".png";

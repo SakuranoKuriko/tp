@@ -424,6 +424,85 @@
 	content: attr(str);
 }
 
+.hidden{
+	opacity: 0 !important;
+	visibility: hidden !important;
+}
+.tips,
+.tips-top,
+.tips-bottom,
+.tips-left,
+.tips-right{
+    position: absolute;
+    width: 96px;
+    padding: 0;
+    transition: all .5s;
+    font-size: 16px;
+    line-height: 24px;
+    height: 24px;
+    background-color: #444;
+    color: #f96;
+    border-radius: 5px;
+    border: none;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: 1px 1px 1px #444;
+	opacity: 1;
+	visibility: visible;
+}
+.tips-left{
+	left: -110px;
+}
+.tips-left.showtips{
+	left: -86px;
+}
+.tips-right{
+	right: -110px;
+}
+.tips-right.showtips{
+	right: -86px;
+}
+.tips:after,
+.tips-top:after,
+.tips-left:after,
+.tips-right:after,
+.tips-bottom:after{
+  content: "";
+  position: absolute;
+  height: 0;
+  width: 0;
+  border-width: 10px;
+  border-style: solid;
+}
+.tips:after,
+.tips-top:after,
+.tips-bottom:after{
+  left: 50%;
+  margin-left: -10px;
+}
+.tips-left:after,
+.tips-right:after{
+  top: 50%;
+  margin-top: -10px;
+}
+.tips:after,
+.tips-top:after{
+  border-color: #444 transparent transparent transparent;
+  bottom: -18px;
+}
+.tips-left:after{
+  border-color: transparent transparent transparent #444;
+  right: -18px;
+}
+.tips-right:after{
+  border-color: transparent #444 transparent transparent;
+  left: -18px;
+}
+.tips-bottom:after{
+  border-color: transparent transparent #444 transparent;
+  top: -18px;
+}
+
 body{
   text-align: center;
   width: 100%;
@@ -449,6 +528,17 @@ a:active{
 select{
   -webkit-appearance: none;
   appearance: none;
+}
+input{
+	appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  outline: none;
+}
+input:hover, input:focus,
+textarea:hover, textarea:focus,
+select:hover, select:focus{
+  background-color: #cff;
 }
 .blur:after{
   content: '';

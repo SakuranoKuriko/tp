@@ -11,36 +11,87 @@
 }
 #login .form{
   position: absolute;
-  width: 220px;
+  width: 240px;
   top: 15%;
-  left: calc(50% - 110px);
+  left: 50%;
+  margin-left: -120px;
   background: #fff;
-  height: 0;
+  padding: 10px;
+  box-sizing: border-box;
   transition: all .5s;
-  overflow: hidden;
   z-index: 10;
-}
-#login .form *{
-  margin-top: 5px;
+  transform: rotateX(90deg);
+  transform-origin: top;
 }
 #login .form input{
-  width: 85%;
+  position: absolute;
+  height: 36px;
+  line-height: 36px;
+  width: 90%;
+  left: 5%;
+  padding: 0 10px;
+  box-sizing: border-box;
+  box-shadow: 0 0 1px inset;
 }
-#login.show .login.form{
-  height: 90px;
+#login .form .inputerr{
+  box-shadow: 0 0 1px inset #f00;
 }
-#login.show .reg.form{
-  height: 140px;
+#login.show .form{
+  transform: rotateX(0);
 }
+#login .form .idtips{
+  width: 92%;
+  left: 4%;
+  top: -42px;
+  height: 48px;
+}
+#login .form .idtips.hidden{
+  top: -70px;
+}
+#login .form .id{
+  top: 10px;
+}
+#login .form .pw{
+  top: 56px;
+}
+#login .form .cpw{
+  top: 102px;
+}
+#login .form .name{
+  top: 148px;
+}
+#login .form .ok{
+  margin-top: 94px;
+  margin-bottom: 4px;
+  display: inline-block;
+  width: 50%;
+  height: 36px;
+  line-height: 36px;
+  box-shadow: 1px 1px 1px #aaa;
+}
+#login .form.reg .ok{
+  margin-top: 186px;
+}
+#login .form .ok:hover{
+  background-color: #dfd;
+}
+#login .form .ok:active{
+  background-color: #bfb;
+}
+#login .tips-left,
+#login .tips-right{
+  margin-top: 4px;
+}
+
 .mask{
   height: 100%;
   width: 100%;
   position: absolute;
   top: 0;
   left: 0;
-  opacity: 0;
   transition: all .5s;
   background-color: #000;
+  opacity: 0;
   visibility: hidden;
 }
 .show .mask{
@@ -53,31 +104,44 @@ input.inputerr{
 </style>
 <div id="login" :class="show?'show':''">
   <div v-if="login" class="login form">
-    <input class="loginid" :class="iderr?'inputerr':''" type="text" placeholder="用户名" v-model="data.id" @focus="iderr=false;"/>
-    <input class="loginpw" :class="pwerr?'inputerr':''" type="text" placeholder="密码" v-model="data.pw" @focus="pwerr=false;"/><br>
-    <button type="button" @click="ilogin();">登录</button>
-    <a href="javascript:void(0);">重置密码</a>
+    <input class="id" :class="iderr?'inputerr':''" type="text" placeholder="*用户名" maxlength="200" v-model="data.id" @focus="iderr=false;" @input="chkid" @keyup.enter="ilogin"/>
+    <div class="id tips-left beforestr" :class="iderr?'showtips':'hidden'" str="输入用户名"></div>
+    <input class="pw" :class="pwerr?'inputerr':''" type="password" placeholder="*密码" v-model="data.pw" @focus="pwerr=false;" @keyup.enter="ilogin"/>
+    <div class="pw tips-left beforestr" :class="pwerr?'showtips':'hidden'" str="输入密码"></div>
+    <div class="ok btn beforestr" str="登录" @click="ilogin"></div>
+    <a style="margin-left: 16px;" href="javascript:void(0);">重置密码</a>
+    <div class="idtips tips beforestr" :class="idtips?'showtips':'hidden'" str="必须以字母开头，仅包含字母/数字/下划线，且长度大于2"></div>
   </div>
   <div v-else class="reg form">
-    <input type="text" placeholder="用户名"/>
-    <input type="text" placeholder="密码"/>
-    <input type="text" placeholder="确认密码"/>
-    <input type="text" placeholder="马甲"/><br>
-    <button type="button">注册</button>
+    <input class="id" :class="iderr?'inputerr':''" type="text" placeholder="*用户名" maxlength="200" v-model="data.id" @focus="iderr=false;" @input="chkid" @keyup.enter="ireg"/>
+    <div class="id tips-left beforestr" :class="iderr?'showtips':'hidden'" str="输入用户名"></div>
+    <input class="pw" :class="pwerr?'inputerr':''" type="password" placeholder="*密码" v-model="data.pw" @focus="pwerr=false;" @keyup.enter="ireg"/>
+    <div class="pw tips-left beforestr" :class="pwerr?'showtips':'hidden'" str="输入密码"></div>
+    <input class="cpw" :class="cpwerr?'inputerr':''" type="password" placeholder="*确认密码" v-model="data.cpw" @focus="cpwerr=false;" @keyup.enter="ireg"/>
+    <div class="cpw tips-left beforestr" :class="cpwerr?'showtips':'hidden'" str="确认密码"></div>
+    <input class="name" type="text" placeholder="马甲" v-model="data.name" @keyup.enter="ireg"/>
+    <div class="ok btn beforestr" str="注册" @click="ireg"></div>
+    <div class="idtips tips beforestr" :class="idtips?'showtips':'hidden'" str="必须以字母开头，仅包含字母/数字/下划线，且长度大于2"></div>
   </div>
   <div class="mask" @click="hidemask();"></div>
 </div>
 <script language="javascript">
-var maskv = new Vue({
+loginv = new Vue({
   el: '#login',
   data: {
     show: false,
     login: true,
+    proc: false,
     iderr: false,
     pwerr: false,
+    cpwerr: false,
+    idtips: false,
+    failed: false,
     data: {
       id: "",
-      pw: ""
+      pw: "",
+      cpw: "",
+      name: ""
     }
   },
   methods: {
@@ -87,10 +151,29 @@ var maskv = new Vue({
       this.pwerr = false;
     },
     ilogin: function(){
-      if (this.data.id==""||!vars.Regexp.usrid.test(this.data.id))
-        maskv.iderr = true;
+      if (this.data.id==""||this.idtips)
+        this.iderr = true;
       if (this.data.pw=="")
-        maskv.pwerr = true;
+        this.pwerr = true;
+      this.proc = true;
+      axios.post('/user/login',{
+          id: this.data.id,
+          pw: md5(this.data.pw)
+        })
+        .then(function(res){
+          re = res.data;
+          if (re==vars.UserStatus.success)
+            location.reload(true);
+          else this.failed = true;
+        });
+    },
+    ireg: function(){
+      this.proc = true;
+    },
+    chkid: function(ev){
+      if (vars.Regexp.usrid.test(this.data.id))
+        this.idtips = false;
+      else this.idtips = true;
     }
   }
 });

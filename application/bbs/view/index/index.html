@@ -8,6 +8,7 @@
 <script language="javascript" src="/js/vue.js"></script>
 <script language="javascript" src="/js/axios.js"></script>
 <script language="javascript" src="/js/vars.js"></script>
+<script language="javascript" src="/js/md5.js"></script>
 <style type="text/css">
   #main{
     width: 80%;
@@ -144,37 +145,15 @@
     transition: all .1s;
   }
   #search .searchstr{
-    left: calc(20px + 2%);
-    width: 64%;
-  }
-  #search .searchstr input{
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-    font-size: inherit;
+    left: 2%;
+    width: 70%;
     box-sizing: border-box;
-    border: none;
-    padding: 5px 0;
-    outline: none;
-    background: inherit;
-    border-radius: 25%;
-    z-index: 2;
+    padding: 10px 20px;
+    border-radius: 20px;
   }
   #search .searchstr:hover,
-  #search .searchstr.focus{
+  #search .searchstr:focus{
     background-color: #cff;
-  }
-  #search .searchstr:before,
-  #search .searchstr:after{
-    position: absolute;
-    content: '';
-    border-radius: 50%;
-    background-color: inherit;
-    height: 40px;
-    width: 40px;
-    z-index: 1;
   }
   #search .searchstr:before{
     left: -20px;
@@ -302,7 +281,7 @@
   }
 </style>
 <script language="javascript">
-  var mv;
+  var mv, loginv;
   var userupdatetimer;
   var cfg = {
     sliderdelay: 5000
@@ -337,16 +316,16 @@
     if (usr==null||usr=="")
     return;
     axios.get('/user/'+usr+'/json')
-         .then(function(res){
-            user = res.data;
-            user.uid = 'u'+user.id;
-            mv.users['u'+user.id] = Object.assign({}, user);
-            if (userupdatetimer!=-1)
-              clearTimeout(userupdatetimer);
-            userupdatetimer = setTimeout(function(){
-              mv.userupdated = true;
-            },200);
-        });
+      .then(function(res){
+        user = res.data;
+        user.uid = 'u'+user.id;
+        mv.users['u'+user.id] = Object.assign({}, user);
+        if (userupdatetimer!=-1)
+          clearTimeout(userupdatetimer);
+        userupdatetimer = setTimeout(function(){
+          mv.userupdated = true;
+        },200);
+      });
   }
 </script>
 </head>
@@ -366,15 +345,13 @@
       </div>
       <div id="user" :class="user.logged?'logged':''">
         <div class="me-icon" :style="'background-image: url('+(user.logged?user.icon:user.noicon)+');'"></div>
-        <div class="reg-me ellipsis" :username="user.name" @click="maskv.login=false;maskv.show=true;"></div>
-        <div class="login-out" @click="maskv.login=true;maskv.show=true;"></div>
+        <div class="reg-me ellipsis" :username="user.name" @click="showreg"></div>
+        <div class="login-out" @click="showlogin"></div>
       </div>
     </div>
     <div id="toolbar">
       <div id="search">
-        <div class="searchstr" :class="search.focus?'focus':''">
-          <input type="text" placeholder="搜索..." @focus="search.focus=true" @blur="search.focus=false"/>
-        </div>
+        <input class="searchstr" type="text" placeholder="搜索..."/>
         <div class="select b-box" :style="'transform:rotateX('+search.mode*90+'deg);'" @click="searchmode();">
           <div class="b-face b-front beforestr" str="搜索标题"></div>
           <div class="b-face b-bottom beforestr" str="搜索标题和内容"></div>
@@ -455,6 +432,12 @@
           if (post.own==mv.user.uid)
             return true;
           return false;
+        },
+        showlogin: function(){
+          loginv.login=true;loginv.show=true;
+        },
+        showreg: function(){
+          loginv.login=false;loginv.show=true;
         }
       },
       directives: {

@@ -46,11 +46,13 @@ function idused($id){
     return true;
 }
 function adduser($id, $pw, $name, $email){
+    global $pdo;
     $s = $pdo->prepare("insert into usr (usrid, pw, name, email) values (?, ?, ?, ?)");
     $s->execute(array($id, $pw, $name, $email));
     return RegStatus::success;
 }
 function userchk($id, $pw){
+    global $pdo;
     $s = $pdo->prepare("select id from usr where usrid=? and pw=? limit 1");
     $s->execute(array($id, $pw));
     if ($s->rowCount()==0)

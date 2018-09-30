@@ -448,6 +448,7 @@
     var usrlst = [];
     var authkey = getCookie('authkey');
     if (authkey!=null){
+      mv.user.logged = true;
       mv.user.id = getCookie('id');
       usrlst.push(mv.user.id);
       mv.user.icon = "/img/icon/"+mv.user.id+".png";

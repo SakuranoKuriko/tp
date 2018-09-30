@@ -167,7 +167,8 @@ loginv = new Vue({
           else this.failed = true;
         })
         .catch(function(res){
-          console.log(res.data);
+          console.log(res.response.data);
+          document.write(res.response.data);
         });
     },
     ireg: function(){

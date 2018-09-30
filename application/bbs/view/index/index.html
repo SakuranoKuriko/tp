@@ -385,18 +385,22 @@
     </div>
   </div>
   <script language="javascript">
+    var authkey = getCookie('authkey');
+    var usrlst = [];
+    if (authkey!=null)
+      usrlst.push(getCookie('id'));
     mv = new Vue({
       el: "#main",
       data: {
         headimg: "{$headimg}",
         user: {
-          logged: false,
+          logged: authkey!=null,
           icon: "",
           noicon: "/img/noicon.png",
           name: "Noname",
-          uid: 0,
-          id: "",
-          usrid: "",
+          uid: "",
+          id: 0,
+          usrid: authkey!=null?getCookie('usrid'):'',
           permission: vars.Permission.read,
           usrgroup: vars.UserGroup.guest
         },
@@ -452,7 +456,6 @@
     mv.sliders.lst = Object.assign([], o0);
     var o1={};
     var fid;
-    var usrlst = [];
     for (let i in i1){
       fid = 'f'+i;
       o1[fid] = i1[i];

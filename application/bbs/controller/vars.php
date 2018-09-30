@@ -1,7 +1,7 @@
 <?php
 require_once('db.php');
 abstract class Regexp{
-    const email = "/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/";
+    const email = "/^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,6}$/";
     const usrid = "/^[a-zA-Z][a-zA-Z0-9_]+$/";
     const getid = "/([a-zA-Z][a-zA-Z0-9_]+)/";
     const getargs = "/^.*?\/.*?\/(.*)$/";

@@ -22,6 +22,7 @@ class User extends \think\Controller
         if (userchk($id, $pw)==\UserStatus::success){
             $cookieexp = time()+3600*24*30;
             setcookie('authkey', encodeKey($id), $cookieexp);
+            setcookie('id', getid($id, false), $cookieexp);
             return (string)\UserStatus::success;
         }
         return (string)\UserStatus::failed;
@@ -42,7 +43,13 @@ class User extends \think\Controller
             return (string)\RegStatus::idused;
         if ($email!=''&&!preg_match(\Regexp::email, $email))
             return (string)\RegStatus::emailerr;
-        return (string)adduser($id, $pw, $name, $email);
+        $addst = adduser($id, $pw, $name, $email);
+        if ($addst==\RegStatus::success){
+            $cookieexp = time()+3600*24*30;
+            setcookie('authkey', encodeKey($id), $cookieexp);
+            setcookie('id', getid($id, false), $cookieexp);
+        }
+        return (string)$addst;
     }
     //public function idused($id){
     public function idused(){

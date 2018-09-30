@@ -31,10 +31,10 @@
   left: 5%;
   padding: 0 10px;
   box-sizing: border-box;
-  box-shadow: 0 0 1px inset;
+  border: solid 1px #aaa;
 }
 #login .form .inputerr{
-  box-shadow: 0 0 1px inset #f00;
+  border-color: #f66;
 }
 #login.show .form{
   transform: rotateX(0);
@@ -60,6 +60,9 @@
 #login .form .name{
   top: 148px;
 }
+#login .form .email{
+  top: 194px;
+}
 #login .form .ok{
   margin-top: 94px;
   margin-bottom: 4px;
@@ -70,7 +73,7 @@
   box-shadow: 1px 1px 1px #aaa;
 }
 #login .form.reg .ok{
-  margin-top: 186px;
+  margin-top: 232px;
 }
 #login .form .ok:hover{
   background-color: #dfd;
@@ -99,28 +102,33 @@
   visibility: visible;
 }
 input.inputerr{
-  border-color: #f00;
+  border-color: #f66;
 }
 </style>
 <div id="login" :class="show?'show':''">
   <div v-if="login" class="login form">
-    <input class="id" :class="iderr?'inputerr':''" type="text" placeholder="*用户名" maxlength="200" v-model="data.id" @focus="iderr=false;" @input="chkid" @keyup.enter="ilogin"/>
+    <input class="id" :class="iderr?'inputerr':''" type="text" placeholder="*用户名" maxlength="200" v-model="data.id" @focus="clearerr('iderr');" @input="chkid" @keyup.enter="ilogin"/>
     <div class="id tips-left beforestr" :class="iderr?'showtips':'hidden'" str="输入用户名"></div>
-    <input class="pw" :class="pwerr?'inputerr':''" type="password" placeholder="*密码" v-model="data.pw" @focus="pwerr=false;" @keyup.enter="ilogin"/>
+    <input class="pw" :class="pwerr?'inputerr':''" type="password" placeholder="*密码" v-model="data.pw" @focus="clearerr('pwerr');" @keyup.enter="ilogin"/>
     <div class="pw tips-left beforestr" :class="pwerr?'showtips':'hidden'" str="输入密码"></div>
     <div class="ok btn beforestr" str="登录" @click="ilogin"></div>
     <a style="margin-left: 16px;" href="javascript:void(0);">重置密码</a>
+    <div class="idtips tips beforestr" :class="failed?'showtips':'hidden'" str="登录失败" style="line-height: 48px;"></div>
     <div class="idtips tips beforestr" :class="idtips?'showtips':'hidden'" str="必须以字母开头，仅包含字母/数字/下划线，且长度大于2"></div>
   </div>
   <div v-else class="reg form">
-    <input class="id" :class="iderr?'inputerr':''" type="text" placeholder="*用户名" maxlength="200" v-model="data.id" @focus="iderr=false;" @input="chkid" @keyup.enter="ireg"/>
+    <input class="id" :class="iderr?'inputerr':''" type="text" placeholder="*用户名" maxlength="200" v-model="data.id" @focus="clearerr('iderr');" @input="chkid" @change="iduse" @keyup.enter="ireg"/>
     <div class="id tips-left beforestr" :class="iderr?'showtips':'hidden'" str="输入用户名"></div>
-    <input class="pw" :class="pwerr?'inputerr':''" type="password" placeholder="*密码" v-model="data.pw" @focus="pwerr=false;" @keyup.enter="ireg"/>
+    <div class="id tips-right beforestr" :class="idused?'showtips':'hidden'" str="已被占用"></div>
+    <input class="pw" :class="pwerr?'inputerr':''" type="password" placeholder="*密码" v-model="data.pw" @focus="clearerr('pwerr');" @keyup.enter="ireg"/>
     <div class="pw tips-left beforestr" :class="pwerr?'showtips':'hidden'" str="输入密码"></div>
-    <input class="cpw" :class="cpwerr?'inputerr':''" type="password" placeholder="*确认密码" v-model="data.cpw" @focus="cpwerr=false;" @keyup.enter="ireg"/>
+    <input class="cpw" :class="cpwerr?'inputerr':''" type="password" placeholder="*确认密码" v-model="data.cpw" :style="data.pw==data.cpw?'':'border-color: #f66;'" @focus="clearerr('cpwerr');" @keyup.enter="ireg"/>
     <div class="cpw tips-left beforestr" :class="cpwerr?'showtips':'hidden'" str="确认密码"></div>
-    <input class="name" type="text" placeholder="马甲" v-model="data.name" @keyup.enter="ireg"/>
+    <input class="name" type="text" :placeholder="data.id==''?'马甲':data.id" v-model="data.name" @focus="clearerr();" @keyup.enter="ireg"/>
+    <input class="email" tyle="text" placeholder="邮箱" v-model="data.email" @focus="clearerr();" @input="chkemail" @keyup.enter="ireg"/>
+    <div class="email tips-left beforestr" :class="emailerr?'showtips':'hidden'" str="邮箱有误"></div>
     <div class="ok btn beforestr" str="注册" @click="ireg"></div>
+    <div class="idtips tips beforestr" :class="failed?'showtips':'hidden'" str="注册失败" style="line-height: 48px;"></div>
     <div class="idtips tips beforestr" :class="idtips?'showtips':'hidden'" str="必须以字母开头，仅包含字母/数字/下划线，且长度大于2"></div>
   </div>
   <div class="mask" @click="hidemask();"></div>
@@ -135,13 +143,17 @@ loginv = new Vue({
     iderr: false,
     pwerr: false,
     cpwerr: false,
+    emailerr: false,
+    idused: false,
     idtips: false,
     failed: false,
+    cleartimer: null,
     data: {
       id: "",
       pw: "",
       cpw: "",
-      name: ""
+      name: "",
+      email: ""
     }
   },
   methods: {
@@ -150,33 +162,89 @@ loginv = new Vue({
       this.iderr = false;
       this.pwerr = false;
     },
+    clearerr: function(e = ""){
+      let v = this;
+      if (e!="")
+        v[e] = false;
+      if (v.cleartimer==null){
+        v.cleartimer = setTimeout(function(){
+          v.failed = false;
+          v.cleartimer = null;
+        },500);
+      }
+    },
     ilogin: function(){
+      this.failed = false;
       if (this.data.id==""||this.idtips)
         this.iderr = true;
       if (this.data.pw=="")
         this.pwerr = true;
+      if (this.iderr||this.pwerr)
+        return;
       this.proc = true;
       const params = new URLSearchParams();
       params.append('id', this.data.id);
       params.append('pw', md5(this.data.pw));
+      let v = this;
       axios.post('/user/login', params)
         .then(function(res){
-          re = res.data;
-          if (re==vars.UserStatus.success)
+          if (res.data==vars.UserStatus.success)
             location.reload(true);
-          else this.failed = true;
+          else v.failed = true;
         })
         .catch(function(res){
-          document.write(res.response.data);
+          v.failed = true;
         });
     },
     ireg: function(){
+      this.failed = false;
+      if (this.data.id==""||this.idtips)
+        this.iderr = true;
+      if (this.data.pw=="")
+        this.pwerr = true;
+      if (this.data.cpw==""||this.data.pw!=this.data.cpw)
+        this.cpwerr = true;
+      if (this.iderr||this.pwerr||this.cpwerr||this.idused||this.emailerr)
+        return;
+      if (this.data.name=="")
+        this.data.name = this.data.id;
       this.proc = true;
+      const params = new URLSearchParams();
+      params.append('id', this.data.id);
+      params.append('pw', md5(this.data.cpw));
+      params.append('name', this.data.name);
+      params.append('email', this.data.email);
+      let v = this;
+      axios.post('/user/reg', params)
+        .then(function(res){
+          if (res.data==vars.UserStatus.success)
+            location.reload(true);
+          else v.failed = true;
+        })
+        .catch(function(res){
+          v.failed = true;
+        });
     },
-    chkid: function(ev){
+    chkid: function(){
       if (vars.Regexp.usrid.test(this.data.id))
         this.idtips = false;
       else this.idtips = true;
+    },
+    chkemail: function(){
+      if (vars.Regexp.email.test(this.data.email))
+        this.emailerr = false;
+      else this.emailerr = true;
+    },
+    iduse: function(){
+      if (this.iderr||this.idtips)
+        return;
+      let v = this;
+      axios.get("/user/idused/"+this.data.id)
+        .then(function(res){
+          if (res.data=='0')
+            v.idused = false;
+          else v.idused = true;
+        });
     }
   }
 });

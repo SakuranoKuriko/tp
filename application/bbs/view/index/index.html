@@ -343,9 +343,9 @@
       <div v-else class="sliders" style="cursor: default;">
         <div :style="'background-image:url('+headimg+');'"></div>
       </div>
-      <div id="user" :class="user.logged?'logged':''">
+      <div v-if="userupdated" id="user" :class="user.logged?'logged':''">
         <div class="me-icon" :style="'background-image: url('+(user.logged?user.icon:user.noicon)+');'"></div>
-        <div class="reg-me ellipsis" :username="user.name" @click="showreg"></div>
+        <div class="reg-me ellipsis" :username="users['u'+user.id].name" @click="showreg"></div>
         <div class="login-out" @click="showlogin"></div>
       </div>
     </div>
@@ -385,23 +385,15 @@
     </div>
   </div>
   <script language="javascript">
-    var authkey = getCookie('authkey');
-    var usrlst = [];
-    var logged = authkey!=null;
-    if (logged)
-      usrlst.push(getCookie('id'));
     mv = new Vue({
       el: "#main",
       data: {
         headimg: "{$headimg}",
         user: {
-          logged: authkey!=null,
+          logged: false,
           icon: "",
           noicon: "/img/noicon.png",
-          name: "Noname",
-          uid: "",
           id: 0,
-          usrid: authkey!=null?getCookie('usrid'):'',
           permission: vars.Permission.read,
           usrgroup: vars.UserGroup.guest
         },
@@ -448,6 +440,13 @@
       directives: {
       }
     });
+    var usrlst = [];
+    var authkey = getCookie('authkey');
+    if (authkey!=null){
+      mv.user.id = getCookie('id');
+      usrlst.push(mv.user.id);
+      mv.user.icon = "/img/icon/"+mv.user.id+".png";
+    }
     var i0={$sliders};
     var i1={$postlist};
     var o0=[];

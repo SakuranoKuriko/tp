@@ -156,7 +156,7 @@ loginv = new Vue({
       if (this.data.pw=="")
         this.pwerr = true;
       this.proc = true;
-      axios.post({
+      axios({
           url: '/user/login',
           data: {
           id: this.data.id,

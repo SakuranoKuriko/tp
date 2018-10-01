@@ -47,8 +47,8 @@ function idused($id){
 }
 function adduser($id, $pw, $name, $email){
     global $pdo;
-    $s = $pdo->prepare("insert into usr (usrid, pw, name, email) values (?, ?, ?, ?)");
-    $s->execute(array($id, $pw, $name, $email));
+    $s = $pdo->prepare("insert into usr (usrid, pw, permission, usrgroup, name, email) values (?, ?, ?, ?, ?, ?)");
+    $s->execute(array($id, $pw, Permission::read|Permission::rep, UserGroup::guest, $name, $email));
     return RegStatus::success;
 }
 function userchk($id, $pw){

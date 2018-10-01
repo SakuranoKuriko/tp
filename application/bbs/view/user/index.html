@@ -22,6 +22,28 @@
     height: 256px;
     margin: 20px auto;
   }
+  #main .data{
+    height: 24px;
+    line-height: 24px;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  #main.edit .data{
+    border: 1px solid #aaa;
+  }
+  #main .edit{
+    padding: 5px 16px;
+    box-shadow: 1px 1px 1px #aaa;
+    width: 50px;
+    margin: 0 auto;
+  }
+  #main .edit:hover{
+    background: #dfd;
+  }
+  #main .edit:active{
+    background: #bfb;
+  }
 </style>
 <script language="javascript">
   var usrv, loginv;
@@ -29,29 +51,46 @@
 </head>
 <body>
   {include file="common/login"}
-  <div id="main">
+  <div id="main" :class="view?'view':'edit'">
     {include file="common/header"}
     <div class="icon" :style="'background-image: url('+icon+');'"></div>
-    <a class="name">{{user.name}}</a>
-    <a class="usrid">(id:{{user.usrid}},</a>
-    <a class="uid">uid:{{user.id}})</a>
+    <span>显示名称:</span>
+    <a v-if="view" class="data name">{{user.name}}</a>
+    <input v-else class="data name" type="text" maxlength="200" v-model="user.name">
     <br/>
-    <a class="permission">权限:{{permissionstr}}</a>
+    <span>id:</span>
+    <a v-if="view" class="data usrid">{{user.usrid}}</a>
+    <input v-else class="data usrid" type="text" maxlength="200" v-model="user.usrid">
+    <a class="uid">, uid:{{user.id}}</a>
     <br/>
-    <a class="group">用户组:{{groupstr}}</a>
+    <span>权限:</span>
+    <a v-if="view||!(user.permission&vars.Permission.admin)" class="data permission">{{permissionstr}}</a>
+    <input v-else class="data permission" type="text" maxlength="200" v-model="user.permission">
     <br/>
-    主页:<a class="hp" :href="user.homepage">{{user.homepage}}</a>
+    <span>用户组:</span>
+    <a v-if="view||!user.usrgroup==3" class="data group">{{groupstr}}</a>
+    <input v-else class="data group" type="text" maxlength="200" v-model="user.usrgroup">
     <br/>
-    GitHub:<a class="github" :href="'https://github.com/'+user.github">{{user.github}}</a>
+    <span>主页:</span>
+    <a v-if="view" class="data hp" :href="user.homepage">{{user.homepage}}</a>
+    <input v-else class="data hp" type="text" maxlength="200" v-model="user.homepage">
     <br/>
-    Steam:<a class="steam" :href="'https://steamcommunity.com/id/'+user.steam">{{user.steam}}</a>
+    <span>GitHub:</span>
+    <a v-if="view" class="data github" :href="'https://github.com/'+user.github">{{user.github}}</a>
+    <input v-else class="data github" type="text" maxlength="200" v-model="user.github">
+    <br/>
+    <span>Steam:</span>
+    <a v-if="view" class="data steam" :href="'https://steamcommunity.com/id/'+user.steam">{{user.steam}}</a>
+    <input v-else class="data steam" type="text" maxlength="200" v-model="user.steam">
+    <div class="edit beforestr" :str="view?'编辑':'完成'" @click="edit"></div>
   </div>
   <script language="javascript">
     usrv = new Vue({
       el: '#main',
       data: {
         user: {$userdata},
-        icon: ""
+        icon: "",
+        view: true
       },
       computed: {
         permissionstr: function(){
@@ -79,6 +118,14 @@
             default:
               return vars.UserGroup.gueststr+g;
           }
+        }
+      },
+      methods: {
+        edit: function(){
+          if (this.view)
+            return this.view = false;
+          this.user.usrgroup = parseInt(this.user.usrgroup);
+          this.view = true;
         }
       }
     });

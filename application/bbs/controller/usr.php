@@ -83,9 +83,8 @@ function updateuser($id, $pw, $usrid, $permission, $usrgroup, $name, $hp, $githu
     }
     if (count($args)==0)
         return UserStatus::nochange;
-    $query = substr($query, 0, -1) . "where id=?";
+    $query = substr($query, 0, -1) . " where id=?";
     array_push($args, $id);
-    var_dump($query, $args);
     $s = $pdo->prepare($query);
     $s->execute($args);
     return UserStatus::success;

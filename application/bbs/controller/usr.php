@@ -35,6 +35,8 @@ function decodeKey($key){
     $k->md5 = $ks1[1];
     $k->vmd5 = md5("$time@$time2@$user@$soltstr");
     $k->valid = $k->md5 == $k->vmd5;
+    var_dump($k);
+    die();
     return $k;
 }
 function idused($id){
@@ -47,8 +49,7 @@ function userexist($uid){
     global $pdo;
     $s = $pdo->prepare("select 1 from usr where id=? limit 1");
     $s->execute(array($uid));
-    var_dump($s->rowCount()!=0);
-    die();
+    return $s->rowCount()!=0;
 }
 function updateuser($id, $pw, $usrid, $permission, $usrgroup, $name, $hp, $github, $steam){
     global $pdo;
@@ -113,14 +114,16 @@ function authchk(){
     }
     $ownd = decodeKey($own);
     if (!$ownd->valid){
-        setcookie('authkey');
+        setcookie('authkey','',time()-3600,'/');
+        setcookie('id','',time()-3600,'/');
         echo UserStatus::usererror;
         die();
     }
     $s = $pdo->prepare("select id from usr where usrid=? limit 1");
     $s->execute(array($ownd->id));
     if ($s->rowCount()==0){
-        setcookie('authkey');
+        setcookie('authkey','',time()-3600,'/');
+        setcookie('id','',time()-3600,'/');
         echo UserStatus::notfound;
         die();
     }

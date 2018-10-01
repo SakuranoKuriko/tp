@@ -150,8 +150,10 @@
     authkey = getCookie('authkey');
     if (authkey != null){
       usrv.me.id = getCookie('id');
-      if (usrv.me.id==null)
-        return delCookie('authkey');
+      if (usrv.me.id==null){
+        delCookie('authkey');
+      }
+      else {
       axios.get("/user/"+usrv.me.id)
         .then(function(res){
           usrv.logged = true;
@@ -163,6 +165,7 @@
           delCookie('authkey');
           delCookie('id');
         });
+      }
     }
   </script>
 </body>

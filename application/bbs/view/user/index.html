@@ -29,8 +29,17 @@
     margin: 0;
     padding: 0;
   }
-  #main.edit .data{
+  #main.edit .data,
+  #main .showex .data{
     border: 1px solid #aaa;
+  }
+  #main .showex{
+    overflow: hidden;
+    height: 0;
+    margin: 20px auto 0;
+  }
+  #main .showex.show{
+    height: 50px;
   }
   #main .edit,
   #main .editex{
@@ -89,7 +98,7 @@
     <div v-if="failed" style="color:#f00" v-cloak>修改失败</div>
     <div class="showex" :class="showex?'show':'hidden'">
       <input class="data pw" type="password" maxlength="=200" placeholder="新密码" v-model="me.pw"/>
-      <input class="data email" type="password" maxlength="=200" placeholder="新邮箱" v-model="me.email"/>
+      <input class="data email" type="text" maxlength="=200" placeholder="新邮箱" v-model="me.email"/>
     </div>
     <div v-if="isme" class="beforestr" :str="viewex?'修改邮箱/密码':'完成'" @click="editex"></div>
     <div v-if="exfailed" style="color:#f00" v-cloak>修改失败</div>

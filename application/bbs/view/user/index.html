@@ -33,14 +33,6 @@
   #main .showex .data{
     border: 1px solid #aaa;
   }
-  #main .showex{
-    overflow: hidden;
-    height: 0;
-    margin: 20px auto 0;
-  }
-  #main .showex.show{
-    height: 50px;
-  }
   #main .edit{
     padding: 5px 16px;
     box-shadow: 1px 1px 1px #aaa;
@@ -52,6 +44,21 @@
   }
   #main .edit:active{
     background: #bfb;
+  }
+  #main .showex{
+    overflow: hidden;
+    height: 0;
+    margin: 20px auto 0;
+  }
+  #main .showex.show{
+    height: 50px;
+  }
+  #main .showex .data{
+    display: block;
+    margin: 4px auto 0;
+  }
+  #main .showex .edit{
+    width: 120px;
   }
 </style>
 <script language="javascript">

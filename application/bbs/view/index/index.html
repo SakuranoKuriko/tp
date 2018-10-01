@@ -239,6 +239,12 @@
     font-size: inherit;
     border: 1px solid #aaa;
   }
+  #newpostwrap .new-title:hover,
+  #newpostwrap .new-content:hover,
+  #newpostwrap .new-title:active,
+  #newpostwrap .new-content:active{
+    background-color: #cff;
+  }
   #newpostwrap .new-title{
     height: 40px;
     padding: 0 16px;
@@ -535,7 +541,7 @@
         },
         shownewpost: function(){
           if (this.logged)
-            newpost.show=!newpost.show;
+            this.newpost.show=!this.newpost.show;
           else this.loginout();
         },
         postnow: function(){

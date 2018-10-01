@@ -511,9 +511,11 @@
           else this.loginout();
         },
         postnow: function(){
+          if (v.proc)
+            return;
           let v = this;
           v.newpost.failed = false;
-          if (v.newpost.proc||!v.logged)
+          if (!v.logged)
             return;
           if (trim(v.newpost.title)=="")
             return v.newpost.tierr = true;

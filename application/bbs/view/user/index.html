@@ -56,33 +56,38 @@
     <!--<div class="icon" :style="'background-image: url('+icon+');'"></div>-->
     <span>显示名称:</span>
     <a v-if="view" class="data name">{{user.name}}</a>
-    <input v-else class="data name" type="text" maxlength="200" v-model="user.name">
+    <input v-else class="data name" type="text" maxlength="200" v-model="user.name"/>
     <br/>
     <span>id:</span>
     <a v-if="view" class="data usrid">{{user.usrid}}</a>
-    <input v-else class="data usrid" type="text" maxlength="200" v-model="user.usrid">
+    <input v-else class="data usrid" type="text" maxlength="200" v-model="user.usrid"/>
     <a class="uid">, uid:{{user.id}}</a>
     <br/>
     <span>权限:</span>
     <a v-if="view||!(user.permission&vars.Permission.admin)" class="data permission">{{permissionstr}}</a>
-    <input v-else class="data permission" type="text" maxlength="200" v-model="user.permission">
+    <input v-else class="data permission" type="text" maxlength="200" v-model="user.permission"/>
     <br/>
     <span>用户组:</span>
     <a v-if="view||!user.usrgroup==3" class="data group">{{groupstr}}</a>
-    <input v-else class="data group" type="text" maxlength="200" v-model="user.usrgroup">
+    <input v-else class="data group" type="text" maxlength="200" v-model="user.usrgroup"/>
     <br/>
     <span>主页:</span>
     <a v-if="view" class="data hp" :href="user.homepage">{{user.homepage}}</a>
-    <input v-else class="data hp" type="text" maxlength="200" v-model="user.homepage">
+    <input v-else class="data hp" type="text" maxlength="200" v-model="user.homepage"/>
     <br/>
     <span>GitHub:</span>
     <a v-if="view" class="data github" :href="'https://github.com/'+user.github">{{user.github}}</a>
-    <input v-else class="data github" type="text" maxlength="200" v-model="user.github">
+    <input v-else class="data github" type="text" maxlength="200" v-model="user.github"/>
     <br/>
     <span>Steam:</span>
     <a v-if="view" class="data steam" :href="'https://steamcommunity.com/id/'+user.steam">{{user.steam}}</a>
-    <input v-else class="data steam" type="text" maxlength="200" v-model="user.steam">
-    <div v-if="logged&&canedit" class="edit beforestr" :str="view?'编辑':'完成'" @click="edit"></div>
+    <input v-else class="data steam" type="text" maxlength="200" v-model="user.steam"/>
+    <div v-if="logged&&canedit" class="edit beforestr" :str="view?'编辑':'完成'" @click="edit"></div><span v-if="failed" style="margin-left: 20px;color:#f00">修改失败</span><br/>
+    <div class="showex" :class="showex?'show':'hidden'">
+      <input class="data pw" type="password" maxlength="=200" placeholder="新密码" v-model="me.pw"/>
+      <input class="data email" type="password" maxlength="=200" placeholder="新邮箱" v-model="me.email"/>
+    </div>
+    <div v-if="isme" class="beforestr" :str="viewex?'修改邮箱/密码':'完成'" @click="editex"></div><span v-if="exfailed" style="margin-left: 20px;color:#f00">修改失败</span><br/>
   </div>
   <script language="javascript">
     usrv = new Vue({
@@ -91,14 +96,20 @@
         user: {$userdata},
         icon: "",
         view: true,
+        viewex: true,
+        showex: false,
         logged: false,
+        isme: false,
         canedit: false,
         failed: false,
+        exfailed: false,
         proc: false,
         me: {
           id: 0,
           permission: vars.Permission.read,
-          usrgroup: vars.UserGroup.guest
+          usrgroup: vars.UserGroup.guest,
+          pw: "",
+          email: ""
         }
       },
       computed: {
@@ -131,12 +142,12 @@
       },
       methods: {
         edit: function(){
+          if (v.proc)
+            return;
           let v = this;
           v.failed = false;
           if (v.view)
             return v.view = false;
-          if (v.proc)
-            return;
           v.user.usrgroup = parseInt(v.user.usrgroup);
           v.proc = true;
           const params = new URLSearchParams();
@@ -157,6 +168,33 @@
             })
             .catch(function(res){
               v.failed = true;
+              v.proc = false;
+            });
+        },
+        editex: function(){
+          if (v.proc)
+            return;
+          let v = this;
+          v.exfailed = false;
+          if (v.viewex){
+            v.viewex = false;
+            v.showex = true;
+            return;
+          }
+          v.proc = true;
+          const params = new URLSearchParams();
+          params.append('id', v.user.id);
+          params.append('pw', v.me.pw);
+          params.append('email', v.me.email);
+          axios.post("/user/edit", params)
+            .then(function(res){
+              if (res.data==vars.UserStatus.success)
+                v.viewex = true;
+              else v.exfailed = true;
+              v.proc = false;
+            })
+            .catch(function(res){
+              v.exfailed = true;
               v.proc = false;
             });
         }

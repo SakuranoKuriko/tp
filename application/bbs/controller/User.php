@@ -29,10 +29,9 @@ class User extends \think\Controller
     }
     public function edit(){
         authchk();
-        $id = 1;
         if (isset($_POST['id']))
             $id = $_POST['id'];
-        //else return (string)\UserStatus::needid;
+        else return (string)\UserStatus::needid;
         $usrid = "";
         if (isset($_POST['usrid']))
             $usrid = $_POST['usrid'];

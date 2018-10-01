@@ -567,4 +567,5 @@ select:hover, select:focus{
 .placeholder:empty:before{
 	color: #666;
 	content: attr(placeholder);
+	cursor: text;
 }

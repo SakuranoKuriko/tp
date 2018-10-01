@@ -27,6 +27,22 @@ class User extends \think\Controller
         }
         return (string)\UserStatus::failed;
     }
+    public function edit(){
+        authchk();
+        $id = $_POST['id'];
+        $usrid = $_POST['usrid'];
+        $name = $_POST['name'];
+        $permission = $_POST['permission'];
+        $usrgroup = $_POST['usrgroup'];
+        $hp = $_POST['hp'];
+        $github = $_POST['github'];
+        $steam = $_POST['steam'];
+        if ($id=="")
+            return (string)\UserStatus::needid;
+        if (!userexist($id))
+            return (string)\UserStatus::notfound;
+        return updateuser($id, $usrid, $permission, $usrgroup, $name, $hp, $github, $steam);
+    }
     /*public function logout(){
 
     }*/

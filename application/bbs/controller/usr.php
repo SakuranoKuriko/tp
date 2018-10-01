@@ -41,9 +41,16 @@ function idused($id){
     global $pdo;
     $s = $pdo->prepare("select 1 from usr where usrid=? limit 1");
     $s->execute(array($id));
-    if ($s->rowCount()==0)
-        return false;
-    return true;
+    return $s->rowCount()!=0;
+}
+function userexist($uid){
+    global $pdo;
+    $s = $pdo->prepare("select 1 from usr where id=? limit 1");
+    $s->execute(array($uid));
+    return $s->rowCount()!=0;
+}
+function updateuser($id, $pw, $permission, $usrgroup, $name, $hp, $github, $steam){
+    var_dump($id, $pw, $permission, $usrgroup, $name, $hp, $github, $steam);
 }
 function adduser($id, $pw, $name, $email){
     global $pdo;

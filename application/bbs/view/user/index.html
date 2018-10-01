@@ -53,7 +53,7 @@
   {include file="common/login"}
   <div id="main" :class="view?'view':'edit'">
     {include file="common/header"}
-    <div class="icon" :style="'background-image: url('+icon+');'"></div>
+    <!--<div class="icon" :style="'background-image: url('+icon+');'"></div>-->
     <span>显示名称:</span>
     <a v-if="view" class="data name">{{user.name}}</a>
     <input v-else class="data name" type="text" maxlength="200" v-model="user.name">
@@ -93,6 +93,8 @@
         view: true,
         logged: false,
         canedit: false,
+        failed: false,
+        proc: false,
         me: {
           id: 0,
           permission: vars.Permission.read,
@@ -129,10 +131,18 @@
       },
       methods: {
         edit: function(){
-          if (this.view)
-            return this.view = false;
-          this.user.usrgroup = parseInt(this.user.usrgroup);
-          this.view = true;
+          let v = this;
+          v.failed = false;
+          if (v.view)
+            return v.view = false;
+          if (v.proc)
+            return;
+          v.user.usrgroup = parseInt(v.user.usrgroup);
+          v.proc = true;
+          const params = new URLSearchParams();
+          params.append('title', v.newpost.title);
+          axios.post("/user/edit", params)
+          v.view = true;
         }
       }
     });

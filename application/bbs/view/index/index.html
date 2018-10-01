@@ -63,6 +63,7 @@
     box-shadow: 0 0 1px #fff;
     background: #f91;
     transition: all .1s;
+    -webkit-transition: all .1s;
     margin-left: 20px;
   }
   #headslider .slidersi div:hover,
@@ -92,6 +93,7 @@
     cursor: pointer;
     color: #0af;
     transition: all .1s;
+    -webkit-transition: all .1s;
     position: absolute;
   }
   #user div:hover{
@@ -133,6 +135,7 @@
     margin: 0;
     z-index: 2;
     transition: all .1s;
+    -webkit-transition: all .1s;
   }
   #search .searchstr{
     left: 2%;
@@ -193,12 +196,79 @@
   #newpost:hover{
     background: #cff;
   }
+  #search .ok:active,
+  #newpost:active{
+    background: #9ff;
+  }
   #newpost{
     width: 12%;
     right: 2%;
     font-size: 20px;
     cursor: pointer;
     overflow: hidden;
+  }
+  #newpostwrap{
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  #newpostwrap .inputwrap{
+    width: 100%;
+    font-size: 16px;
+    max-height: 0;
+    transition: transform .5s, max-height .5s;
+    -webkit-transition: transform .5s, max-height .5s;
+    overflow: hidden;
+  }
+  #newpostwrap.show .inputwrap{
+    max-height: 520px;
+  }
+  #newpostwrap .tierr{
+    height: 28px;
+    width: 120px;
+    top: -50px;
+  }
+  #newpostwrap .tierr.show{
+    top: -28px;
+  }
+  #newpostwrap .new-title,
+  #newpostwrap .new-content{
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+    font-size: inherit;
+    border: 1px solid #aaa;
+  }
+  #newpostwrap .new-title{
+    height: 40px;
+    padding: 0 16px;
+    margin-bottom: 10px;
+  }
+  #newpostwrap .new-content{
+    min-height: 97px;
+    padding: 16px;
+    overflow: auto;
+    word-break: break-all;
+    outline: none;
+    user-select: text;
+    white-space: pre-wrap;
+    text-align: left;
+    user-modify: read-write-plaintext-only;
+    -webkit-user-modify: read-write-plaintext-only;
+  }
+  #newpostwrap .ok{
+    font-size: 18px;
+    text-align: center;
+    padding: 6px 20px;
+    width: 40px;
+    box-shadow: 1px 1px 1px #aaa;
+    margin: 10px;
+  }
+  #newpostwrap .ok:hover{
+    background-color: #dfd;
+  }
+  #newpostwrap .ok:active{
+    background-color: #bfb;
   }
   #mainlist{
     width: 100%;
@@ -219,6 +289,7 @@
     margin-top: 10px;
     padding: 0 20px;
     transition: all .1s;
+    -webkit-transition: all .1s;
   }
   #mainlist .post:hover{
     background: #aff;
@@ -317,6 +388,13 @@
         },200);
       });
   }
+  function trim(s){
+    return s.replace(/^\s+|\s+$/gm, '');
+  }
+  function trim2(s){
+    if (/^\s+$/.test(s)) return '';
+    else return s;
+  }
 </script>
 </head>
 <body>
@@ -348,7 +426,16 @@
           <div class="b-face b-back beforestr" str="搜索用户"></div>
         </div>
         <div class="ok beforestr" str="搜索"></div>
-        <div id="newpost" class="beforestr" str="发帖"></div>
+        <div id="newpost" class="beforestr" str="发帖" @click="shownewpost"></div>
+      </div>
+    </div>
+    <div id="newpostwrap" :class="newpost.show?'show':''">
+      <div class="tierr tips-top beforestr" :class="newpost.failed?'show':'hidden'" str="发表失败"></div>
+      <div class="tierr tips-top beforestr" :class="newpost.tierr?'show':'hidden'" str="输入标题"></div>
+      <div class="inputwrap">
+        <input class="new-title" type="text" placeholder="标题" maxlength="200" v-model="newpost.title" @focus="newpost.tierr = false;" @blur="newpost.title=trim2(newpost.title)"/>
+        <div class="new-content placeholder" placeholder="正文(可选)" contenteditable="true" v-text="newpost.content" @keyup.enter="newpost.content=trim2($event.target.innerText);postnow();" @blur="newpost.content=trim2($event.target.innerText)"></div>
+        <div class="ok beforestr" str="发表" @click="postnow"></div>
       </div>
     </div>
     <div id="mainlist">
@@ -397,7 +484,15 @@
           mode: 0
         },
         postlst: {},
-        users: {}
+        users: {},
+        newpost: {
+          show: false,
+          title: "",
+          tierr: false,
+          content: "",
+          proc: false,
+          failed: false
+        }
       },
       methods: {
         nextslider: function(){
@@ -437,6 +532,35 @@
             loginv.login=false;
             loginv.show=true;
           }
+        },
+        shownewpost: function(){
+          if (this.logged)
+            newpost.show=!newpost.show;
+          else this.loginout();
+        },
+        postnow: function(){
+          let v = this;
+          v.newpost.failed = false;
+          if (v.newpost.proc||!v.logged)
+            return;
+          if (trim(v.newpost.title)=="")
+            return v.newpost.tierr = true;
+          v.newpost.proc = true;
+          const params = new URLSearchParams();
+          params.append('title', v.newpost.title);
+          params.append('text', v.newpost.content);
+          axios.post('/post/new', params)
+            .then(function(res){
+              if (res.data==vars.PostStatus.success)
+                location.reload(true);
+              else v.newpost.failed = true;
+              v.newpost.proc = false;
+            })
+            .catch(function(res){
+              v.newpost.failed = true;
+              v.newpost.proc = false;
+            });
+          
         }
       },
       directives: {

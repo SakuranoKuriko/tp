@@ -433,22 +433,23 @@
 .tips-bottom,
 .tips-left,
 .tips-right{
-    position: absolute;
-    width: 96px;
-    padding: 0;
-    transition: all .5s;
-    font-size: 16px;
-    line-height: 24px;
-    height: 24px;
-    background-color: #444;
-    color: #f96;
-    border-radius: 5px;
-    border: none;
-    box-sizing: border-box;
-    text-align: center;
-    box-shadow: 1px 1px 1px #444;
+  position: absolute;
+  width: 96px;
+  padding: 0;
+  transition: all .5s;
+  font-size: 16px;
+  line-height: 24px;
+  height: 24px;
+  background-color: #444;
+  color: #f96;
+  border-radius: 5px;
+  border: none;
+  box-sizing: border-box;
+  text-align: center;
+  box-shadow: 1px 1px 1px #444;
 	opacity: 1;
 	visibility: visible;
+	z-index: 99;
 }
 .tips-left{
 	left: -110px;
@@ -562,4 +563,8 @@ select:hover, select:focus{
 }
 .header a{
   float: left;
+}
+.placeholder:empty:before{
+	color: #666;
+	content: attr(placeholder);
 }

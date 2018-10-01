@@ -57,9 +57,6 @@
     display: block;
     margin: 4px auto 0;
   }
-  #main .showex .edit{
-    width: 120px;
-  }
 </style>
 <script language="javascript">
   var usrv, loginv;
@@ -105,7 +102,7 @@
       <br/>
       <input class="data email" type="text" maxlength="=200" placeholder="新邮箱" v-model="me.email"/>
     </div>
-    <div v-if="isme" class="edit beforestr" :str="viewex?'修改邮箱/密码':'完成'" @click="editex"></div>
+    <div v-if="isme" class="edit beforestr" :str="viewex?'修改邮箱/密码':'完成'" style="width: 120px;" @click="editex"></div>
     <div v-if="exfailed" style="color:#f00" v-cloak>修改失败</div>
   </div>
   <script language="javascript">

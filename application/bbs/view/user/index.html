@@ -68,7 +68,8 @@
         },
         groupstr: function(){
           g = "用户";
-          switch(this.user.usrgroup+0){
+          this.user.group = parseInt(this.user.group);
+          switch(this.user.usrgroup){
             case vars.UserGroup.normal:
               return vars.UserGroup.normalstr+g;
             case vars.UserGroup.banned:

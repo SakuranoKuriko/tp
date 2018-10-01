@@ -1,5 +1,6 @@
 vars = {
   Status: {
+      nochange: -1,
       success: 0,
       normal: 0,
       error: 1,
@@ -17,6 +18,7 @@ vars.Regexp = {
 };
 vars.UserStatus = {
   success: vars.Status.success,
+  nochange: vars.Status.nochange,
   failed: vars.Status.error,
   needlogin: 0x11,
   usererror: 0x12,
@@ -53,7 +55,7 @@ vars.Permission = {
 };
 vars.PostStatus = {
   success: vars.Status.success,
-  nochange: -1,
+  nochange: vars.Status.nochange,
   error: vars.Status.error,
   noown: 0x31,
   needpostid: 0x32,

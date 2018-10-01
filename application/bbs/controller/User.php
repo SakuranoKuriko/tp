@@ -30,10 +30,15 @@ class User extends \think\Controller
     public function edit(){
         authchk();
         $id = getpostarg('id', false);
+        $pw = getpostarg('pw');
         $usrid = getpostarg('usrid');
         $name = getpostarg('name');
-        $permission = getpostarg('permission');
-        $usrgroup = getpostarg('usrgroup');
+        $permission = "";
+        $usrgroup = "";
+        if ($GLOBALS['permission']&\Permission::admin&&$GLOBALS['usrgroup']==\UserGroup::admin){
+            $permission = getpostarg('permission');
+            $usrgroup = getpostarg('usrgroup');
+        }
         $hp = getpostarg('hp');
         $github = getpostarg('github');
         $steam = getpostarg('steam');

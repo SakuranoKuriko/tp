@@ -10,6 +10,7 @@ abstract class Regexp{
     const getnum = "/(\d+)/";
 }
 abstract class Status{
+    const nochange = -1;
     const success = 0;
     const normal = 0;
     const error = 1;
@@ -17,6 +18,7 @@ abstract class Status{
 }
 abstract class UserStatus{
     const success = Status::success;
+    const nochange = Status::nochange;
     const failed = Status::error;
     const needlogin = 0x11;
     const usererror = 0x12;
@@ -53,7 +55,7 @@ abstract class Permission{
 }
 abstract class PostStatus{
     const success = Status::success;
-    const nochange = -1;
+    const nochange = Status::nochange;
     const error = Status::error;
     const noown = 0x31;
     const needpostid = 0x32;

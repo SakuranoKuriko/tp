@@ -31,7 +31,7 @@ function decodeKey($key){
     $user = $k1[2];
     $k->createtime = $time;
     $k->exp = $time2;
-    $k->id = $user;
+    $k->id = (int)$user;
     $k->md5 = $ks1[1];
     $k->vmd5 = md5("$time@$time2@$user@$soltstr");
     $k->valid = $k->md5 == $k->vmd5;
@@ -49,8 +49,45 @@ function userexist($uid){
     $s->execute(array($uid));
     return $s->rowCount()!=0;
 }
-function updateuser($id, $pw, $permission, $usrgroup, $name, $hp, $github, $steam){
-    var_dump($id, $pw, $permission, $usrgroup, $name, $hp, $github, $steam);
+function updateuser($id, $pw, $usrid, $permission, $usrgroup, $name, $hp, $github, $steam){
+    global $pdo;
+    $query = "update usr set ";
+    $args = array();
+    if ($pw!=""){
+        $query .= "pw=?,";
+        array_push($args, $pw);
+    }
+    if ($permission!=""){
+        $query .= "permission=?,";
+        array_push($args, $permission);
+    }
+    if ($usrgroup!=""){
+        $query .= "usrgroup=?,";
+        array_push($args, $usrgroup);
+    }
+    if ($name!=""){
+        $query .= "name=?,";
+        array_push($args, $name);
+    }
+    if ($hp!=""){
+        $query .= "hp=?,";
+        array_push($args, $hp);
+    }
+    if ($github!=""){
+        $query .= "github=?,";
+        array_push($args, $github);
+    }
+    if ($steam!=""){
+        $query .= "steam=?,";
+        array_push($args, $steam);
+    }
+    if (count($args)==0)
+        return UserStatus::nochange;
+    $query = substr($query, 0, -1) . "where id=?";
+    array_push($args, $id);
+    $s = $pdo->prepare($query);
+    $s->execute($args);
+    return UserStatus::success;
 }
 function adduser($id, $pw, $name, $email){
     global $pdo;
@@ -86,8 +123,13 @@ function authchk(){
         echo UserStatus::notfound;
         die();
     }
-    $GLOBALS['useruid'] = $s->fetch(PDO::FETCH_ASSOC)['id'];
     $GLOBALS['userid'] = $ownd->id;
+    $GLOBALS['useruid'] = $s->fetch(PDO::FETCH_ASSOC)['id'];
+    $s = $pdo->prepare("select permission,usrgroup from usr where id=? limit 1");
+    $s->execute(array($GLOBALS['useruid']));
+    $res = $s->fetch(PDO::FETCH_ASSOC);
+    $GLOBALS['permission'] = (int)$res['permission'];
+    $GLOBALS['usrgroup'] = (int)$res['usrgroup'];
 }
 function getusr($id){
     global $pdo;

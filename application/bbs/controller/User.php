@@ -47,7 +47,7 @@ class User extends \think\Controller
             return (string)\UserStatus::notfound;
         if ($GLOBALS['permission']&\Permission::admin||$GLOBALS['usrgroup']==\UserGroup::admin||$GLOBALS['useruid']==$_COOKIE['id'])
             return updateuser($id, $pw, $usrid, $email, $permission, $usrgroup, $name, $hp, $github, $steam);
-        else return \UserStatus::needpermission;
+        else return (string)\UserStatus::needpermission;
     }
     /*public function logout(){
 

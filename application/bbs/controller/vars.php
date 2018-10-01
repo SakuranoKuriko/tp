@@ -25,6 +25,7 @@ abstract class UserStatus{
     const iderror = 0x13;
     const needid = 0x14;
     const notfound = 0x16;
+    const needpermission = 0x17;
 }
 abstract class RegStatus{
     const success = Status::success;

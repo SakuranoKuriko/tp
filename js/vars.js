@@ -24,7 +24,8 @@ vars.UserStatus = {
   usererror: 0x12,
   iderror: 0x13,
   needid: 0x14,
-  notfound: 0x16
+  notfound: 0x16,
+  needpermission: 0x17
 };
 vars.RegStatus = {
   success: vars.Status.success,

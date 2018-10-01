@@ -70,7 +70,7 @@ function updateuser($id, $pw, $usrid, $permission, $usrgroup, $name, $hp, $githu
         array_push($args, $name);
     }
     if ($hp!=""){
-        $query .= "hp=?,";
+        $query .= "homepage=?,";
         array_push($args, $hp);
     }
     if ($github!=""){
@@ -87,7 +87,6 @@ function updateuser($id, $pw, $usrid, $permission, $usrgroup, $name, $hp, $githu
     array_push($args, $id);
     $s = $pdo->prepare($query);
     $s->execute($args);
-    var_dump($query, $args);
     if ($s->rowCount()==1)
         return UserStatus::success;
     else return UserStatus::failed;

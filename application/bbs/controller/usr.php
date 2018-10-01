@@ -25,6 +25,9 @@ function decodeKey($key){
     $ks = base64_decode(xorstr(base64_decode($key), $xorkey));
     $ks1 = explode("#", $ks);
     $k1 = explode("@", $ks1[0]);
+    var_dump($ks1);
+    var_dump($k1);
+    die();
     $k = new stdClass();
     $time = $k1[0];
     $time2 = $k1[1];
@@ -35,8 +38,6 @@ function decodeKey($key){
     $k->md5 = $ks1[1];
     $k->vmd5 = md5("$time@$time2@$user@$soltstr");
     $k->valid = $k->md5 == $k->vmd5;
-    var_dump($k);
-    die();
     return $k;
 }
 function idused($id){

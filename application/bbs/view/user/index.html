@@ -215,7 +215,8 @@
           usrv.logged = true;
           usrv.me.permission = parseInt(res.data.permission);
           usrv.me.usrgroup = parseInt(res.data.usrgroup);
-          usrv.canedit = (usrv.me.permission&vars.Permission.admin||usrv.me.usrgroup==vars.UserGroup.admin||usrv.me.id==usrv.user.id);
+          usrv.isme = usrv.me.id==usrv.user.id;
+          usrv.canedit = (usrv.me.permission&vars.Permission.admin||usrv.me.usrgroup==vars.UserGroup.admin||usrv.isme);
         })
         .catch(function(res){
           delCookie('authkey');

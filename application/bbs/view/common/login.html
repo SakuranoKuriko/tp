@@ -109,7 +109,7 @@ input.inputerr{
   border-color: #f66;
 }
 </style>
-<div id="login" :class="show?'show':''">
+<div id="login" :class="show?'show':''" v-cloak>
   <div v-if="login" class="login form">
     <input class="id" :class="iderr?'inputerr':''" type="text" placeholder="*用户名" maxlength="200" v-model="data.id" @focus="clearerr('iderr');" @input="chkid" @keyup.enter="ilogin"/>
     <div class="id tips-left beforestr" :class="iderr?'showtips':'hidden'" str="输入用户名"></div>

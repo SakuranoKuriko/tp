@@ -66,7 +66,7 @@ function authchk(){
         die();
     }
     $ownd = decodeKey($own);
-    if (!$ownd->vaild){
+    if (!$ownd->valid){
         setcookie('authkey');
         echo UserStatus::usererror;
         die();

@@ -196,6 +196,8 @@
             v.showex = true;
             return;
           }
+          if (v.me.pw==""&&v.me.email=="")
+            return;
           v.proc = true;
           const params = new URLSearchParams();
           params.append('id', v.user.id);

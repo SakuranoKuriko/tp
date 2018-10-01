@@ -29,16 +29,31 @@ class User extends \think\Controller
     }
     public function edit(){
         authchk();
-        $id = $_POST['id'];
-        $usrid = $_POST['usrid'];
-        $name = $_POST['name'];
-        $permission = $_POST['permission'];
-        $usrgroup = $_POST['usrgroup'];
-        $hp = $_POST['hp'];
-        $github = $_POST['github'];
-        $steam = $_POST['steam'];
-        if ($id=="")
-            return (string)\UserStatus::needid;
+        $id = 1;
+        if (isset($_POST['id']))
+            $id = $_POST['id'];
+        //else return (string)\UserStatus::needid;
+        $usrid = "";
+        if (isset($_POST['usrid']))
+            $usrid = $_POST['usrid'];
+        $name = "";
+        if (isset($_POST['name']))
+            $name = $_POST['name'];
+        $permission = "";
+        if (isset($_POST['permission']))
+            $permission = $_POST['permission'];
+        $usrgroup = "";
+        if (isset($_POST['usrgroup']))
+            $usrgroup = $_POST['usrgroup'];
+        $hp = "";
+        if (isset($_POST['hp']))
+            $hp = $_POST['hp'];
+        $github = "";
+        if (isset($_POST['github']))
+            $github = $_POST['github'];
+        $steam = "";
+        if (isset($_POST['steam']))
+            $steam = $_POST['steam'];
         if (!userexist($id))
             return (string)\UserStatus::notfound;
         return updateuser($id, $usrid, $permission, $usrgroup, $name, $hp, $github, $steam);

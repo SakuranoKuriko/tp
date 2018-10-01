@@ -562,7 +562,8 @@ select:hover, select:focus{
   padding: 0 20px;
 }
 .header a{
-  float: left;
+	float: left;
+	padding: 0 20px;
 }
 .placeholder:empty:before{
 	color: #666;

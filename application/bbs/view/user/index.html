@@ -41,19 +41,16 @@
   #main .showex.show{
     height: 50px;
   }
-  #main .edit,
-  #main .editex{
+  #main .edit{
     padding: 5px 16px;
     box-shadow: 1px 1px 1px #aaa;
     width: 50px;
     margin: 0 auto;
   }
-  #main .edit:hover,
-  #main .editex:hover{
+  #main .edit:hover{
     background: #dfd;
   }
-  #main .edit:active,
-  #main .editex:active{
+  #main .edit:active{
     background: #bfb;
   }
 </style>
@@ -98,9 +95,10 @@
     <div v-if="failed" style="color:#f00" v-cloak>修改失败</div>
     <div class="showex" :class="showex?'show':'hidden'">
       <input class="data pw" type="password" maxlength="=200" placeholder="新密码" v-model="me.pw"/>
+      <br/>
       <input class="data email" type="text" maxlength="=200" placeholder="新邮箱" v-model="me.email"/>
     </div>
-    <div v-if="isme" class="beforestr" :str="viewex?'修改邮箱/密码':'完成'" @click="editex"></div>
+    <div v-if="isme" class="edit beforestr" :str="viewex?'修改邮箱/密码':'完成'" @click="editex"></div>
     <div v-if="exfailed" style="color:#f00" v-cloak>修改失败</div>
   </div>
   <script language="javascript">

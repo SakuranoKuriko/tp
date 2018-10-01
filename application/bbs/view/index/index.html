@@ -221,7 +221,7 @@
     overflow: hidden;
   }
   #newpostwrap.show .inputwrap{
-    max-height: 520px;
+    max-height: 370px;
   }
   #newpostwrap .tierr{
     height: 28px;
@@ -252,6 +252,7 @@
   }
   #newpostwrap .new-content{
     min-height: 97px;
+    max-height: 265px;
     padding: 16px;
     overflow: auto;
     word-break: break-all;
@@ -259,7 +260,6 @@
     user-select: text;
     white-space: pre-wrap;
     text-align: left;
-    user-modify: read-write-plaintext-only;
     -webkit-user-modify: read-write-plaintext-only;
   }
   #newpostwrap .ok{
@@ -350,35 +350,6 @@
 <script language="javascript">
   var mv, loginv;
   var userupdatetimer;
-  var cfg = {
-    sliderdelay: 5000
-  };
-  function getid(usrid){
-    t = usrid.match(vars.Regexp.getid);
-    if (t==null)
-      return t;
-    else return t[0];
-  }
-  function getnum(str){
-    t = str.match(vars.Regexp.getnum);
-    if (t==null)
-      return t;
-    else return parseInt(t[0]);
-  }
-  function getuid(usrid){
-    u = Object.keys(mv.users);
-    for (i in u){
-      if (mv.users[u].usrid==usrid)
-        return i;
-    }
-  }
-  function getusrdata(uid, key){
-    u = Object.keys(mv.users);
-    ui = u.indexOf('u'+uid);
-    if (ui!==-1)
-      return mv.users[u[ui]][key];
-    return "";
-  }
   function updateuser(usr){
     if (usr==null||usr=="")
     return;
@@ -393,13 +364,6 @@
           mv.userupdated = true;
         },200);
       });
-  }
-  function trim(s){
-    return s.replace(/^\s+|\s+$/gm, '');
-  }
-  function trim2(s){
-    if (/^\s+$/.test(s)) return '';
-    else return s;
   }
 </script>
 </head>
@@ -440,7 +404,7 @@
       <div class="tierr tips-top beforestr" :class="newpost.tierr?'show':'hidden'" str="输入标题"></div>
       <div class="inputwrap">
         <input class="new-title" type="text" placeholder="标题" maxlength="200" v-model="newpost.title" @focus="newpost.tierr = false;" @blur="newpost.title=trim2(newpost.title)"/>
-        <div class="new-content placeholder" placeholder="正文(可选)" contenteditable="true" v-text="newpost.content" @keyup.enter="newpost.content=trim2($event.target.innerText);postnow();" @blur="newpost.content=trim2($event.target.innerText)"></div>
+        <div class="new-content placeholder" placeholder="正文(可选)" contenteditable="plaintext-only" v-text="newpost.content" @keyup.ctrl.enter="newpost.content=trim2($event.target.innerText);postnow();" @blur="newpost.content=trim2($event.target.innerText)"></div>
         <div class="ok beforestr" str="发表" @click="postnow"></div>
       </div>
     </div>
@@ -540,8 +504,10 @@
           }
         },
         shownewpost: function(){
-          if (this.logged)
-            this.newpost.show=!this.newpost.show;
+          if (this.logged){
+            this.newpost.tierr = false;
+            this.newpost.show = !this.newpost.show;
+          }
           else this.loginout();
         },
         postnow: function(){

@@ -32,14 +32,23 @@ abstract class RegStatus{
 }
 abstract class UserGroup{
     const normal = 0;
+    const normalstr = '正常';
     const banned = 1;
+    const bannedstr = '封禁';
     const guest = 2;
+    const gueststr = '游客';
+    const admin = 3;
+    const adminstr = '管理员';
 }
 abstract class Permission{
     const read = 0b1;
+    const readstr = '查看';
     const rep = 0b10;
+    const repstr = '回复';
     const newpost = 0b100;
+    const newpoststr = '发帖';
     const admin = 0b1000;
+    const adminstr = '管理员';
 }
 abstract class PostStatus{
     const success = Status::success;

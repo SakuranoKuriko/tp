@@ -1,2 +1,88 @@
-{include file="common/header"}
-<a href="#">1</a>{$userdata}
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>用户页面</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+<link href="/css/common.css" rel="stylesheet" type="text/css">
+<script language="javascript" src="/js/vue.js"></script>
+<script language="javascript" src="/js/axios.js"></script>
+<script language="javascript" src="/js/vars.js"></script>
+<script language="javascript" src="/js/md5.js"></script>
+<style type="text/css">
+  #main{
+    width: 80%;
+    margin: 0 auto;
+  }
+  #main .icon{
+    box-shadow: 1px 1px 2px #999;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    width: 256px;
+    height: 256px;
+    margin: 20px auto;
+  }
+</style>
+<script language="javascript">
+  var usrv, loginv;
+</script>
+</head>
+<body>
+  {include file="common/login"}
+  <div id="main">
+    {include file="common/header"}
+    <div class="icon" :style="'background-image: url('+icon+');'"></div>
+    <a class="name">{{user.name}}</a>
+    <a class="usrid">(id:{{user.usrid}},</a>
+    <a class="uid">uid:{{user.id}})</a>
+    <br/>
+    <a class="permission">权限:{{permissionstr}}</a>
+    <br/>
+    <a class="group">用户组:{{groupstr}}</a>
+    <br/>
+    主页:<a class="hp" :href="user.homepage">{{user.homepage}}</a>
+    <br/>
+    GitHub:<a class="github" :href="'https://github.com/'+user.github">{{user.github}}</a>
+    <br/>
+    Steam:<a class="steam" :href="'https://steamcommunity.com/id/'+user.steam">{{user.steam}}</a>
+  </div>
+  <script language="javascript">
+    usrv = new Vue({
+      el: '#main',
+      data: {
+        user: {$userdata},
+        icon: ""
+      },
+      computed: {
+        permissionstr: function(){
+          p = [];
+          if (this.user.permission&vars.Permission.read)
+            p.push[vars.Permission.readstr];
+          if (this.user.permission&vars.Permission.rep)
+            p.push[vars.Permission.repstr];
+          if (this.user.permission&vars.Permission.newpost)
+            p.push[vars.Permission.newpoststr];
+          if (this.user.permission&vars.Permission.admin)
+            return vars.Permission.adminstr;
+          return p.join(',');
+        },
+        groupstr: function(){
+          g = "用户";
+          switch(this.user.usrgroup){
+            case vars.UserGroup.normal:
+              return vars.UserGroup.normalstr+g;
+            case vars.UserGroup.banned:
+              return vars.UserGroup.bannedstr+g;
+            case vars.UserGroup.admin:
+              return vars.UserGroup.adminstr+g;
+            default:
+              return vars.UserGroup.gueststr+g;
+          }
+        }
+      }
+    });
+    usrv.icon = "/img/icon/"+usrv.user.id+".png";
+  </script>
+</body>
+</html>
+

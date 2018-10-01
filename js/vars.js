@@ -32,14 +32,23 @@ vars.RegStatus = {
 };
 vars.UserGroup = {
   normal: 0,
+  normalstr: '正常',
   banned: 1,
-  guest: 2
+  bannedstr: '封禁',
+  guest: 2,
+  gueststr: '游客',
+  admin: 3,
+  adminstr: '管理员'
 };
 vars.Permission = {
   read: 0b1,
+  readstr: '查看',
   rep: 0b10,
+  repstr: '回复',
   newpost: 0b100,
-  admin: 0b1000
+  newpoststr: '发帖',
+  admin: 0b1000,
+  adminstr: '管理员'
 };
 vars.PostStatus = {
   success: vars.Status.success,
@@ -93,4 +102,40 @@ function dateFtt(fmt,date){
     if(new RegExp("("+ k +")").test(fmt))
   fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
   return fmt;
+}
+var cfg = {
+  sliderdelay: 5000
+};
+function getid(usrid){
+  t = usrid.match(vars.Regexp.getid);
+  if (t==null)
+    return t;
+  else return t[0];
+}
+function getnum(str){
+  t = str.match(vars.Regexp.getnum);
+  if (t==null)
+    return t;
+  else return parseInt(t[0]);
+}
+function getuid(usrid){
+  u = Object.keys(mv.users);
+  for (i in u){
+    if (mv.users[u].usrid==usrid)
+      return i;
+  }
+}
+function getusrdata(uid, key){
+  u = Object.keys(mv.users);
+  ui = u.indexOf('u'+uid);
+  if (ui!==-1)
+    return mv.users[u[ui]][key];
+  return "";
+}
+function trim(s){
+  return s.replace(/^\s+|\s+$/gm, '');
+}
+function trim2(s){
+  if (/^\s+$/.test(s)) return '';
+  else return s;
 }

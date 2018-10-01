@@ -73,7 +73,7 @@ function authchk(){
         die();
     }
     $s = $pdo->prepare("select id from usr where usrid=? limit 1");
-    $s->execute(array($own->id));
+    $s->execute(array($ownd->id));
     if ($s->rowCount()==0){
         setcookie('authkey');
         echo UserStatus::notfound;

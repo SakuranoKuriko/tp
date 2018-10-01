@@ -60,6 +60,7 @@ function userchk($id, $pw){
     return UserStatus::success;
 }
 function authchk(){
+    global $pdo;
     $own = $_COOKIE['authkey'];
     if ($own==""){
         echo UserStatus::needlogin;

@@ -511,7 +511,7 @@
           else this.loginout();
         },
         postnow: function(){
-          if (v.proc)
+          if (this.newpost.proc)
             return;
           let v = this;
           v.newpost.failed = false;
@@ -533,7 +533,6 @@
             .catch(function(res){
               v.newpost.failed = true;
               v.newpost.proc = false;
-              document.write(res.response.data);
             });
           
         }

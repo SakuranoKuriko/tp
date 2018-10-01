@@ -178,7 +178,7 @@ loginv = new Vue({
       }
     },
     ilogin: function(){
-      if (v.proc)
+      if (this.proc)
         return;
       let v = this;
       v.failed = false;
@@ -205,7 +205,7 @@ loginv = new Vue({
         });
     },
     ireg: function(){
-      if (v.proc)
+      if (this.proc)
         return;
       let v = this;
       v.failed = false;

@@ -37,9 +37,9 @@ function newpost($title, $content){
     global $pdo;
     $s = $pdo->prepare("insert into posts (own, title, content) values (?, ?, ?)");
     $s->execute(array($GLOBALS['useruid'], $title, $content));
-    if ($s->rowCount()!=1)
-        return PostStatus::error;
-    return PostStatus::success;
+    if ($s->rowCount()==1)
+        return PostStatus::success;
+    else return PostStatus::error;
 }
 function reppost($postid, $content){
     global $pdo;
@@ -49,7 +49,9 @@ function reppost($postid, $content){
         return PostStatus::error;
     $s = $pdo->prepare("update posts set lastrep=? where id='$postid'");
     $s->execute(array($GLOBALS['useruid']));
-    return PostStatus::success;
+    if ($s->rowCount()==1)
+        return PostStatus::success;
+    else return PostStatus::error;
 }
 function isown($postid){
     global $pdo;

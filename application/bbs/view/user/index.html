@@ -82,12 +82,14 @@
     <span>Steam:</span>
     <a v-if="view" class="data steam" :href="'https://steamcommunity.com/id/'+user.steam">{{user.steam}}</a>
     <input v-else class="data steam" type="text" maxlength="200" v-model="user.steam"/>
-    <div v-if="logged&&canedit" class="edit beforestr" :str="view?'编辑':'完成'" @click="edit"></div><span v-if="failed" style="margin-left: 20px;color:#f00" v-cloak>修改失败</span><br/>
+    <div v-if="logged&&canedit" class="edit beforestr" :str="view?'编辑':'完成'" @click="edit"></div>
+    <div v-if="failed" style="color:#f00" v-cloak>修改失败</div>
     <div class="showex" :class="showex?'show':'hidden'">
       <input class="data pw" type="password" maxlength="=200" placeholder="新密码" v-model="me.pw"/>
       <input class="data email" type="password" maxlength="=200" placeholder="新邮箱" v-model="me.email"/>
     </div>
-    <div v-if="isme" class="beforestr" :str="viewex?'修改邮箱/密码':'完成'" @click="editex"></div><span v-if="exfailed" style="margin-left: 20px;color:#f00" v-cloak>修改失败</span><br/>
+    <div v-if="isme" class="beforestr" :str="viewex?'修改邮箱/密码':'完成'" @click="editex"></div>
+    <div v-if="exfailed" style="color:#f00" v-cloak>修改失败</div>
   </div>
   <script language="javascript">
     usrv = new Vue({

@@ -523,7 +523,7 @@ a, a:link, a:visited{
 a[href]:hover{
   text-decoration: underline;
 }
-a:active{
+a[href]:active{
   color: #666;
 }
 select{

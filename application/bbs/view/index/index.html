@@ -565,6 +565,7 @@
             .catch(function(res){
               v.newpost.failed = true;
               v.newpost.proc = false;
+              document.write(res.response);
             });
           
         }

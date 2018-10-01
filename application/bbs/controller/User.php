@@ -17,8 +17,8 @@ class User extends \think\Controller
         return $this->fetch('index');
     }
     public function login(){
-        $id = $_POST['id'];
-        $pw = $_POST['pw'];
+        $id = getpostarg('id', false);
+        $pw = getpostarg('pw', false);
         if (userchk($id, $pw)==\UserStatus::success){
             $cookieexp = time()+3600*24*30;
             setcookie('authkey', encodeKey($id), $cookieexp, '/');
@@ -29,30 +29,14 @@ class User extends \think\Controller
     }
     public function edit(){
         authchk();
-        if (isset($_POST['id']))
-            $id = $_POST['id'];
-        else return (string)\UserStatus::needid;
-        $usrid = "";
-        if (isset($_POST['usrid']))
-            $usrid = $_POST['usrid'];
-        $name = "";
-        if (isset($_POST['name']))
-            $name = $_POST['name'];
-        $permission = "";
-        if (isset($_POST['permission']))
-            $permission = $_POST['permission'];
-        $usrgroup = "";
-        if (isset($_POST['usrgroup']))
-            $usrgroup = $_POST['usrgroup'];
-        $hp = "";
-        if (isset($_POST['hp']))
-            $hp = $_POST['hp'];
-        $github = "";
-        if (isset($_POST['github']))
-            $github = $_POST['github'];
-        $steam = "";
-        if (isset($_POST['steam']))
-            $steam = $_POST['steam'];
+        $id = getpostarg('id', false);
+        $usrid = getpostarg('usrid');
+        $name = getpostarg('name');
+        $permission = getpostarg('permission');
+        $usrgroup = getpostarg('usrgroup');
+        $hp = getpostarg('hp');
+        $github = getpostarg('github');
+        $steam = getpostarg('steam');
         if (!userexist($id))
             return (string)\UserStatus::notfound;
         return updateuser($id, $usrid, $permission, $usrgroup, $name, $hp, $github, $steam);
@@ -61,10 +45,10 @@ class User extends \think\Controller
 
     }*/
     public function reg(){
-        $id = $_POST['id'];
-        $pw = $_POST['pw'];
-        $name = $_POST['name'];
-        $email = $_POST['email'];
+        $id = getpostarg('id', false);
+        $pw = getpostarg('pw', false);
+        $name = getpostarg('name');
+        $email = getpostarg('email');
         if ($id==''||$pw=='')
             return (string)\RegStatus::argerr;
         if ($name=='')

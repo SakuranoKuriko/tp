@@ -140,9 +140,25 @@
           v.user.usrgroup = parseInt(v.user.usrgroup);
           v.proc = true;
           const params = new URLSearchParams();
-          params.append('title', v.newpost.title);
+          params.append('id', v.user.id);
+          params.append('usrid', v.user.usrid);
+          params.append('name', v.user.name);
+          params.append('permission', v.user.permission);
+          params.append('usrgroup', v.user.usrgroup);
+          params.append('hp', v.user.homepage);
+          params.append('github', v.user.github);
+          params.append('steam', v.user.steam);
           axios.post("/user/edit", params)
-          v.view = true;
+            .then(function(res){
+              if (res.data==vars.UserStatus.success)
+                v.view = true;
+              else v.failed = true;
+              v.proc = false;
+            })
+            .catch(function(res){
+              v.failed = true;
+              v.proc = false;
+            });
         }
       }
     });

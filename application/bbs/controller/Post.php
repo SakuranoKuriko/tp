@@ -38,43 +38,37 @@ class Post extends \think\Controller
     }
     public function new(){
         authchk();
-        $ti = $_POST['title'];
-        if ($ti=="")
-            return (string)\PostStatus::needtitle;
-        $text = $_POST['text'];
+        $ti = getpostarg('title', false);
+        $text = getpostarg('text');
         return (string)newpost($ti, $text);
     }
     public function editit(){
         authchk();
-        $ti = $_POST['title'];
-        $text = $_POST['text'];
+        $ti = getpostarg('title');
+        $text = getpostarg('text');
         if ($ti==""&&$text=="")
             return (string)\PostStatus::nochange;
-        $postid = getpostid($_POST['postid']);
+        $postid = getpostid(getpostarg('postid', false));
         isown($postid);
         return (string)editpost($postid, $ti, $text);
     }
     public function del(){
         authchk();
-        $postid = getpostid($_POST['postid']);
+        $postid = getpostid(getpostarg('postid', false));
         isown($postid);
         return (string)delpost($postid);
     }
     public function rep(){
         authchk();
-        $postid = getpostid($_POST['postid']);
-        $text = $_POST['text'];
-        if ($text=="")
-            return (string)\PostStatus::needtext;
+        $postid = getpostid(getpostarg('postid', false));
+        $text = getpostarg('text', false);
         postchk($postid);
         return (string)reppost($postid, $text);
     }
     public function editrep(){
         authchk();
-        $postid = getpostid($_POST['postid']);
-        $text = $_POST['text'];
-        if ($text=="")
-            return (string)\PostStatus::needtext;
+        $postid = getpostid(getpostarg('postid', false));
+        $text = getpostarg('text', false);
         isown($postid);
         return (string)editpost($postid, getcfg('reptitle'), $text);
     }

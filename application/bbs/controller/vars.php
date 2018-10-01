@@ -13,6 +13,7 @@ abstract class Status{
     const success = 0;
     const normal = 0;
     const error = 1;
+    const needargs = 2;
 }
 abstract class UserStatus{
     const success = Status::success;
@@ -80,5 +81,13 @@ function getargs($pathinfo = ""){
     if (count($v)!=0&&$v[1]!="index.php")
         $args = explode('/', $v[1]);
     return $args;
+}
+function getpostarg($key, $canempty = true){
+    if (isset($_POST[$key]))
+        return $_POST[$key];
+    else if ($canempty)
+        return "";
+    echo Status::needargs;
+    die();
 }
 ?>

@@ -2,7 +2,8 @@ vars = {
   Status: {
       success: 0,
       normal: 0,
-      error: 1
+      error: 1,
+      needargs: 2
   }
 };
 vars.Regexp = {

@@ -32,6 +32,7 @@ class User extends \think\Controller
         $id = getpostarg('id', false);
         $pw = getpostarg('pw');
         $usrid = getpostarg('usrid');
+        $email = getpostarg('email');
         $name = getpostarg('name');
         $permission = "";
         $usrgroup = "";
@@ -44,7 +45,7 @@ class User extends \think\Controller
         $steam = getpostarg('steam');
         if (!userexist($id))
             return (string)\UserStatus::notfound;
-        return updateuser($id, $pw, $usrid, $permission, $usrgroup, $name, $hp, $github, $steam);
+        return updateuser($id, $pw, $usrid, $email, $permission, $usrgroup, $name, $hp, $github, $steam);
     }
     /*public function logout(){
 

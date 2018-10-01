@@ -49,13 +49,21 @@ function userexist($uid){
     $s->execute(array($uid));
     return $s->rowCount()!=0;
 }
-function updateuser($id, $pw, $usrid, $permission, $usrgroup, $name, $hp, $github, $steam){
+function updateuser($id, $pw, $usrid, $email, $permission, $usrgroup, $name, $hp, $github, $steam){
     global $pdo;
     $query = "update usr set ";
     $args = array();
     if ($pw!=""){
         $query .= "pw=?,";
         array_push($args, $pw);
+    }
+    if ($usrid!=""){
+        $query .= "usrid=?,";
+        array_push($args, $usrid);
+    }
+    if ($email!=""){
+        $query .= "email=?,";
+        array_push($args, $email);
     }
     if ($permission!=""){
         $query .= "permission=?,";

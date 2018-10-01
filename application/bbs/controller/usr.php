@@ -47,7 +47,7 @@ function userexist($uid){
     global $pdo;
     $s = $pdo->prepare("select 1 from usr where id=? limit 1");
     $s->execute(array($uid));
-    echo $s->rowCount()!=0;
+    var_dump($s->rowCount()!=0);
     die();
 }
 function updateuser($id, $pw, $usrid, $permission, $usrgroup, $name, $hp, $github, $steam){

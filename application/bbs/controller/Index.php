@@ -15,4 +15,7 @@ class Index extends \think\Controller
         $this->assign('postlist', json_encode(getlist()));
         return $this->fetch('index');
     }
+    public function test(){
+        authchk();
+    }
 }

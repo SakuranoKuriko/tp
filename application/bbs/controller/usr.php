@@ -79,8 +79,12 @@ function authchk(){
         echo UserStatus::notfound;
         die();
     }
-    $GLOBALS['useruid'] = $s->fetch(PDO::FETCH_ASSOC)[0];
+    $a = $s->fetch(PDO::FETCH_ASSOC);
+    var_dump($a);
+    $GLOBALS['useruid'] = $a[0];
+    //$GLOBALS['useruid'] = $s->fetch(PDO::FETCH_ASSOC)[0];
     $GLOBALS['userid'] = $ownd->id;
+    var_dump($GLOBALS);
 }
 function getusr($id){
     global $pdo;

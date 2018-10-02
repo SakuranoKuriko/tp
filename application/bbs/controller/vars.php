@@ -128,8 +128,6 @@ function getposstr($pos){
         $ps .= $p['data']['region'];
     if (strtolower($p['data']['city'])!="xx")
         $ps .= $p['data']['city'];
-    if ($ps!="中国"&&mb_substr($ps, 0, 2)=="中国")
-        $ps = mb_substr($ps, 2);
     return $ps;
 }
 /**

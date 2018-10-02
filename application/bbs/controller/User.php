@@ -45,7 +45,7 @@ class User extends \think\Controller
         $steam = getpostarg('steam');
         if (!userexist($id))
             return (string)\UserStatus::notfound;
-        if ($GLOBALS['permission']&\Permission::admin||$GLOBALS['usrgroup']==\UserGroup::admin||$GLOBALS['useruid']==$_COOKIE['id'])
+        if ($GLOBALS['permission']&\Permission::admin||$GLOBALS['usrgroup']==\UserGroup::admin||$GLOBALS['useruid']==$id)
             return updateuser($id, $pw, $usrid, $email, $permission, $usrgroup, $name, $hp, $github, $steam);
         else return (string)\UserStatus::needpermission;
     }

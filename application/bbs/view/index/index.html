@@ -242,8 +242,8 @@
   }
   #newpostwrap .new-title:hover,
   #newpostwrap .new-content:hover,
-  #newpostwrap .new-title:active,
-  #newpostwrap .new-content:active{
+  #newpostwrap .new-title:focus,
+  #newpostwrap .new-content:focus{
     background-color: #cff;
   }
   #newpostwrap .new-title{
@@ -524,7 +524,7 @@
           const params = new URLSearchParams();
           params.append('title', v.newpost.title);
           params.append('text', v.newpost.content);
-          axios.post('/post/new', params)
+          axios.post('/post/create', params)
             .then(function(res){
               if (res.data==vars.PostStatus.success)
                 location.reload(true);
@@ -535,7 +535,6 @@
               v.newpost.failed = true;
               v.newpost.proc = false;
             });
-          
         }
       },
       directives: {

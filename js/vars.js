@@ -64,7 +64,8 @@ vars.PostStatus = {
   needtitle: 0x34,
   needtext: 0x35,
   notfound: 0x36,
-  iderror: 0x37
+  needpermission: 0x37,
+  iderror: 0x38
 };
 function addCookie(objName, objValue, objExp){
   var ms = objExp||3600*34*30*1000;

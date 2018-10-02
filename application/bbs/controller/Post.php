@@ -48,7 +48,9 @@ class Post extends \think\Controller
         authchk();
         $ti = getpostarg('title', false);
         $text = getpostarg('text');
-        return (string)newpost($ti, $text);
+        if ($GLOBALS['permission']&\Permission::newpost)
+            return (string)newpost($ti, $text);
+        else return (string)\PostStatus::needpermission;
     }
     public function editit(){
         authchk();
@@ -57,27 +59,34 @@ class Post extends \think\Controller
         if ($ti==""&&$text=="")
             return (string)\PostStatus::nochange;
         $postid = getpostid(getpostarg('postid', false));
-        isown($postid);
-        return (string)editpost($postid, $ti, $text);
+        if ($GLOBALS['permission']&\Permission::admin||$GLOBALS['usrgroup']==\UserGroup::admin||isown($postid))
+            return (string)editpost($postid, $ti, $text);
+        else return (string)\PostStatus::needpermission;
     }
     public function del(){
         authchk();
         $postid = getpostid(getpostarg('postid', false));
-        isown($postid);
-        return (string)delpost($postid);
+        $GLOBALS['permission'] = (int)$res['permission'];
+        $GLOBALS['usrgroup'] = (int)$res['usrgroup'];
+        if ($GLOBALS['permission']&\Permission::admin||$GLOBALS['usrgroup']==\UserGroup::admin||isown($postid))
+            return (string)delpost($postid);
+        else return (string)\PostStatus::needpermission;
     }
     public function rep(){
         authchk();
         $postid = getpostid(getpostarg('postid', false));
         $text = getpostarg('text', false);
         postchk($postid);
-        return (string)reppost($postid, $text);
+        if ($GLOBALS['permission']&\Permission::rep)
+            return (string)reppost($postid, $text);
+        else return (string)\PostStatus::needpermission;
     }
     public function editrep(){
         authchk();
         $postid = getpostid(getpostarg('postid', false));
         $text = getpostarg('text', false);
-        isown($postid);
-        return (string)editpost($postid, getcfg('reptitle'), $text);
+        if ($GLOBALS['permission']&\Permission::admin||$GLOBALS['usrgroup']==\UserGroup::admin||isown($postid))
+            return (string)editpost($postid, getcfg('reptitle'), $text);
+        else return (string)\PostStatus::needpermission;
     }
 }

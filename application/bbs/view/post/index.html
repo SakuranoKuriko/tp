@@ -34,6 +34,106 @@
     padding: 5px;
     border-bottom: 1px solid #aaa;
   }
+  .delchk{
+    position: relative;
+    margin-left: 5px;
+    display: inline-block;
+    background: #444;
+    color: #f96;
+    opacity: 0;
+    visibility: hidden;
+    width: 100px;
+    border-radius: 10px;
+    height: 24px;
+    text-align: center;
+    font-size: 15px;
+    line-height: 24px;
+    cursor: default;
+    transition: all .5s;
+    -webkit-transition: all .5s;
+    transform: translateX(30px);
+    -webkit-transform: translateX(30px);
+  }
+  .delchk.show{
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
+  }
+  .delchk:after{
+    content: "";
+    position: absolute;
+    height: 0;
+    width: 0;
+    top: 2px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent #444 transparent transparent;
+    left: -15px;
+  }
+  .delchk div{
+    display: inline-block;
+    padding: 0 4px;
+    cursor: pointer;
+  }
+  .delchk div:hover{
+    box-shadow: 0 0 2px 2px #fff;
+  }
+  .delchk div:active{
+    box-shadow: 0 0 2px 1px #fff inset;
+  }
+  .rep{
+    position: relative;
+    width: 100%;
+    width: calc(100% - 40px);
+    margin: 10px auto;
+    font-size: 16px;
+  }
+  .rep .txterr{
+    height: 28px;
+    width: 120px;
+    top: -50px;
+  }
+  .rep .txterr.show{
+    top: -28px;
+  }
+  .rep .content{
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+    font-size: inherit;
+    border: 1px solid #aaa;
+  }
+  .rep .content:hover,
+  .rep .content:focus{
+    background-color: #cff;
+  }
+  .rep .content{
+    min-height: 97px;
+    max-height: 265px;
+    padding: 16px;
+    overflow: auto;
+    word-break: break-all;
+    outline: none;
+    user-select: text;
+    white-space: pre-wrap;
+    text-align: left;
+    -webkit-user-modify: read-write-plaintext-only;
+  }
+  .rep .ok{
+    font-size: 18px;
+    text-align: center;
+    padding: 6px 20px;
+    width: 40px;
+    box-shadow: 1px 1px 1px #aaa;
+    margin: 10px;
+  }
+  .rep .ok:hover{
+    background-color: #dfd;
+  }
+  .rep .ok:active{
+    background-color: #bfb;
+  }
 </style>
 <script language="javascript">
   var mv, loginv;
@@ -53,6 +153,43 @@
         },200);
       });
   }
+  function updatepermission(){
+    if (!mv.userupdated)
+      return setTimeout(updatepermission, 200);
+    if (!mv.logged)
+      return;
+    mv.user.permission = mv.users['u'+mv.user.id].permission;
+    mv.user.usrgroup = mv.users['u'+mv.user.id].usrgroup;
+    if (mv.user.permission&vars.Permission.admin||mv.user.usrgroup==vars.UserGroup.admin){
+      mv.canedit = true;
+      for (i in mv.child)
+        mv.child[i].canedit = true;
+    }
+    else{
+      if (mv.user.id==mv.master.own)
+        mv.canedit = true;
+      for (i in mv.child){
+        if (mv.user.id==mv.child[i].own)
+          mv.child[i].canedit = true;
+      }
+    }
+  }
+  function delpost(postid){
+    mv.proc = true;
+    const params = new URLSearchParams();
+    params.append('postid', postid);
+    axios.post('/post/del', params)
+      .then(function(res){
+        if (res.data==vars.PostStatus.success)
+          location.reload(true);
+        else mv.delfailed = true;
+        mv.proc = false;
+      })
+      .catch(function(res){
+        mv.delfailed = true;
+        mv.proc = false;
+      });
+  }
 </script>
 </head>
 <body>
@@ -63,8 +200,14 @@
       <div class="title">{{master.title}}</div>
       <div class="info">
         <a v-if="userupdated" class="own">{{users['u'+master.own].name}}</a>
-        <a class="postid">#{{master.id}}</a>
+        <a class="postid">#1</a>
         <a class="create">{{master.createtime}}</a>
+        <a v-if="canedit" class="edit beforestr" str="编辑" :href="'/post/edit/'+master.id"></a>
+        <a v-if="canedit" class="del beforestr" str="删除" href="javascript:void(0);" @click="delchk = true;"></a>
+        <div class="delchk" :class="delchk?'show':''">
+          <div class="yes beforestr" str="确定" @click="delmaster"></div>
+          <div class="no beforestr" str="取消" @click="delchk = false;"></div>
+        </div>
       </div>
       <div class="content">{{master.content}}</div>
     </div>
@@ -73,16 +216,34 @@
         <a v-if="userupdated" class="own">{{users['u'+v.own].name}}</a>
         <a class="postid" :href="'#f'+v.id">#{{i+2+skip}}</a>
         <a class="create">{{v.createtime}}</a>
+        <a v-if="v.canedit" class="edit beforestr" str="编辑" :href="'/post/edit/'+v.id"></a>
+        <a v-if="v.canedit" class="del beforestr" str="删除" href="javascript:void(0);" @click="v.delchk = true;"></a>
+        <div class="delchk" :class="delchk?'show':''">
+          <div class="yes beforestr" str="确定" @click="delchild(i);"></div>
+          <div class="no beforestr" str="取消" @click="v.delchk = false;"></div>
+        </div>
       </div>
       <div class="content">{{v.content}}</div>
     </div>
+    <div class="rep">
+      <div class="content placeholder" placeholder="回复..." contenteditable="plaintext-only" v-text="repcontent" @keyup.ctrl.enter="repcontent=trim2($event.target.innerText);postnow();" @focus="txterr=false;" @blur="repcontent=trim2($event.target.innerText)"></div>
+      <div class="ok beforestr" str="发表" @click="postnow"></div>
+      <div class="txterr tips-top beforestr" :class="txterr?'show':'hidden'" str="输入内容"></div>
+      <div v-if="failed" style="color:#f00">发表失败</div>
+    </div>
   </div>
   <script language="javascript">
+    children = {$childdata};
+    for (let i in children){
+      children[i].canedit = false;
+      children[i].delchk = false;
+    }
     mv = new Vue({
       el: '#main',
       data: {
         master: {$postdata},
-        child: {$childdata},
+        canedit: false,
+        child: children,
         page: {$page},
         childperpage: {$childperpage},
         skip: ({$page}-1)*{$childperpage},
@@ -92,6 +253,51 @@
         users: {},
         user: {
           id: 0,
+          permission: vars.Permission.read,
+          usrgroup: vars.UserGroup.guest
+        },
+        repcontent: "",
+        txterr: false,
+        proc: false,
+        failed: false,
+        delchk: false,
+        delfailed: false
+      },
+      methods: {
+        postnow: function(){
+          if (this.proc)
+            return;
+          let v = this;
+          v.failed = false;
+          if (!v.logged)
+            return;
+          if (trim(v.repcontent)=="")
+            return v.txterr = true;
+          v.proc = true;
+          const params = new URLSearchParams();
+          params.append('postid', v.master.id);
+          params.append('text', v.repcontent);
+          axios.post('/post/rep', params)
+            .then(function(res){
+              if (res.data==vars.PostStatus.success)
+                location.reload(true);
+              else v.failed = true;
+              v.proc = false;
+            })
+            .catch(function(res){
+              v.failed = true;
+              v.proc = false;
+            });
+        },
+        delmaster: function(){
+          if (!this.canedit)
+            return;
+          delpost(this.master.id);
+        },
+        delchild: function(c){
+          if (!this.child[c].canedit)
+            return;
+          delpost(this.child[c].id);
         }
       }
     });
@@ -112,6 +318,7 @@
     for (let i in usrlst){
       updateuser(usrlst[i]);
     }
+    setTimeout(updatepermission, 200);
   </script>
 </body>
 </html>

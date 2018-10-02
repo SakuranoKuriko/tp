@@ -64,7 +64,8 @@ abstract class PostStatus{
     const needtitle = 0x34;
     const needtext = 0x35;
     const notfound = 0x36;
-    const iderror = 0x37;
+    const needpermission = 0x37;
+    const iderror = 0x38;
 }
 function getnum($str){
     preg_match(Regexp::getnum, $str, $v);

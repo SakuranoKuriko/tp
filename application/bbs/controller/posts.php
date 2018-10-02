@@ -68,10 +68,9 @@ function isown($postid){
     global $pdo;
     $s = $pdo->prepare("select own from posts where id='$postid' and own=? limit 1");
     $s->execute(array($GLOBALS['useruid']));
-    if ($s->rowCount()!=1){
-        echo PostStatus::noown;
-        die();
-    }
+    if ($s->rowCount()==1)
+        return true;
+    return false;
 }
 function postchk($postid){
     global $pdo;

@@ -179,7 +179,7 @@
           params.append('steam', v.user.steam);
           axios.post("/user/edit", params)
             .then(function(res){
-              if (res.data==vars.UserStatus.success)
+              if (res.data<=vars.UserStatus.success)
                 location.reload(true);
               else v.failed = true;
               v.proc = false;
@@ -209,7 +209,7 @@
           params.append('email', v.me.email);
           axios.post("/user/edit", params)
             .then(function(res){
-              if (res.data==vars.UserStatus.success)
+              if (res.data<=vars.UserStatus.success)
                 location.reload(true);
               else v.exfailed = true;
               v.proc = false;

@@ -142,15 +142,14 @@
           params.append('text', v.ndata.content);
           axios.post('/post/editit', params)
             .then(function(res){
-              if (res.data==vars.PostStatus.success)
-                location.href="/post/"+data.id;
+              if (res.data<=vars.PostStatus.success)
+                location.href="/post/"+v.data.id;
               else v.failed = true;
               v.proc = false;
             })
             .catch(function(res){
               v.failed = true;
               v.proc = false;
-              document.write(res.response.data);
             });
         }
       }

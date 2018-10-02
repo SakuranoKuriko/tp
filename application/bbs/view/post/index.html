@@ -189,7 +189,7 @@
     params.append('postid', postid);
     axios.post('/post/del', params)
       .then(function(res){
-        if (res.data==vars.PostStatus.success){
+        if (res.data<=vars.PostStatus.success){
           if (delmaster)
             location.href="/";
           else location.reload(true);
@@ -295,7 +295,7 @@
           params.append('text', v.repcontent);
           axios.post('/post/rep', params)
             .then(function(res){
-              if (res.data==vars.PostStatus.success)
+              if (res.data<=vars.PostStatus.success)
                 location.reload(true);
               else v.failed = true;
               v.proc = false;
@@ -303,7 +303,6 @@
             .catch(function(res){
               v.failed = true;
               v.proc = false;
-              document.write(res.response.data);
             });
         },
         delmaster: function(){

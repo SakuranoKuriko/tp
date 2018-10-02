@@ -241,7 +241,7 @@ loginv = new Vue({
       params.append('pw', md5(v.data.pw));
       axios.post('/user/login', params)
         .then(function(res){
-          if (res.data==vars.UserStatus.success)
+          if (res.data<=vars.UserStatus.success)
             location.reload(true);
           else v.failed = true;
           v.proc = false;
@@ -274,7 +274,7 @@ loginv = new Vue({
       params.append('email', v.data.email);
       axios.post('/user/reg', params)
         .then(function(res){
-          if (res.data==vars.UserStatus.success)
+          if (res.data<=vars.UserStatus.success)
             location.reload(true);
           else v.failed = true;
           v.proc = false;

@@ -34,7 +34,7 @@ function getchildpost($postid, $page = 1){
     $skip = ($page-1)*$cc;
     $s = $pdo->query("select * from posts where masterid='$postid' limit $skip, $cc");
     $postdata = $s->fetchAll(PDO::FETCH_ASSOC);
-    foreach($p as $key=>$val){
+    foreach($postdata as $key=>$val){
         if (isset($postdata['pos']))
             $postdata[$key]['pos'] = getposstr($postdata[$key]['pos']);
     }

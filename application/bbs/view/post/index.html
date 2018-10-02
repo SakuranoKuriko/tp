@@ -251,6 +251,7 @@
     for (let i in children){
       children[i].canedit = false;
       children[i].delchk = false;
+      children[i].posstr = cutch(children[i].posstr);
     }
     mv = new Vue({
       el: '#main',
@@ -336,6 +337,7 @@
     for (let i in usrlst){
       updateuser(usrlst[i]);
     }
+    mv.master.posstr = cutch(mv.master.posstr);
     setTimeout(updatepermission, 200);
   </script>
 </body>

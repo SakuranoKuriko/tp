@@ -144,3 +144,8 @@ function trim2(s){
   if (/^\s+$/.test(s)) return '';
   else return s;
 }
+function cutch(str){
+  if (/^中国.*$/.test(str))
+    return str.substr(2);
+  return str;
+}

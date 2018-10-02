@@ -387,17 +387,17 @@
     </div>
     <div id="toolbar">
       <div id="search">
-        <input class="searchstr" type="text" placeholder="搜索..."/>
+        <input class="searchstr" type="text" placeholder="搜索..." @keyup.enter="searchnow"/>
         <div class="select b-box" :style="'transform:rotateX('+search.mode*90+'deg);'" @click="searchmode();">
           <div class="b-face b-front beforestr" str="搜索标题"></div>
           <div class="b-face b-bottom beforestr" str="搜索标题和内容"></div>
           <div class="b-face b-back beforestr" str="搜索用户"></div>
         </div>
-        <div class="ok beforestr" str="搜索"></div>
+        <div class="ok beforestr" str="搜索" @click="searchnow"></div>
         <div id="newpost" class="beforestr" str="发帖" @click="shownewpost"></div>
       </div>
     </div>
-    <div id="newpostwrap" :class="newpost.show?'show':''">
+    <div id="newpostwrap" :class="newpost.show?'show':''" v-cloak>
       <div class="tierr tips-top beforestr" :class="newpost.failed?'show':'hidden'" str="发表失败"></div>
       <div class="tierr tips-top beforestr" :class="newpost.tierr?'show':'hidden'" str="输入标题"></div>
       <div class="inputwrap">
@@ -476,6 +476,9 @@
         searchmode: function(){
           mv.search.mode=(mv.search.mode+1)%3;
           document.querySelector("#search input").focus();
+        },
+        searchnow: function(){
+          console.log('搜索功能未完成');
         },
         chkmy: function(post){
           if (post.own==mv.user.uid)

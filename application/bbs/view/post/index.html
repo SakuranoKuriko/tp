@@ -151,19 +151,19 @@
     location.href="/post/"+d+"#f"+t;
   var mv, loginv;
   var userupdatetimer = -1;
-  function updateuser(usr){
-    if (usr==null||usr=="")
-    return;
-    axios.get('/user/'+usr+'/json')
-      .then(function(res){
-        user = res.data;
-        user.uid = 'u'+user.id;
-        mv.users['u'+user.id] = Object.assign({}, user);
-        if (userupdatetimer!=-1)
-          clearTimeout(userupdatetimer);
-        userupdatetimer = setTimeout(function(){
-          mv.userupdated = true;
-        },200);
+  function updateuser(usr) {
+    if(typeof usr != "object")
+      return;
+    const params = new URLSearchParams();
+    params.append('usrlst', JSON.stringify(usr));
+    axios.post(cfg.serverurl + '/user/users', params)
+      .then(function(res) {
+        users = res.data;
+        for(let i in users) {
+          users[i].uid = 'u' + users[i].id;
+          mv.users['u' + users[i].id] = Object.assign({}, users[i]);
+        }
+        mv.userupdated = true;
       });
   }
   function updatepermission(){
@@ -339,9 +339,7 @@
       if (usrlst.indexOf(mv.child[i].own===-1))
         usrlst.push(mv.child[i].own);
     }
-    for (let i in usrlst){
-      updateuser(usrlst[i]);
-    }
+		updateuser(usrlst);
     mv.master.posstr = cutch(mv.master.posstr);
     setTimeout(updatepermission, 200);
   </script>

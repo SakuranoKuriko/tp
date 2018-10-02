@@ -348,19 +348,19 @@
 <script language="javascript">
   var mv, loginv;
   var userupdatetimer = -1;
-  function updateuser(usr){
-    if (usr==null||usr=="")
-    return;
-    axios.get('/user/'+usr+'/json')
-      .then(function(res){
-        user = res.data;
-        user.uid = 'u'+user.id;
-        mv.users['u'+user.id] = Object.assign({}, user);
-        if (userupdatetimer!=-1)
-          clearTimeout(userupdatetimer);
-        userupdatetimer = setTimeout(function(){
-          mv.userupdated = true;
-        },200);
+  function updateuser(usr) {
+    if(typeof usr != "object")
+      return;
+    const params = new URLSearchParams();
+    params.append('usrlst', JSON.stringify(usr));
+    axios.post(cfg.serverurl + '/user/users', params)
+      .then(function(res) {
+        users = res.data;
+        for(let i in users) {
+          users[i].uid = 'u' + users[i].id;
+          mv.users['u' + users[i].id] = Object.assign({}, users[i]);
+        }
+        mv.userupdated = true;
       });
   }
 </script>
@@ -569,9 +569,7 @@
       if (i1[i].lastrep!=null&&usrlst.indexOf(i1[i].lastrep)===-1)
         usrlst.push(i1[i].lastrep);
     }
-    for (let i in usrlst){
-      updateuser(usrlst[i]);
-    }
+		updateuser(usrlst);
     mv.postlst = Object.assign({}, o1);
     if (mv.needslider)
       mv.startslide();

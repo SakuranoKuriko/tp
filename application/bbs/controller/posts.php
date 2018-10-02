@@ -17,7 +17,8 @@ function getpost($postid){
     }
     $s = $pdo->query("select 1 from posts where masterid='$postid'");
     $postdata['childcount'] = $s->rowCount();
-    $postdata['pos'] = getposstr($postdata['pos']);
+    if (isset($postdata['pos']))
+        $postdata['pos'] = getposstr($postdata['pos']);
     return $postdata;
 }
 function getlist($page = 1){
@@ -34,7 +35,8 @@ function getchildpost($postid, $page = 1){
     $s = $pdo->query("select * from posts where masterid='$postid' limit $skip, $cc");
     $postdata = $s->fetchAll(PDO::FETCH_ASSOC);
     foreach($p as $key=>$val){
-        $postdata[$key]['pos'] = getposstr($postdata[$key]['pos']);
+        if (isset($postdata['pos']))
+            $postdata[$key]['pos'] = getposstr($postdata[$key]['pos']);
     }
     return $postdata;
 }

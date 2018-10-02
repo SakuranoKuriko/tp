@@ -33,6 +33,17 @@ function getchildpost($postid, $page = 1){
     $s = $pdo->query("select * from posts where masterid='$postid' limit $skip, $cc");
     return $s->fetchAll(PDO::FETCH_ASSOC);
 }
+function getmasterid($postid){
+    global $pdo;
+    $s = $pdo->query("select masterid from posts where id='$postid' limit 1");
+    $r = $s->fetch(PDO::FETCH_ASSOC)['masterid'];
+    if ($s->rowCount()==1){
+        if ($r!="") return (int)$r;
+        else return $postid;
+    }
+    echo PostStatus::error;
+    die();
+}
 function newpost($title, $content){
     global $pdo;
     $s = $pdo->prepare("insert into posts (own, title, content) values (?, ?, ?)");

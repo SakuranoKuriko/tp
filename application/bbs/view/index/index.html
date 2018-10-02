@@ -13,6 +13,7 @@
   #main{
     width: 80%;
     margin: 0 auto;
+    scroll-behavior: smooth;
   }
   #headslider{
     height: 300px;
@@ -349,7 +350,7 @@
 </style>
 <script language="javascript">
   var mv, loginv;
-  var userupdatetimer;
+  var userupdatetimer = -1;
   function updateuser(usr){
     if (usr==null||usr=="")
     return;

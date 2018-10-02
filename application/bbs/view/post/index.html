@@ -1,4 +1,118 @@
-{include file="common/header"}
-{$postid}
-{$postdata}
-{$childdata}
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>帖子详细</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+<link href="/css/common.css" rel="stylesheet" type="text/css">
+<script language="javascript" src="/js/vue.js"></script>
+<script language="javascript" src="/js/axios.js"></script>
+<script language="javascript" src="/js/vars.js"></script>
+<script language="javascript" src="/js/md5.js"></script>
+<style type="text/css">
+  #main{
+    width: 80%;
+    margin: 0 auto;
+    scroll-behavior: smooth;
+    text-align: left;
+  }
+  .master{
+    padding: 20px;
+  }
+  .title{
+    padding: 0 5px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 24px;
+    border-bottom: 1px dashed #ccc;
+  }
+  .info a{
+    padding: 0 5px;
+    color: #666;
+  }
+  .content{
+    padding: 5px;
+    border-bottom: 1px solid #aaa;
+  }
+</style>
+<script language="javascript">
+  var mv, loginv;
+  var userupdatetimer = -1;
+  function updateuser(usr){
+    if (usr==null||usr=="")
+    return;
+    axios.get('/user/'+usr+'/json')
+      .then(function(res){
+        user = res.data;
+        user.uid = 'u'+user.id;
+        mv.users['u'+user.id] = Object.assign({}, user);
+        if (userupdatetimer!=-1)
+          clearTimeout(userupdatetimer);
+        userupdatetimer = setTimeout(function(){
+          mv.userupdated = true;
+        },200);
+      });
+  }
+</script>
+</head>
+<body>
+  {include file="common/login"}
+  <div id="main" v-cloak>
+    {include file="common/header"}
+    <div class="master">
+      <div class="title">{{master.title}}</div>
+      <div class="info">
+        <a v-if="userupdated" class="own">{{users['u'+master.own].name}}</a>
+        <a class="postid">#{{master.id}}</a>
+        <a class="create">{{master.createtime}}</a>
+      </div>
+      <div class="content">{{master.content}}</div>
+    </div>
+    <div v-for="(v,i) in child" :name="'#f'+v.id" class="child">
+      <div class="info">
+        <a v-if="userupdated" class="own">{{users['u'+v.own].name}}</a>
+        <a class="postid" :href="'#f'+v.id">#{{i+2+skip}}</a>
+        <a class="create">{{v.createtime}}</a>
+      </div>
+      <div class="content">{{v.content}}</div>
+    </div>
+  </div>
+  <script language="javascript">
+    mv = new Vue({
+      el: '#main',
+      data: {
+        master: {$postdata},
+        child: {$childdata},
+        page: {$page},
+        childperpage: {$childperpage},
+        skip: ({$page}-1)*{$childperpage},
+        userupdated: false,
+        logged: false,
+        targetid: {$targetid},
+        users: {},
+        user: {
+          id: 0,
+        }
+      }
+    });
+    var usrlst = [];
+    var authkey = getCookie('authkey');
+    if (authkey!=null){
+      mv.logged = true;
+      mv.user.id = getCookie('id');
+      usrlst.push(mv.user.id);
+    }
+    if (usrlst.indexOf(mv.master.own)===-1)
+      usrlst.push(mv.master.own);
+    p = Object.keys(mv.child);
+    for (let i in p){
+      if (usrlst.indexOf(mv.child[i].own===-1))
+        usrlst.push(mv.child[i].own);
+    }
+    for (let i in usrlst){
+      updateuser(usrlst[i]);
+    }
+  </script>
+</body>
+</html>
+

@@ -11,6 +11,12 @@ class Post extends \think\Controller
     public function _empty(){
         $postid = getpostid(Request::instance()->action());
         postchk($postid);
+        $masterid = getmasterid($postid);
+        $target = 0;
+        if ($masterid!=$postid){
+            $target = $postid;
+            $postid = $msaterid;
+        }
         $args = getargs();
         $page = 1;
         if (count($args)>0){
@@ -21,6 +27,9 @@ class Post extends \think\Controller
         $postdata = getpost($postid);
         $childpost = getchildpost($postid, $page);
         $this->assign('postid', $postid);
+        $this->assign('targetid', $target);
+        $this->assign('page', $page);
+        $this->assign('childperpage', getcfg('childperpage'));
         $this->assign('postdata', json_encode($postdata));
         $this->assign('childdata', json_encode($childpost));
         return $this->fetch('index');
@@ -31,12 +40,11 @@ class Post extends \think\Controller
         if (count($args)==0)
             return (string)\PostStatus::needpostid;
         $postid = getpostid($args[0]);
-        $postdata = getpost($postid);
         $this->assign('postid', $postid);
-        $this->assign('postdata', json_encode($postdata));
+        $this->assign('postdata', json_encode(getpost($postid)));
         return $this->fetch('edit');
     }
-    public function new(){
+    public function create(){
         authchk();
         $ti = getpostarg('title', false);
         $text = getpostarg('text');

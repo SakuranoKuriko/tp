@@ -119,15 +119,15 @@ function getposstr($pos){
     $p = $pos;
     if (is_string($p))
         $p = json_decode($p);
-    if (strtolower($p->data->isp_id)=="local")
+    if (strtolower($p['data']['isp_id'])=="local")
         return "内网";
     $ps = "";
-    if (strtolower($p->data->country)!="xx")
-        $ps .= $p->data->country;
-    if (strtolower($p->data->region)!="xx")
-        $ps .= $p->data->region;
-    if (strtolower($p->data->city)!="xx")
-        $ps .= $p->data->city;
+    if (strtolower($p['data']['country'])!="xx")
+        $ps .= $p['data']['country'];
+    if (strtolower($p['data']['region'])!="xx")
+        $ps .= $p['data']['region'];
+    if (strtolower($p['data']['city'])!="xx")
+        $ps .= $p['data']['city'];
     if ($ps!="中国"&&substr($ps, 2, 2)=="中国")
         $ps = substr($ps, 2);
     return $ps;

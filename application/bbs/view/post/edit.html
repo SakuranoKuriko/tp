@@ -121,7 +121,6 @@
             loginv.show = true;
             return;
           }
-          //if ((!this.canedit)||this.proc)
           if (this.proc)
             return;
           if (trim(ndata.title=="")&&ismaster){
@@ -159,10 +158,8 @@
     if (mv.data.masterid!=null)
       mv.ismaster = false;
     var authkey = getCookie('authkey');
-    if (authkey!=null){
+    if (authkey!=null)
       mv.logged = true;
-      mv.user.id = getCookie('id');
-    }
   </script>
 </body>
 </html>

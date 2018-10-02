@@ -108,6 +108,7 @@
       data: {
         data: {$postdata},
         ismaster: true,
+        logged: false,
         canedit: false,
         proc: false,
         tierr: false,
@@ -120,7 +121,8 @@
             loginv.show = true;
             return;
           }
-          if ((!this.canedit)||this.proc)
+          //if ((!this.canedit)||this.proc)
+          if (this.proc)
             return;
           if (trim(ndata.title=="")&&ismaster){
             this.tierr = true;
@@ -132,10 +134,14 @@
           let v = this;
           v.proc = true;
           const params = new URLSearchParams();
-          if (v.ismaster)
+          params.append('postid', v.ndata.id);
+          i = "/post/editit";
+          if (v.ismaster){
+            i = "/post/editrep";
             params.append('title', v.ndata.title);
+          }
           params.append('text', v.ndata.content);
-          axios.post('/post/rep', params)
+          axios.post('/post/editit', params)
             .then(function(res){
               if (res.data==vars.PostStatus.success)
                 location.href="/post/"+data.id;
@@ -152,6 +158,11 @@
     });
     if (mv.data.masterid!=null)
       mv.ismaster = false;
+    var authkey = getCookie('authkey');
+    if (authkey!=null){
+      mv.logged = true;
+      mv.user.id = getCookie('id');
+    }
   </script>
 </body>
 </html>

@@ -204,7 +204,8 @@
           v.proc = true;
           const params = new URLSearchParams();
           params.append('id', v.user.id);
-          params.append('pw', md5(v.me.pw));
+          if (v.me.pw!="")
+            params.append('pw', md5(v.me.pw));
           params.append('email', v.me.email);
           axios.post("/user/edit", params)
             .then(function(res){

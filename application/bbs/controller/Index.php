@@ -9,6 +9,9 @@ class Index extends \think\Controller
 {
     public function index()
     {
+        $args = getargs();
+        if (count($args)>0&&$args[0]=="json")
+            return json_encode(getlist());
         $this->assign('sliders', json_encode(getsliders()));
         $this->assign('headimg', getcfg('headimg'));
         $this->assign('needslider', getcfg('needslider'));

@@ -127,6 +127,7 @@
     width: 40px;
     box-shadow: 1px 1px 1px #aaa;
     margin: 10px;
+    display: inline-block;
   }
   .rep .ok:hover{
     background-color: #dfd;
@@ -232,7 +233,7 @@
       <div class="content placeholder" placeholder="回复..." contenteditable="plaintext-only" v-text="repcontent" @keyup.ctrl.enter="repcontent=trim2($event.target.innerText);postnow();" @focus="txterr=false;" @blur="repcontent=trim2($event.target.innerText)"></div>
       <div class="ok beforestr" str="发表" @click="postnow"></div>
       <div class="txterr tips-top beforestr" :class="txterr?'show':'hidden'" str="输入内容"></div>
-      <div v-if="failed" style="color:#f00">发表失败</div>
+      <span v-if="failed" style="color:#f00">发表失败</span>
     </div>
   </div>
   <script language="javascript">
@@ -290,6 +291,7 @@
             .catch(function(res){
               v.failed = true;
               v.proc = false;
+              document.write(res.response.data);
             });
         },
         delmaster: function(){

@@ -277,10 +277,15 @@
             return;
           let v = this;
           v.failed = false;
-          if (!v.logged)
+          if (!v.logged){
+            loginv.login = true;
+            loginv.show = true;
             return;
-          if (trim(v.repcontent)=="")
-            return v.txterr = true;
+          }
+          if (trim(v.repcontent)==""){
+            v.txterr = true;
+            return;
+          }
           v.proc = true;
           const params = new URLSearchParams();
           params.append('postid', v.master.id);

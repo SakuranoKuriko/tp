@@ -108,13 +108,60 @@
 input.inputerr{
   border-color: #f66;
 }
+#login.show .tabs{
+  transform: rotateX(0);
+  -webkit-transform: rotateX(0);
+}
+#login .tabs{
+  transform: rotateX(-90deg);
+  -webkit-transform: rotateX(-90deg);
+  transform-origin: bottom;
+  -webkit-transform-origin: bottom;
+  transition: all .5s;
+  -webkit-transition: all .5s;
+  position: absolute;
+  z-index: 11;
+  background: #fff;
+  width: 240px;
+  height: 40px;
+  left: calc(50% - 120px);
+  top: calc(15% - 40px);
+}
+#login .tabs .tab{
+  line-height: 40px;
+  float: left;
+}
+#login .tabs .tab:hover{
+  background-color: #dfd;
+}
+#login .tabs .tab:active{
+  background-color: #bfb;
+}
+#login .tabs .nowtab{
+  position: absolute;
+  height: 5px;
+  background-color: #bfb;
+  transition: all .5s;
+  -webkit-transition: all .5s;
+  transform: translateX(0);
+  -webkit-transform: translateX(0);
+}
+#login .tabs .tab,
+#login .tabs .nowtab{
+  width: 50%;
+}
 </style>
 <div id="login" :class="show?'show':''" v-cloak>
+  <div class="tabs">
+    <div class="nowtab" :style="'transform: translateX('+(login?'0':'100')+'%);'"></div>
+    <div class="tab beforestr" str="登录" @click="login = true;"></div>
+    <div class="tab beforestr" str="注册" @click="login = false;"></div>
+  </div>
   <div v-if="login" class="login form">
     <input class="id" :class="iderr?'inputerr':''" type="text" placeholder="*用户名" maxlength="200" v-model="data.id" @focus="clearerr('iderr');" @input="chkid" @keyup.enter="ilogin"/>
     <div class="id tips-left beforestr" :class="iderr?'showtips':'hidden'" str="输入用户名"></div>
     <input class="pw" :class="pwerr?'inputerr':''" type="password" placeholder="*密码" v-model="data.pw" @focus="clearerr('pwerr');" @keyup.enter="ilogin"/>
-    <div class="pw tips-left beforestr" :class="pwerr?'showtips':'hidden'" str="输入密码"></div>
+    <div class="pw tips-left beforestr" :class="pwerr?'showtips':'hidden'" str="输入密码" key="tipslogin"></div>
     <div class="ok btn beforestr" str="登录" @click="ilogin"></div>
     <a style="margin-left: 16px;" href="javascript:void(0);">重置密码</a>
     <div class="idtips tips beforestr" :class="failed?'showtips':'hidden'" str="登录失败" style="line-height: 48px;"></div>
@@ -125,7 +172,7 @@ input.inputerr{
     <div class="id tips-left beforestr" :class="iderr?'showtips':'hidden'" str="输入用户名"></div>
     <div class="id tips-right beforestr" :class="idused?'showtips':'hidden'" str="已被占用"></div>
     <input class="pw" :class="pwerr?'inputerr':''" type="password" placeholder="*密码" v-model="data.pw" @focus="clearerr('pwerr');" @keyup.enter="ireg"/>
-    <div class="pw tips-left beforestr" :class="pwerr?'showtips':'hidden'" str="输入密码"></div>
+    <div class="pw tips-left beforestr" :class="pwerr?'showtips':'hidden'" str="输入密码" key="tipsreg"></div>
     <input class="cpw" :class="cpwerr?'inputerr':''" type="password" placeholder="*确认密码" v-model="data.cpw" :style="data.pw==data.cpw?'':'border-color: #f66;'" @focus="clearerr('cpwerr');" @keyup.enter="ireg"/>
     <div class="cpw tips-left beforestr" :class="cpwerr?'showtips':'hidden'" str="确认密码"></div>
     <input class="name" type="text" :placeholder="data.id==''?'马甲':data.id" v-model="data.name" @focus="clearerr();" @keyup.enter="ireg"/>

@@ -56,17 +56,11 @@ function reppost($postid, $content){
     global $pdo;
     $s = $pdo->prepare("insert into posts (own, title, content, masterid) values (?, ?, ?, '$postid')");
     $s->execute(array($GLOBALS['useruid'], getcfg('reptitle'), $content));
-    if ($s->rowCount()!=1){
-        echo "1";
+    if ($s->rowCount()!=1)
         return PostStatus::error;
-    }
     $s = $pdo->prepare("update posts set lastrep=? where id='$postid'");
     $s->execute(array($GLOBALS['useruid']));
-    if ($s->rowCount()==1){
-        echo "2";
-        return PostStatus::success;
-    }
-    else return PostStatus::error;
+    return PostStatus::success;
 }
 function isown($postid){
     global $pdo;

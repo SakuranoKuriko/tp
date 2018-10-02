@@ -413,7 +413,7 @@
       <div id="posthead" class="post noev">
         <span class="title">标题</span>
         <span class="postusrinfo own">创建</span>
-        <span class="postusrinfo lastrep">最新回复</span>
+        <span class="postusrinfo lastrep" style="height: 40px;line-height: 20px;font-size: 14px;">最新回复<br/>最后更新</span>
       </div>
       <div v-if="userupdated" v-for="v in postlst" :id="v.id" class="post" v-cloak>
         <div v-if="chkmy(v)" class="my"></div>

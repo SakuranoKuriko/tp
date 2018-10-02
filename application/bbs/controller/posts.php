@@ -104,8 +104,7 @@ function editpost($postid, $title, $content){
 }
 function delpost($postid){
     global $pdo;
-    $s = $pdo->exec("delete from posts where id=$postid");
-    if ($s->rowCount()==1)
+    if ($pdo->exec("delete from posts where id=$postid")==1)
         return PostStatus::success;
     else return PostStatus::error;
 }

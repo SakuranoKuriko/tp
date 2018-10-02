@@ -192,7 +192,7 @@
         if (res.data<=vars.PostStatus.success){
           if (delmaster)
             location.href="/";
-          else location.reload(true);
+          else location.reload(false);
         }
         else mv.delfailed = true;
         mv.proc = false;
@@ -299,7 +299,7 @@
           axios.post('/post/rep', params)
             .then(function(res){
               if (res.data<=vars.PostStatus.success)
-                location.reload(true);
+                location.reload(false);
               else v.failed = true;
               v.proc = false;
             })

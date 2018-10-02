@@ -242,7 +242,7 @@ loginv = new Vue({
       axios.post('/user/login', params)
         .then(function(res){
           if (res.data<=vars.UserStatus.success)
-            location.reload(true);
+            location.reload(false);
           else v.failed = true;
           v.proc = false;
         })
@@ -275,7 +275,7 @@ loginv = new Vue({
       axios.post('/user/reg', params)
         .then(function(res){
           if (res.data<=vars.UserStatus.success)
-            location.reload(true);
+            location.reload(false);
           else v.failed = true;
           v.proc = false;
         })

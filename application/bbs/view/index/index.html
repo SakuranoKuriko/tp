@@ -489,7 +489,7 @@
           if (this.logged){
             delCookie("id");
             delCookie("authkey");
-            location.reload(true);
+            location.reload(false);
           }
           else {
             loginv.login=true;
@@ -528,7 +528,7 @@
           axios.post('/post/create', params)
             .then(function(res){
               if (res.data<=vars.PostStatus.success)
-                location.reload(true);
+                location.reload(false);
               else v.newpost.failed = true;
               v.newpost.proc = false;
             })

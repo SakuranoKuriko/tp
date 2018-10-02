@@ -180,7 +180,7 @@
           axios.post("/user/edit", params)
             .then(function(res){
               if (res.data<=vars.UserStatus.success)
-                location.reload(true);
+                location.reload(false);
               else v.failed = true;
               v.proc = false;
             })
@@ -210,7 +210,7 @@
           axios.post("/user/edit", params)
             .then(function(res){
               if (res.data<=vars.UserStatus.success)
-                location.reload(true);
+                location.reload(false);
               else v.exfailed = true;
               v.proc = false;
             })

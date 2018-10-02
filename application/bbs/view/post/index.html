@@ -226,7 +226,7 @@
         <a class="create">{{v.createtime}}</a>
         <a v-if="v.canedit" class="edit beforestr" str="编辑" :href="'/post/edit/'+v.id"></a>
         <a v-if="v.canedit" class="del beforestr" str="删除" href="javascript:void(0);" @click="v.delchk = true;"></a>
-        <div class="delchk" :class="delchk?'show':''">
+        <div class="delchk" :class="v.delchk?'show':''">
           <div class="yes beforestr" str="确定" @click="delchild(i);"></div>
           <div class="no beforestr" str="取消" @click="v.delchk = false;"></div>
         </div>

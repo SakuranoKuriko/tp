@@ -16,6 +16,14 @@ class User extends \think\Controller
         $this->assign('userdata', json_encode($userdata));
         return $this->fetch('index');
     }
+    public function users(){
+        $usrlst = json_decode(getpostarg('usrlst', false));
+        $usrlsto = array();
+        foreach($usrlst as $v){
+            array_push($usrlsto, getusr($v));
+        }
+        return json_encode($usrlsto);
+    }
     public function login(){
         $id = getpostarg('id', false);
         $pw = getpostarg('pw', false);

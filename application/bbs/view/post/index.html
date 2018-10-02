@@ -214,7 +214,7 @@
         <a v-if="userupdated" class="own" :href="'/user/'+users['u'+master.own].usrid">{{users['u'+master.own].name}}</a>
         <a class="postid">#1</a>
         <a class="create">{{master.createtime}}</a>
-        <a class="pos">{{master.pos}}</a>
+        <a class="pos">{{master.posstr}}</a>
         <a v-if="canedit" class="edit beforestr" str="编辑" :href="'/post/edit/'+master.id"></a>
         <a v-if="canedit" class="del beforestr" str="删除" href="javascript:void(0);" @click="delchk = true;"></a>
         <div class="delchk" :class="delchk?'show':''">
@@ -229,7 +229,7 @@
         <a v-if="userupdated" class="own" :href="'/user/'+users['u'+v.own].usrid">{{users['u'+v.own].name}}</a>
         <a class="postid" :href="'#f'+v.id">#{{i+2+skip}}</a>
         <a class="create">{{v.createtime}}</a>
-        <a class="pos">{{v.pos}}</a>
+        <a class="pos">{{v.posstr}}</a>
         <a v-if="v.canedit" class="edit beforestr" str="编辑" :href="'/post/edit/'+v.id"></a>
         <a v-if="v.canedit" class="del beforestr" str="删除" href="javascript:void(0);" @click="v.delchk = true;"></a>
         <div class="delchk" :class="v.delchk?'show':''">

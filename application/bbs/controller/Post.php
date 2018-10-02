@@ -9,6 +9,7 @@ use \think\Request;
 class Post extends \think\Controller
 {
     public function _empty(){
+        $args = getargs();
         $postid = getpostid(Request::instance()->action());
         postchk($postid);
         $masterid = getmasterid($postid);
@@ -26,6 +27,16 @@ class Post extends \think\Controller
         }
         $postdata = getpost($postid);
         $childpost = getchildpost($postid, $page);
+        if (count($args)>0&&$args[0]=="json"){
+            $json = new stdClass();
+            $json->postid = $postid;
+            $json->targetid = $target;
+            $json->page = $page;
+            $json->childperpage = getcfg('childperpage');
+            $json->postdata = $postdata;
+            $json->childdata = $childpost;
+            return json_encode($json);
+        }
         $this->assign('postid', $postid);
         $this->assign('targetid', $target);
         $this->assign('page', $page);

@@ -17,8 +17,7 @@ function getpost($postid){
     }
     $s = $pdo->query("select 1 from posts where masterid='$postid'");
     $postdata['childcount'] = $s->rowCount();
-    if (isset($postdata['pos']))
-        $postdata['pos'] = getposstr($postdata['pos']);
+    unset($postdata['pos']);
     return $postdata;
 }
 function getlist($page = 1){
@@ -35,8 +34,7 @@ function getchildpost($postid, $page = 1){
     $s = $pdo->query("select * from posts where masterid='$postid' limit $skip, $cc");
     $postdata = $s->fetchAll(PDO::FETCH_ASSOC);
     foreach($postdata as $key=>$val){
-        if (isset($postdata['pos']))
-            $postdata[$key]['pos'] = getposstr($postdata[$key]['pos']);
+        unset($postdata[$key]['pos']);
     }
     return $postdata;
 }
@@ -53,16 +51,18 @@ function getmasterid($postid){
 }
 function newpost($title, $content){
     global $pdo;
-    $s = $pdo->prepare("insert into posts (own, title, content, pos) values (?, ?, ?, ?)");
-    $s->execute(array($GLOBALS['useruid'], $title, $content, json_encode(getpos())));
+    $pos = getpos();
+    $s = $pdo->prepare("insert into posts (own, title, content, pos, posstr) values (?, ?, ?, ?, ?)");
+    $s->execute(array($GLOBALS['useruid'], $title, $content, json_encode($pos), getposstr($pos)));
     if ($s->rowCount()==1)
         return PostStatus::success;
     else return PostStatus::error;
 }
 function reppost($postid, $content){
     global $pdo;
-    $s = $pdo->prepare("insert into posts (own, title, content, masterid, pos) values (?, ?, ?, '$postid')");
-    $s->execute(array($GLOBALS['useruid'], getcfg('reptitle'), $content, json_encode(getpos())));
+    $pos = getpos();
+    $s = $pdo->prepare("insert into posts (own, title, content, masterid, pos, posstr) values (?, ?, ?, '$postid', ?, ?)");
+    $s->execute(array($GLOBALS['useruid'], getcfg('reptitle'), $content, json_encode($pos), getposstr($pos)));
     if ($s->rowCount()!=1)
         return PostStatus::error;
     $s = $pdo->prepare("update posts set lastrep=? where id='$postid'");

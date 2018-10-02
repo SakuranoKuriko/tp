@@ -4,3 +4,4 @@ Index<br/>
 --bg<br/>
 --footer<br/>
 --BBCode support<br/>
+reload->ajax

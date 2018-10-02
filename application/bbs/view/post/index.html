@@ -332,6 +332,8 @@
     for (let i in usrlst){
       updateuser(usrlst[i]);
     }
+    if (mv.targetid>0)
+      location.href = "#f"+mv.targetid;
     setTimeout(updatepermission, 200);
   </script>
 </body>

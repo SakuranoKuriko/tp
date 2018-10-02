@@ -66,8 +66,6 @@ class Post extends \think\Controller
     public function del(){
         authchk();
         $postid = getpostid(getpostarg('postid', false));
-        $GLOBALS['permission'] = (int)$res['permission'];
-        $GLOBALS['usrgroup'] = (int)$res['usrgroup'];
         if ($GLOBALS['permission']&\Permission::admin||$GLOBALS['usrgroup']==\UserGroup::admin||isown($postid))
             return (string)delpost($postid);
         else return (string)\PostStatus::needpermission;

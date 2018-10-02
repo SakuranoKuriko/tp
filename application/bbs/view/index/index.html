@@ -342,9 +342,6 @@
     color: #666;
   }
   #mainlist .post .postusrinfo .norep{
-    height: 40px;
-    line-height: 40px;
-    font-size: 14px;
     color: #666;
   }
 </style>
@@ -428,6 +425,7 @@
         </div>
         <div v-else class="postusrinfo lastrep noev">
           <a class="norep">暂无回复</a>
+          <a class="time">{{v.updatetime}}</a>
         </div>
       </div>
     </div>

@@ -99,7 +99,7 @@
       <div class="tierr tips-top beforestr" :class="tierr?'show':'hidden'" str="输入标题"></div>
       <div class="content placeholder" placeholder="(可选)" contenteditable="plaintext-only" v-text="ndata.content" @keyup.ctrl.enter="ndata.content=trim2($event.target.innerText);postnow();" @blur="ndata.content=trim2($event.target.innerText)"></div>
       <div class="btn beforestr" str="发表" @click="postnow"></div>
-      <div class="btn beforestr" str="返回" @click="history.back();"></div>
+      <div class="btn beforestr" str="返回" @click="history.go(-1);"></div>
     </div>
   </div>
   <script language="javascript">

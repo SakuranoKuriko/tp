@@ -17,6 +17,7 @@ function getpost($postid){
     }
     $s = $pdo->query("select 1 from posts where masterid='$postid'");
     $postdata['childcount'] = $s->rowCount();
+    $postdata['pos'] = getposstr($postdata['pos']);
     return $postdata;
 }
 function getlist($page = 1){
@@ -31,7 +32,11 @@ function getchildpost($postid, $page = 1){
     $cc = (int)getcfg('childperpage');
     $skip = ($page-1)*$cc;
     $s = $pdo->query("select * from posts where masterid='$postid' limit $skip, $cc");
-    return $s->fetchAll(PDO::FETCH_ASSOC);
+    $postdata = $s->fetchAll(PDO::FETCH_ASSOC);
+    foreach($p as $key=>$val){
+        $postdata[$key]['pos'] = getposstr($postdata[$key]['pos']);
+    }
+    return $postdata;
 }
 function getmasterid($postid){
     global $pdo;
@@ -46,16 +51,16 @@ function getmasterid($postid){
 }
 function newpost($title, $content){
     global $pdo;
-    $s = $pdo->prepare("insert into posts (own, title, content) values (?, ?, ?)");
-    $s->execute(array($GLOBALS['useruid'], $title, $content));
+    $s = $pdo->prepare("insert into posts (own, title, content, pos) values (?, ?, ?, ?)");
+    $s->execute(array($GLOBALS['useruid'], $title, $content, json_encode(getpos())));
     if ($s->rowCount()==1)
         return PostStatus::success;
     else return PostStatus::error;
 }
 function reppost($postid, $content){
     global $pdo;
-    $s = $pdo->prepare("insert into posts (own, title, content, masterid) values (?, ?, ?, '$postid')");
-    $s->execute(array($GLOBALS['useruid'], getcfg('reptitle'), $content));
+    $s = $pdo->prepare("insert into posts (own, title, content, masterid, pos) values (?, ?, ?, '$postid')");
+    $s->execute(array($GLOBALS['useruid'], getcfg('reptitle'), $content, json_encode(getpos())));
     if ($s->rowCount()!=1)
         return PostStatus::error;
     $s = $pdo->prepare("update posts set lastrep=? where id='$postid'");

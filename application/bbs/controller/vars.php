@@ -94,4 +94,55 @@ function getpostarg($key, $canempty = true){
     echo Status::needargs;
     die();
 }
+function getip()
+{
+ $ip=false;
+ if(!empty($_SERVER["HTTP_CLIENT_IP"])){
+  $ip = $_SERVER["HTTP_CLIENT_IP"];
+ }
+ if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+  $ips = explode (", ", $_SERVER['HTTP_X_FORWARDED_FOR']);
+  if ($ip) { array_unshift($ips, $ip); $ip = FALSE; }
+  for ($i = 0; $i < count($ips); $i++) {
+   if (!eregi ("^(10│172.16│192.168).", $ips[$i])) {
+    $ip = $ips[$i];
+    break;
+   }
+  }
+ }
+ return ($ip ? $ip : $_SERVER['REMOTE_ADDR']);
+}
+function getpos(){
+    return get_position(getip());
+}
+function getposstr($pos){
+    $p = $pos;
+    if (is_string($p))
+        $p = json_decode($p);
+    if (strtolower($p->data->isp_id)=="local")
+        return "内网";
+    $ps = "";
+    if (strtolower($p->data->country)!="xx")
+        $ps .= $p->data->country;
+    if (strtolower($p->data->region)!="xx")
+        $ps .= $p->data->region;
+    if (strtolower($p->data->city)!="xx")
+        $ps .= $p->data->city;
+    if ($ps!="中国")
+        $ps = substr($ps, 2);
+    return $ps;
+}
+/**
+ * 根据用户IP获取用户地理位置
+ * $ip  用户ip
+ */
+function get_position($ip){
+    if(empty($ip)){
+        return  '缺少用户ip';
+    }
+    $url = 'http://ip.taobao.com/service/getIpInfo.php?ip='.$ip;
+    $ipContent = file_get_contents($url);
+    $ipContent = json_decode($ipContent,true); 
+    return $ipContent;
+}
 ?>

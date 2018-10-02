@@ -478,7 +478,7 @@
           document.querySelector("#search input").focus();
         },
         searchnow: function(){
-          console.log('搜索功能未完成');
+          throw new Error('搜索功能未完成');
         },
         chkmy: function(post){
           if (post.own==mv.user.uid)

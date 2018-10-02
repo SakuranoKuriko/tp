@@ -353,7 +353,7 @@
       return;
     const params = new URLSearchParams();
     params.append('usrlst', JSON.stringify(usr));
-    axios.post(cfg.serverurl + '/user/users', params)
+    axios.post('/user/users', params)
       .then(function(res) {
         users = res.data;
         for(let i in users) {

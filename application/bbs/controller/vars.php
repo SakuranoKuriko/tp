@@ -126,7 +126,7 @@ function getposstr($pos){
         $ps .= $p['data']['country'];
     if (strtolower($p['data']['region'])!="xx")
         $ps .= $p['data']['region'];
-    if (strtolower($p['data']['city'])!="xx")
+    if (strtolower($p['data']['city'])!="xx"&&$p['data']['city']!=$p['data']['region'])
         $ps .= $p['data']['city'];
     return $ps;
 }

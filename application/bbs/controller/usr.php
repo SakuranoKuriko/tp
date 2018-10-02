@@ -102,7 +102,7 @@ function updateuser($id, $pw, $usrid, $email, $permission, $usrgroup, $name, $hp
 function adduser($id, $pw, $name, $email){
     global $pdo;
     $s = $pdo->prepare("insert into usr (usrid, pw, permission, usrgroup, name, email) values (?, ?, ?, ?, ?, ?)");
-    $s->execute(array($id, $pw, Permission::read|Permission::rep, UserGroup::guest, $name, $email));
+    $s->execute(array($id, $pw, Permission::read|Permission::rep|Permission::newpost, UserGroup::guest, $name, $email));
     if ($s->rowCount()==1)
         return UserStatus::success;
     else return UserStatus::failed;

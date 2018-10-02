@@ -15,7 +15,7 @@ class Post extends \think\Controller
         $target = 0;
         if ($masterid!=$postid){
             $target = $postid;
-            $postid = $msaterid;
+            $postid = $masterid;
         }
         $args = getargs();
         $page = 1;

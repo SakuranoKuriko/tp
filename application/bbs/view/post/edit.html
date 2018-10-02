@@ -1,3 +1,134 @@
-{include file="common/header"}
-{$postid}
-{$postdata}
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>编辑帖子</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+<link href="/css/common.css" rel="stylesheet" type="text/css">
+<script language="javascript" src="/js/vue.js"></script>
+<script language="javascript" src="/js/axios.js"></script>
+<script language="javascript" src="/js/vars.js"></script>
+<script language="javascript" src="/js/md5.js"></script>
+<style type="text/css">
+  #main{
+    width: 80%;
+    margin: 0 auto;
+    scroll-behavior: smooth;
+    text-align: left;
+  }
+  #main .ptitle{
+    padding: 20px 30px;
+    font-size: 24px;
+  }
+  #main .inputwrap{
+    padding: 0 20px;
+    position: relative;
+  }
+  .inputwrap{
+    position: relative;
+    width: 100%;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  .inputwrap .tierr{
+    height: 28px;
+    width: 120px;
+    top: -50px;
+  }
+  .inputwrap .tierr.show{
+    top: -28px;
+  }
+  .inputwrap .title,
+  .inputwrap .content{
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+    font-size: inherit;
+    border: 1px solid #aaa;
+  }
+  .inputwrap .title:hover,
+  .inputwrap .content:hover,
+  .inputwrap .title:focus,
+  .inputwrap .content:focus{
+    background-color: #cff;
+  }
+  .inputwrap .title{
+    height: 40px;
+    padding: 0 16px;
+    margin-bottom: 10px;
+  }
+  .inputwrap .content{
+    min-height: 97px;
+    max-height: 265px;
+    padding: 16px;
+    overflow: auto;
+    word-break: break-all;
+    outline: none;
+    user-select: text;
+    white-space: pre-wrap;
+    text-align: left;
+    -webkit-user-modify: read-write-plaintext-only;
+  }
+  .inputwrap .btn{
+    display: inline-block;
+    font-size: 18px;
+    text-align: center;
+    padding: 6px 20px;
+    width: 40px;
+    box-shadow: 1px 1px 1px #aaa;
+    margin: 10px;
+  }
+  .inputwrap .btn:hover{
+    background-color: #dfd;
+  }
+  .inputwrap .btn:active{
+    background-color: #bfb;
+  }
+</style>
+<script language="javascript">
+  var mv, loginv;
+</script>
+</head>
+<body>
+  {include file="common/login"}
+  <div id="main" v-cloak>
+    {include file="common/header"}
+    <div class="ptitle beforestr" str="编辑帖子"></div>
+    <div class="inputwrap">
+      <input v-if="ismaster" class="title" type="text" maxlength="200" v-model="ndata.title"/>
+      <div class="tierr tips-top beforestr" :class="tierr?'show':'hidden'" str="输入标题"></div>
+      <div class="content placeholder" placeholder="(可选)" contenteditable="plaintext-only" v-text="ndata.content" @keyup.ctrl.enter="ndata.content=trim2($event.target.innerText);postnow();" @blur="ndata.content=trim2($event.target.innerText)"></div>
+      <div class="btn beforestr" str="发表" @click="postnow"></div>
+      <div class="btn beforestr" str="返回" @click="history.back();"></div>
+    </div>
+  </div>
+  <script language="javascript">
+    mv = new Vue({
+      el: '#main',
+      data: {
+        data: {$postdata},
+        ismaster: true,
+        canedit: false,
+        proc: false,
+        tierr: false,
+        ndata: {$postdata}
+      },
+      methods: {
+        postnow: function(){
+          if ((!this.canedit)||this.proc)
+            return;
+          if (ndata.title==""&&ismaster){
+            this.tierr = true;
+            return;
+          }
+          if (ndata.title==data.title&&ndata.content==data.content){
+            location.href="/post/"+data.id;
+          }
+        }
+      }
+    });
+    if (mv.data.masterid!=null)
+      mv.ismaster = false;
+  </script>
+</body>
+</html>

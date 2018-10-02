@@ -141,6 +141,10 @@
   }
 </style>
 <script language="javascript">
+  var t = {$targetid};
+  var d = {$postid};
+  if (t>0)
+    location.href="/post/"+d+"#f"+t;
   var mv, loginv;
   var userupdatetimer = -1;
   function updateuser(usr){
@@ -257,7 +261,6 @@
         skip: ({$page}-1)*{$childperpage},
         userupdated: false,
         logged: false,
-        targetid: {$targetid},
         users: {},
         user: {
           id: 0,
@@ -332,8 +335,6 @@
     for (let i in usrlst){
       updateuser(usrlst[i]);
     }
-    if (mv.targetid>0)
-      location.href = "#f"+mv.targetid;
     setTimeout(updatepermission, 200);
   </script>
 </body>

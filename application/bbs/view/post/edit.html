@@ -95,7 +95,7 @@
     {include file="common/header"}
     <div class="ptitle beforestr" str="编辑帖子"></div>
     <div class="inputwrap">
-      <input v-if="ismaster" class="title" type="text" maxlength="200" v-model="ndata.title"/>
+      <input v-if="ismaster" class="title" placeholder="标题" type="text" maxlength="200" v-model="ndata.title"/>
       <div class="tierr tips-top beforestr" :class="tierr?'show':'hidden'" str="输入标题"></div>
       <div class="content placeholder" placeholder="(可选)" contenteditable="plaintext-only" v-text="ndata.content" @keyup.ctrl.enter="ndata.content=trim2($event.target.innerText);postnow();" @blur="ndata.content=trim2($event.target.innerText)"></div>
       <div class="btn beforestr" str="发表" @click="postnow"></div>
@@ -115,15 +115,38 @@
       },
       methods: {
         postnow: function(){
+          if (!this.logged){
+            loginv.login = true;
+            loginv.show = true;
+            return;
+          }
           if ((!this.canedit)||this.proc)
             return;
-          if (ndata.title==""&&ismaster){
+          if (trim(ndata.title=="")&&ismaster){
             this.tierr = true;
             return;
           }
           if (ndata.title==data.title&&ndata.content==data.content){
             location.href="/post/"+data.id;
           }
+          let v = this;
+          v.proc = true;
+          const params = new URLSearchParams();
+          if (v.ismaster)
+            params.append('title', v.ndata.title);
+          params.append('text', v.ndata.content);
+          axios.post('/post/rep', params)
+            .then(function(res){
+              if (res.data==vars.PostStatus.success)
+                location.href="/post/"+data.id;
+              else v.failed = true;
+              v.proc = false;
+            })
+            .catch(function(res){
+              v.failed = true;
+              v.proc = false;
+              document.write(res.response.data);
+            });
         }
       }
     });

@@ -174,14 +174,17 @@
       }
     }
   }
-  function delpost(postid){
+  function delpost(postid, delmaster = false){
     mv.proc = true;
     const params = new URLSearchParams();
     params.append('postid', postid);
     axios.post('/post/del', params)
       .then(function(res){
-        if (res.data==vars.PostStatus.success)
-          location.reload(true);
+        if (res.data==vars.PostStatus.success){
+          if (delmaster)
+            location.href="/";
+          else location.reload(true);
+        }
         else mv.delfailed = true;
         mv.proc = false;
       })
@@ -292,7 +295,7 @@
         delmaster: function(){
           if (!this.canedit)
             return;
-          delpost(this.master.id);
+          delpost(this.master.id, true);
         },
         delchild: function(c){
           if (!this.child[c].canedit)

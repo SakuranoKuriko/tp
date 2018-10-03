@@ -229,7 +229,7 @@
         delCookie('authkey');
       }
       else {
-      axios.get("/user/"+usrv.me.id)
+      axios.get("/user/"+usrv.me.id+"/json")
         .then(function(res){
           usrv.logged = true;
           usrv.me.permission = parseInt(res.data.permission);

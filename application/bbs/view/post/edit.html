@@ -134,11 +134,8 @@
           v.proc = true;
           const params = new URLSearchParams();
           params.append('postid', v.ndata.id);
-          i = "/post/editit";
-          if (v.ismaster){
-            i = "/post/editrep";
+          if (v.ismaster)
             params.append('title', v.ndata.title);
-          }
           params.append('text', v.ndata.content);
           axios.post('/post/editit', params)
             .then(function(res){

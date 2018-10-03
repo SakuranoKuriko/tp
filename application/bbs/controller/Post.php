@@ -92,12 +92,4 @@ class Post extends \think\Controller
             return (string)reppost($postid, $text);
         else return (string)\PostStatus::needpermission;
     }
-    public function editrep(){
-        authchk();
-        $postid = getpostid(getpostarg('postid', false));
-        $text = getpostarg('text', false);
-        if ($GLOBALS['permission']&\Permission::admin||$GLOBALS['usrgroup']==\UserGroup::admin||isown($postid))
-            return (string)editpost($postid, getcfg('reptitle'), $text);
-        else return (string)\PostStatus::needpermission;
-    }
 }

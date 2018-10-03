@@ -51,6 +51,8 @@ class Post extends \think\Controller
         if (count($args)==0)
             return (string)\PostStatus::needpostid;
         $postid = getpostid($args[0]);
+        if (count($args)>1&&$args[1]=="json")
+            return json_encode(getpost($postid));
         $this->assign('postid', $postid);
         $this->assign('postdata', json_encode(getpost($postid)));
         return $this->fetch('edit');

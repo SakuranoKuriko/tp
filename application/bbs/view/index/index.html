@@ -357,8 +357,10 @@
       .then(function(res) {
         users = res.data;
         for(let i in users) {
-          users[i].uid = 'u' + users[i].id;
-          mv.users['u' + users[i].id] = Object.assign({}, users[i]);
+          if (i){
+            users[i].uid = 'u' + users[i].id;
+            mv.users['u' + users[i].id] = Object.assign({}, users[i]);
+          }
         }
         mv.userupdated = true;
       });

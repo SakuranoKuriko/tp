@@ -32,7 +32,8 @@ vars.RegStatus = {
   failed: vars.Status.error,
   argerr: 0x21,
   idused: 0x22,
-  emailerr: 0x23
+  emailerr: 0x23,
+  iderr: 0x24
 };
 vars.UserGroup = {
   normal: 0,

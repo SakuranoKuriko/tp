@@ -33,6 +33,7 @@ abstract class RegStatus{
     const argerr = 0x21;
     const idused = 0x22;
     const emailerr = 0x23;
+    const iderr = 0x24;
 }
 abstract class UserGroup{
     const normal = 0;

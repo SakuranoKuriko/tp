@@ -172,16 +172,17 @@ function getid($userid, $isuid = true){
     if ($isuid){
         $query = "usrid";
         $from = "id";
-        preg_match(\Regexp::getnum, $userid, $idn);
+        preg_match(Regexp::getnum, $userid, $idn);
     }
     else{
-        preg_match(\Regexp::getid, $userid, $idn);
+        preg_match(Regexp::getid, $userid, $idn);
     }
     if (count($idn)!=0){
         $usrid = $idn[0];
         $s = $pdo->query("select id,usrid from usr where $from='$usrid'");
         return $s->fetch(PDO::FETCH_ASSOC)[$query];
     }
+    echo UserStatus::iderror;
     die();
 }
 ?>

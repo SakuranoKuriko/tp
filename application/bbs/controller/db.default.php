@@ -8,9 +8,7 @@ $dsn="$dbms:host=$host;dbname=$dbName";
 global $pdo;
 $pdo = new PDO($dsn, $user, $pass);
 $pdo->exec("set names utf8");
-response.setHeader( "Pragma", "no-cache" );
-response.addHeader( "Cache-Control", "must-revalidate" );
-response.addHeader( "Cache-Control", "no-cache" );
-response.addHeader( "Cache-Control", "no-store" );
-response.setDateHeader("Expires", 0);
+header('Cache-Control:no-cache,must-revalidate');
+header("Expires:0");
+header("Pragma:no-cache");
 ?>

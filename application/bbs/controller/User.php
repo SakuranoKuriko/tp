@@ -71,7 +71,7 @@ class User extends \think\Controller
             $name = $id;
         if (idused($id))
             return (string)\RegStatus::idused;
-        if (preg_match(\Regexp::getid, $userid)==0)
+        if (preg_match(\Regexp::getid, $id)==0)
             return (string)\RegStatus::iderr;
         if ($email!=''&&!preg_match(\Regexp::email, $email))
             return (string)\RegStatus::emailerr;
